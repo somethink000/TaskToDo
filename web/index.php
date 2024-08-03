@@ -63,7 +63,7 @@
                     
                     <?php
                         include 'DBManager.php';
-                        echo fetch('');
+                        //echo fetch('');
                         
                     ?>
                 
