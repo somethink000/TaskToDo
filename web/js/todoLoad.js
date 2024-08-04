@@ -59,7 +59,7 @@ function addTaskBox(taskbox) {
 
 
     tasks_place.append(div);
-    
+
 }
 
 function addTask(taskdata, boxid, init) {
@@ -68,7 +68,7 @@ function addTask(taskdata, boxid, init) {
     task.setAttribute('draggable', "true");
     task.setAttribute('ondragstart', "dragTask(event)");
     task.setAttribute('ondragend', "dragendTask(event)");
-    task.setAttribute('id', taskdata.id); 
+    task.setAttribute('id', taskdata.id);
 
     task.innerHTML = getBoxedTaskHtml(taskdata.text);
 
@@ -76,33 +76,33 @@ function addTask(taskdata, boxid, init) {
         task.classList.add('taskcomplete')
     }
 
-    
-    attachTask( task, document.getElementById("taskbox" + boxid), true )
-   
 
-    
+    attachTask(task, document.getElementById("taskbox" + boxid), true)
+
+
+
 }
 
-function loadTasks(boxid){
-     
-    
-    globalThis.tasksDataController.tasksByBlock( boxid ).then((res) => {
-          
-        res.sort(function(a, b) { 
+function loadTasks(boxid) {
+
+
+    globalThis.tasksDataController.tasksByBlock(boxid).then((res) => {
+
+        res.sort(function (a, b) {
             return a.sortId - b.sortId;
         });
 
         for (var i = 0; i < res.length; ++i) {
             let taskdata = res[i];
-            
+
             if (taskdata.current == 1) {
                 addTask(taskdata, 0, true)
-            }else{
+            } else {
                 addTask(taskdata, taskdata.taskBoxId, true)
             }
-            
+
         }
-        
+
     });
 }
 
@@ -111,19 +111,24 @@ async function loadPage() {
 
     const tasks_place = document.getElementById('tasks_place')
 
-    var taskBoxes = await window.tasksDataController.taskBoxes();
+    //console.log("fefe");
+    let url = 'app/controllers/TaskBoxController.php?all';
+    let response = await fetch(url);
+    console.log(response.json());
+    ///let commits = await response.json(); // читаем ответ в формате JSON
+    //console.log(commits);
 
-    taskBoxes.sort(function(a, b) { 
-        return a.sortId - b.sortId;
-    });
+    // taskBoxes.sort(function (a, b) {
+    //     return a.sortId - b.sortId;
+    // });
 
-    loadTasks(0)
+    // loadTasks(0)
 
-    taskBoxes.forEach((taskbox) => {
-        addTaskBox(taskbox);
-        loadTasks(taskbox.id)
-    });
-    
+    // taskBoxes.forEach((taskbox) => {
+    //     addTaskBox(taskbox);
+    //     loadTasks(taskbox.id)
+    // });
+
 }
 
 loadPage()
