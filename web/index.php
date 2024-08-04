@@ -1,78 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+    
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./css/style.css">
 
+        <script src="./js/taskSort.js" defer></script>
+        <script src="./js/taskBoxSort.js" defer></script>
+        <script src="./js/todoLoad.js" defer></script>
 
-        <title></title>
         
-        <script>
-            function usersearchTxt(str) {
-                
-                if (str.length == 0) {
-                    document.getElementById("searchTable").innerHTML = "";
-                    str = "";
-                }
 
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function () 
-                {
-                    if(this.readyState == 4 && this.status == 200){
-                        document.getElementById('searchTable').innerHTML = this.responseText;
-                    }
-                }
-                xmlhttp.open("GET","DBManager.php?search="+str,true);
-                xmlhttp.send();
-            }
-        </script>
-       
+        <script src="./js/taskActions.js" defer></script>
+        <script src="./js/taskBoxActions.js" defer></script>
+
+        <script src="./js/pageInput.js" defer></script>
+        <script src="./js/sparksAnimation.js" defer></script>
+
+        <title>TaskToDo</title>
+        
     </head>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="/">Example</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                   
-                   
-                </ul>
+    <body id="body" class="blur">
+
+
+        <div id="particles_container" class="particles_container"></div>
+
+
+        <div class="main-block">
+
+        <div class="current-tasks">
+
+            <div class="boxes_place_ctrls">
+
+            <button class="add_button bl-box main-border" onclick="createTaskBoxWindow(event)">
+                <img class="head_image" src="./assets/plus.png" width="32" />
+                <p class="txt">Create box</p>
+            </button>
+
+            <button class="add_button bl-box main-border">
+                <img class="head_image" src="./assets/settings.png" width="32" />
+            </button>
 
             </div>
+
+            <div id="taskbox0" class="current-task-block ts_block bl-box main-border">
+
+            <div class="task-block-name">
+                <p class="title">Today</p>
+
+                <div id="0" class="task_form main-border">
+                <input class="task_input" type="text" placeholder="New task" onkeypress="forseCreateTask(event)">
+                </div>
+            </div>
+
+            <div class="baseline">
+                <div class="baseline_line"></div>
+            </div>
+
+            <ul class="task_block_list" ondragover="dragOverTasklist(event)" ondragenter="dragEnterTasklist(event)">
+
+            </ul>
+
+            </div>
+
         </div>
-    </nav>
-    
 
-    <body>
-        <div class="container">
+
+        <div class="boxes_main">
             
+            <ul id="tasks_place" class="boxes_container" ondragover="dragOverTaskBoxContainer(event)" ondragenter="dragEnterTaskBoxContainer(event)"> 
 
-            <div class="form-outline mb-4 py-5" data-mdb-input-init>
-                <input placeholder="Search" type="search" class="form-control" id="searchBox" onkeyup="usersearchTxt(this.value)">
-            </div>
+            </ul>
 
-            
-
-            <table class="table table-hover" id="searchTable">
-                
-                    
-                    <?php
-                        include 'DBManager.php';
-                        //echo fetch('');
-                        
-                    ?>
-                
-            </table>
-            
+        </div>
         </div>
     </body>
-
-
-    <footer class="py-2 bg-dark"> </footer>
 
 </html>

@@ -9,21 +9,28 @@
 
         $sql = [];
 
-        $sql[] = "CREATE TABLE Posts (
+        $sql[] = "CREATE TABLE tasksBoxes (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             title TEXT NOT NULL,
-            body TEXT NOT NULL,
-            userId INT NOT NULL
+            sortId INT NOT NULL
         )";
 
         
-        $sql[] = "CREATE TABLE Comments (
+        $sql[] = "CREATE TABLE tasks (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL,
-            body TEXT NOT NULL,
-            postId INT NOT NULL
+            text TEXT NOT NULL,
+            done BIT NOT NULL,
+            current BIT NOT NULL,
+            taskBoxId INT NOT NULL,
+            sortId INT NOT NULL
         )";
+
+
+        // $sql[] = "INSERT INTO tasksBoxes (title, sortId) VALUES ('TaskToDo', 0)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', false, true, 1, 0)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', false, false, 1, 1)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', true, false, 1, 2)";
+
 
         foreach($sql as $item)
         {
