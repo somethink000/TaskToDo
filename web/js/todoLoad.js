@@ -83,27 +83,27 @@ function addTask(taskdata, boxid, init) {
 
 }
 
-function loadTasks(boxid) {
+async function loadTasks(boxid) {
 
+    let url = 'app/controllers/TaskController.php?all='+boxid;
+    let response = await fetch(url);
+    let res = await response.json();
+    console.log(res);
 
-    globalThis.tasksDataController.tasksByBlock(boxid).then((res) => {
+    res.sort(function (a, b) {
+        return a.sortId - b.sortId;
+    });
 
-        res.sort(function (a, b) {
-            return a.sortId - b.sortId;
-        });
+    for (var i = 0; i < res.length; ++i) {
+        let taskdata = res[i];
 
-        for (var i = 0; i < res.length; ++i) {
-            let taskdata = res[i];
-
-            if (taskdata.current == 1) {
-                addTask(taskdata, 0, true)
-            } else {
-                addTask(taskdata, taskdata.taskBoxId, true)
-            }
-
+        if (taskdata.current == 1) {
+            addTask(taskdata, 0, true)
+        } else {
+            addTask(taskdata, taskdata.taskBoxId, true)
         }
 
-    });
+    }
 }
 
 
@@ -114,20 +114,18 @@ async function loadPage() {
     //console.log("fefe");
     let url = 'app/controllers/TaskBoxController.php?all';
     let response = await fetch(url);
-    console.log(response.json());
-    ///let commits = await response.json(); // читаем ответ в формате JSON
-    //console.log(commits);
+    let taskBoxes = await response.json();
+   
+    taskBoxes.sort(function (a, b) {
+        return a.sortId - b.sortId;
+    });
 
-    // taskBoxes.sort(function (a, b) {
-    //     return a.sortId - b.sortId;
-    // });
+    loadTasks(0)
 
-    // loadTasks(0)
-
-    // taskBoxes.forEach((taskbox) => {
-    //     addTaskBox(taskbox);
-    //     loadTasks(taskbox.id)
-    // });
+    taskBoxes.forEach((taskbox) => {
+        addTaskBox(taskbox);
+        loadTasks(taskbox.id)
+    });
 
 }
 

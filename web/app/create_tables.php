@@ -1,7 +1,7 @@
 
 <?php
 
-    require('services/connect.php');
+    require('web/app/connect.php');
 
 
         if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
