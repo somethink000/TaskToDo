@@ -231,9 +231,6 @@ async function dragendTask(event) {
 
             if (!upresponse.ok) {
                 alert("Ошибка HTTP: " + upresponse.status);
-            }else{
-                let json = await upresponse.json();
-                console.log(json);
             }
             
 

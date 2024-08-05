@@ -46,23 +46,19 @@ function update($id, $data)
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $txt = "ee";
-    $vxt = 0;
-    $stmt = $pdo->prepare('UPDATE tasks SET text = :text, current = :current, taskBoxId = :taskBoxId WHERE id = :taskId');
+  //  $txt = "ee";
+    
+    $stmt = $pdo->prepare('UPDATE tasks SET text = :text, done = :done, current = :current, taskBoxId = :taskBoxId WHERE id = :taskId');
+    $data->current = intval($data->current);
+    $data->done = intval($data->done);
     $stmt->bindParam(':taskId', $id);
-    $stmt->bindParam(':text', $txt);
-    //$stmt->bindParam(':done', $data->done);
+    $stmt->bindParam(':text', $data->text);
+    $stmt->bindParam(':done', $data->done);
     $stmt->bindParam(':current', $data->current);
     $stmt->bindParam(':taskBoxId', $data->taskBoxId);
-    
-    return json_encode($out[] = $data->current);
-    
+
     $stmt->execute();
    
-
-    
-    
-
     $pdo = null;
 }   
 
@@ -74,17 +70,11 @@ function updateSort($id, $taskSort)
     $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
     
     $stmt = $pdo->prepare('UPDATE tasks SET sortId = :sortId WHERE id = :taskId');
-    $stmt->bindParam(':taskId', $taskId);
-    $stmt->bindParam(':sortId', $sortId);
-    
-    $taskId = $id;
-    $sortId = $taskSort;
-    
+    $stmt->bindParam(':taskId', $id);
+    $stmt->bindParam(':sortId', $taskSort);
+
     $stmt->execute();
    
-    //$result = $stmt->fetchAll();
-    //return json_encode($result->fetchAll());
-
     $pdo = null;
 }   
 
@@ -96,7 +86,7 @@ if (isset($_GET['all'])) {
 
 }elseif(isset($_GET['update'])){
     $data = file_get_contents('php://input');
-    echo update(htmlspecialchars($_GET['update']), json_decode($data, false));
+    update(htmlspecialchars($_GET['update']), json_decode($data, false));
      
 }elseif(isset($_GET['updateSort'])){
     $data = file_get_contents('php://input');
