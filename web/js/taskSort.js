@@ -1,8 +1,13 @@
 
-function syncTasksSort(task){
+async function syncTasksSort(task){
 
-    globalThis.tasksDataController.getTask( task.id ).then((res) => {
-        let taskData = res[0];
+    let url = 'app/controllers/TaskController.php?get='+task.id;
+    let response = await fetch(url);
+    
+    if (response.ok) {
+
+        let json = await response.json();
+        let taskData = json[0];
         let list;
         let taskes;
 
@@ -13,9 +18,20 @@ function syncTasksSort(task){
         
         for (var i = 0; i < taskes.length; ++i) {
 
-            globalThis.tasksDataController.updateTaskSort( taskes[i].id, i ).then((res) => {
-            
+            let url = 'app/controllers/TaskController.php?updateSort='+taskes[i].id;
+            let se = await fetch(
+                url, 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(i)
             });
+            
+           if (!se.ok) {
+                alert("Ошибка HTTP: " + response.status);
+           }
         }
 
 
@@ -27,21 +43,34 @@ function syncTasksSort(task){
             
             for (var i = 0; i < taskes.length; ++i) {
 
-                globalThis.tasksDataController.updateTaskSort( taskes[i].id, i ).then((res) => {
-                    
+                let url = 'app/controllers/TaskController.php?updateSort='+taskes[i].id;
+                let se = await fetch(
+                    url, 
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(i)
                 });
+                
+                if (!se.ok) {
+                        alert("Ошибка HTTP: " + response.status);
+                }
             }
         } 
         
 
-    });
+    } else {
+        alert("Ошибка HTTP: " + response.status);
+    }
 
 }
 
 async function attachTask( task, target, isload ) {
 
     let targ;
-        
+    
     if (targ = target.querySelector('.task_block_list')) {
 
         //attaching task after validate & before task features for correct sort
@@ -91,24 +120,7 @@ async function attachTask( task, target, isload ) {
                 }
             }
 
-         
-        //     let url = 'app/controllers/TaskController.php?update='+taskData.id;
-        //     let se = await fetch(
-        //         url, 
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json;charset=utf-8'
-        //         },
-        //         body: JSON.stringify(taskData)
-        //     });
             
-        //    if (se.ok) {
-        //     let json = await se.json();
-        //     console.log(json);
-        //         //alert("Ошибка HTTP: " + response.status);
-        //    }
-        
             if (targ && !isload) {
                 
                 syncTasksSort(task);
@@ -151,21 +163,26 @@ function dragTask(event) {
     // }
 }
 
-function dragendTask(event) {
+async function dragendTask(event) {
     
     let taskList;
     let task = event.target;
 
     task.classList.remove("dragging");
-
+   
     syncTasksSort(task);
 
     if (taskList = task.parentNode.parentNode) {
         
-        globalThis.tasksDataController.getTask(task.id).then((response) => {
 
-            let taskData = response[0];
-            // console.log(taskList);
+        let url = 'app/controllers/TaskController.php?get='+task.id;
+        let response = await fetch(url);
+
+        if (response.ok) {
+            
+            let json = await response.json();
+            let taskData = json[0];
+            
             if (taskList.id.slice(7, 8) > 0) {
 
                 if (taskData.current) {
@@ -188,20 +205,41 @@ function dragendTask(event) {
                     }
 
                     
-                    globalThis.tasksDataController.getTaskBox(taskData.taskBoxId).then((response) => {
-                        task.innerHTML = getCurrentTaskHtml(response[0].title.slice(0, 3), taskData.text);
+                    let url = 'app/controllers/TaskBoxController.php?get='+taskData.taskBoxId;
+                    let boxresponse = await fetch(url);
 
-                    });
+                    if (boxresponse.ok) {
+                        let json = await boxresponse.json();
+                        task.innerHTML = getCurrentTaskHtml(json[0].title.slice(0, 3), taskData.text);
+                    } else {
+                        alert("Ошибка HTTP: " + boxresponse.status);
+                    }
+                
                 }else {
                     task.innerHTML = getCurrentTaskHtml(" ", taskData.text);
                 }
             }
             
-            globalThis.tasksDataController.updateTask(taskData).then((res) => {
-
+            let url = 'app/controllers/TaskController.php?update='+taskData.id;
+            let upresponse = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(taskData)
             });
+
+            if (!upresponse.ok) {
+                alert("Ошибка HTTP: " + upresponse.status);
+            }else{
+                let json = await upresponse.json();
+                console.log(json);
+            }
             
-        });
+
+        } else {
+            alert("Ошибка HTTP: " + response.status);
+        }
     }
 }
 

@@ -11,12 +11,13 @@ function getAll()
 
     $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
     
-    $result = $pdo->query("SELECT * FROM tasksBoxes"); //WHERE name LIKE '%" . $value . "%'
+    $stmt = $pdo->prepare('SELECT * FROM tasksBoxes');
+    $stmt->execute();
+    $result = $stmt->fetchAll();
 
-    return json_encode($result->fetchAll());
+    return json_encode($result);
 
     $pdo = null;
-    $dbh = null;
 }   
 
 function get($id)
@@ -26,12 +27,16 @@ function get($id)
 
     $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
     
-    $result = $pdo->query("SELECT * FROM tasksBoxes WHERE id = $id");
+    $stmt = $pdo->prepare('SELECT * FROM tasksBoxes WHERE id = :boxId');
+    $stmt->bindParam(':boxId', $boxId);
+    $boxId = $id;
+    $stmt->execute();
+    $result = $stmt->fetchAll();
 
-    return json_encode($result->fetchAll());
+    return json_encode($result);
 
     $pdo = null;
-    $dbh = null;
+    
 }   
 
 if (isset($_GET['all'])) {

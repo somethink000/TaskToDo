@@ -88,8 +88,7 @@ async function loadTasks(boxid) {
     let url = 'app/controllers/TaskController.php?all='+boxid;
     let response = await fetch(url);
     let res = await response.json();
-    console.log(res);
-
+    
     res.sort(function (a, b) {
         return a.sortId - b.sortId;
     });

@@ -19,17 +19,17 @@
         $sql[] = "CREATE TABLE tasks (
             id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             text TEXT NOT NULL,
-            done BIT NOT NULL,
-            current BIT NOT NULL,
+            done TINYINT NOT NULL,
+            current TINYINT NOT NULL,
             taskBoxId INT NOT NULL,
             sortId INT NOT NULL
         )";
 
 
         // $sql[] = "INSERT INTO tasksBoxes (title, sortId) VALUES ('TaskToDo', 0)";
-        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', false, true, 1, 0)";
-        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', false, false, 1, 1)";
-        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', true, false, 1, 2)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', 0, 1, 1, 0)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', 0, 0, 1, 1)";
+        // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', 1, 0, 1, 2)";
 
 
         foreach($sql as $item)

@@ -4,15 +4,15 @@
 
 function syncTaskBoxesSort(){
     
-    let blocks_container = document.getElementById('tasks_place')
-    let boxes = blocks_container.querySelectorAll(".task-block");
-    console.log(boxes);
-    for (var i = 0; i < boxes.length; ++i) {
+    // let blocks_container = document.getElementById('tasks_place')
+    // let boxes = blocks_container.querySelectorAll(".task-block");
+    
+    // for (var i = 0; i < boxes.length; ++i) {
 
-        globalThis.tasksDataController.updateTaskBoxSort( boxes[i].id.slice(7, 8), i ).then((res) => {
+    //     globalThis.tasksDataController.updateTaskBoxSort( boxes[i].id.slice(7, 8), i ).then((res) => {
            
-        });
-    }
+    //     });
+    // }
 }
 
 
