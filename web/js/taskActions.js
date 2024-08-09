@@ -1,13 +1,39 @@
 
-function createNewTask(title, curr, box) {
+async function createNewTask(title, curr, box) {
 
-    globalThis.tasksDataController.createTask(title, curr, box).then(() => {
-
-        globalThis.tasksDataController.getLastTask().then((responce) => {
-            let newtask = responce[0]
-            addTask(newtask, newtask.taskBoxId);
-        });
+    
+    
+   // globalThis.tasksDataController.createTask(title, curr, box).then(() => {
+    let url = 'app/controllers/TaskController.php?create';
+    
+    let data = {
+        text: title,
+        current: curr,
+        taskBoxId: box,
+    };
+   
+    let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(data)
     });
+    
+    
+    if (response.ok){
+        
+        let json = await response.json();      
+        
+        let url = 'app/controllers/TaskController.php?getLast';
+        let res = await fetch(url);
+        if (res.ok){
+            let jsn = await res.json();
+            let newtask = jsn[0]
+            addTask(newtask, newtask.taskBoxId);
+        }
+    }
+        
 }
   
 
@@ -59,12 +85,16 @@ function checkTask(event) {
 
 
 
-function removeTask(event) {
+async function removeTask(event) {
     let parentTask = event.target.parentNode.parentNode
 
-    globalThis.tasksDataController.removeTask(parentTask.id).then(() => {
+    let url = 'app/controllers/TaskController.php?delete='+parentTask.id;
+    let response = await fetch(url);
+    if(response.ok){
+        
         parentTask.remove();
-    });
+    }
+  
 
 }
 

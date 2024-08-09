@@ -126,7 +126,7 @@ async function attachTask( task, target, isload ) {
                 syncTasksSort(task);
                 
                 let url = 'app/controllers/TaskController.php?update='+taskData.id;
-                let response = await fetch(url, {
+                await fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
@@ -134,9 +134,6 @@ async function attachTask( task, target, isload ) {
                     body: JSON.stringify(taskData)
                 });
 
-                if (!response.ok) {
-                    alert("Ошибка HTTP: " + response.status);
-                }
 
                 
             }

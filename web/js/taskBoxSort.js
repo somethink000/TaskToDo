@@ -2,17 +2,25 @@
 
 
 
-function syncTaskBoxesSort(){
+async function syncTaskBoxesSort(){
     
-    // let blocks_container = document.getElementById('tasks_place')
-    // let boxes = blocks_container.querySelectorAll(".task-block");
+    let blocks_container = document.getElementById('tasks_place')
+    let boxes = blocks_container.querySelectorAll(".task-block");
     
-    // for (var i = 0; i < boxes.length; ++i) {
+    for (var i = 0; i < boxes.length; ++i) {
 
-    //     globalThis.tasksDataController.updateTaskBoxSort( boxes[i].id.slice(7, 8), i ).then((res) => {
-           
-    //     });
-    // }
+        let url = 'app/controllers/TaskBoxController.php?updateSort='+boxes[i].id.slice(7, 8);
+        let se = await fetch(
+            url, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(i)
+        });
+        
+    }
 }
 
 
