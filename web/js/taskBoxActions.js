@@ -1,44 +1,62 @@
 
 
-function createTaskBox(event) {
+
+async function createTaskBox(event) {
     var input = document.getElementById("newTaskBoxInput");
 
-    globalThis.tasksDataController.createTaskBox(input.value, 0).then(() => {
+    let url = 'app/controllers/TaskBoxController.php?create';
+    
+    let data = {
+        title: input.value,
+    };
+    
+    let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+    });
+    
+    
+    if (response.ok){
+        
+        let json = await response.json();      
+        
+        let url = 'app/controllers/TaskBoxController.php?getLast';
+        let res = await fetch(url);
+        if (res.ok){
+            let jsn = await res.json();
+            let lastTaskBox = jsn[0]
 
-        globalThis.tasksDataController.getLastTaskBox().then((response) => {
-
-            let lastTaskBox = response[0]
             event.target.closest(".createTaskbox").remove()
             addTaskBox(lastTaskBox)
             syncTaskBoxesSort()
-        });
-    });
+        }
+    }
+
 }
 
 
-function removeTaskBox(event) {
+
+async function removeTaskBox(event) {
     let parentTaskbox = event.target.parentNode.parentNode.parentNode.parentNode
-    let taskBoxId = parentTaskbox.id.slice(7, 8)
+   
+        //list = document.getElementById('taskbox'+taskData.taskBoxId)//.querySelector('.task_block_list')
+        taskes = parentTaskbox.getElementsByTagName("li");
+        
+        for (var i = 0; i < taskes.length; ++i) {
+            let url = 'app/controllers/TaskController.php?delete='+taskes[i].id;
+            await fetch(url);
+          
+        }
 
-    globalThis.tasksDataController.removeTasksByBox(taskBoxId).then(() => {
-        globalThis.tasksDataController.removeTaskBox(taskBoxId).then(() => {
-            parentTaskbox.remove();
-        });
-    });
+        let url = 'app/controllers/TaskBoxController.php?delete='+parentTaskbox.id.slice(7, 8);
+        await fetch(url);
 
+        parentTaskbox.remove();
 
 }
-
-
-function createTaskForBox(event) {
-    
-    var input = document.getElementById("newTaskBoxInput");
-    var taskBox = event.target.closest(".createTaskbox")
-    
-    createNewTask(input.value, false, taskBox.id)
-    taskBox.remove();
-}
-
 
 function closeCreateTaskBox(event) {
     

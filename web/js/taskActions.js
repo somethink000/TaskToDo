@@ -37,26 +37,45 @@ async function createNewTask(title, curr, box) {
 }
   
 
+function createTaskForBox(event) {
+    
+    var input = document.getElementById("newTaskBoxInput");
+    var taskBox = event.target.closest(".createTaskbox")
+    
+    createNewTask(input.value, false, taskBox.id)
+    taskBox.remove();
+}
+
 function forceCurrent( event ) {
     let parentTask = event.target.parentNode.parentNode
     attachTask(parentTask, document.getElementById("taskbox0"), false)
 }
 
 
-function checkTask(event) {
+
+async function checkTask(event) {
     let parentTask = event.target.parentNode.parentNode
     
-    globalThis.tasksDataController.getTask(parentTask.id).then((response) => {
+    let url = 'app/controllers/TaskController.php?get='+parentTask.id;
+    let response = await fetch(url);
 
-        let taskData = response[0];
+    if (response.ok) {
+
+        let json = await response.json();
+        let taskData = json[0];
 
         if (taskData.done) {
             
             taskData.done = false;
             parentTask.classList.remove('taskcomplete')
             
-            globalThis.tasksDataController.updateTask(taskData).then(() => {
-                
+            let url = 'app/controllers/TaskController.php?update='+taskData.id;
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(taskData)
             });
 
         } else {
@@ -64,21 +83,29 @@ function checkTask(event) {
             taskData.done = true;
             parentTask.classList.add('taskcomplete')
 
-            globalThis.tasksDataController.updateTask(taskData).then(() => {
+            let url = 'app/controllers/TaskController.php?update='+taskData.id;
+            let res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(taskData)
+            });
 
+            if (res.ok){
                 if (taskData.current) {
                     
                     if (taskData.taskBoxId != 0) {
                         attachTask(parentTask, document.getElementById("taskbox" + taskData.taskBoxId), false)
                     }
                 }
-
-            });
-
+            }
             
         }
 
-    });
+    } else {
+        alert("Ошибка HTTP: " + response.status);
+    }
 
 
 }
