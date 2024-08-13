@@ -17,25 +17,21 @@
 
     <body id="body" class="blur">
 
-        <div class="main-block">
             <div class="login">
                 <form method="post" action="do_register.php">
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                    <div class="main-border bl-box">
+                        <input type="text" class="task_input" id="username" name="username" required placeholder="Username">
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                
+                    <div class="main-border bl-box">
+                        <input type="password" class="task_input" id="password" name="password" required placeholder="Password"> 
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button class="main-border bl-box add_button" type="submit" class="">Login</button>
 
                 </form>
             </div>
-        </div>
     </body>
 
 </html>
