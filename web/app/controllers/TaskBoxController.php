@@ -3,21 +3,20 @@
 <?php
 
 
+require_once __DIR__.'/pdo.php';
+
 
 function getAll()
 {
     
     $result = array();
 
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-    
-    $stmt = $pdo->prepare('SELECT * FROM tasksBoxes');
+    $stmt = pdo()->prepare('SELECT * FROM tasksBoxes');
     $stmt->execute();
     $result = $stmt->fetchAll();
 
     return json_encode($result);
 
-    $pdo = null;
 }   
 
 function get($id)
@@ -25,9 +24,7 @@ function get($id)
     
     $result = array();
 
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-    
-    $stmt = $pdo->prepare('SELECT * FROM tasksBoxes WHERE id = :boxId');
+    $stmt = pdo()->prepare('SELECT * FROM tasksBoxes WHERE id = :boxId');
     $stmt->bindParam(':boxId', $boxId);
     $boxId = $id;
     $stmt->execute();
@@ -35,8 +32,6 @@ function get($id)
 
     return json_encode($result);
 
-    $pdo = null;
-    
 }   
 
 function getLast()
@@ -44,15 +39,12 @@ function getLast()
     
     $result = array();
 
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-
-    $stmt = $pdo->prepare('SELECT * FROM tasksBoxes WHERE id = (SELECT MAX(id) FROM tasksBoxes)');
+    $stmt = pdo()->prepare('SELECT * FROM tasksBoxes WHERE id = (SELECT MAX(id) FROM tasksBoxes)');
     $stmt->execute();
     $result = $stmt->fetchAll();
 
     return json_encode($result);
 
-    $pdo = null;
 }   
 
 
@@ -61,15 +53,11 @@ function updateSort($id, $sortId)
     
     $result = array();
 
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-    
-    $stmt = $pdo->prepare('UPDATE tasksBoxes SET sortId = :sortId WHERE id = :taskId');
+    $stmt = pdo()->prepare('UPDATE tasksBoxes SET sortId = :sortId WHERE id = :taskId');
     $stmt->bindParam(':taskId', $id);
     $stmt->bindParam(':sortId', $sortId);
 
     $stmt->execute();
-   
-    $pdo = null;
 }   
 
 
@@ -77,16 +65,13 @@ function create($data)
 {
     //TODO delete get last task by make this betar
     //OUTPUT inserted.* SELECT 1
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-    
-    $stmt = $pdo->prepare('INSERT INTO tasksBoxes (title, sortId) VALUES ( :title, 0)');
+ 
+    $stmt = pdo()->prepare('INSERT INTO tasksBoxes (title, sortId) VALUES ( :title, 0)');
 
     $stmt->bindParam(':title', $data->title);
 
     $stmt->execute();
     return json_encode("json");
-    $pdo = null;
-
     
 }   
 
@@ -94,15 +79,10 @@ function create($data)
 function delete($id)
 {
     
-
-    $pdo = new PDO('mysql:host=db;dbname=stage', "example", "secret2");
-    
-    $stmt = $pdo->prepare('DELETE FROM tasksBoxes WHERE id = :boxid');
+    $stmt = pdo()->prepare('DELETE FROM tasksBoxes WHERE id = :boxid');
     $stmt->bindParam(':boxid', $id);
     $stmt->execute();
     
-    
-    $pdo = null;
 }   
 
 
