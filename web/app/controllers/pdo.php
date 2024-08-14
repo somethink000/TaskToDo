@@ -1,5 +1,7 @@
 <?php
 
+    const SESSION_TTL = 2592000;
+
     function pdo(): PDO
     {
         // static $pdo;

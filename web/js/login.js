@@ -10,12 +10,9 @@ async function tryLogin(event) {
     let url = 'app/controllers/AuthController.php?login';
     
     let data = {
-        username: "feefef",
-        password: "fefefe",
+        username: formData.get('username'),
+        password: formData.get('password'),
     };
-    
-    console.log( formData.get('username') );
-    console.log( formData.get('password') );
 
     let response = await fetch(url, {
         method: 'POST',
@@ -24,13 +21,47 @@ async function tryLogin(event) {
         },
         body: JSON.stringify(data)
     });
+
     
     
     if (response.ok){
         
         let json = await response.json();      
         
-        console.log( json);
+        let name = "session_id";
+        let value = json;
+
+        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+
+       // console.log(document.cookie);
+        
     }
     
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : '';
+}
+
+
+async function checkLogin() {
+    
+    
+    let url = 'app/controllers/AuthController.php?checklogin='+getCookie("session_id");
+    let response = await fetch(url);
+
+    if (response.ok) {
+
+        let json = await response.json();
+        let user = json[0];
+
+        window.location = 'todo.php';
+
+    }else{
+        
+        window.location = 'login.php';
+    }
 }

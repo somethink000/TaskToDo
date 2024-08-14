@@ -10,12 +10,8 @@
 
         <title>TaskToDo</title>
         
-       
-        <script>
-            window.location = 'login.php';
-        </script>
-
-
+        <script src="./js/login.js"></script>
+        <script>checkLogin()</script>
     </head>
 
 </html>

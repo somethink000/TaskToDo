@@ -10,6 +10,8 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
+
+
         if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
 
@@ -36,13 +38,32 @@
             name VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL
         )";
-       
 
+        $sql[] = "CREATE TABLE sessions (
+            id varchar(255) PRIMARY KEY NOT NULL,
+            user_id int(11) UNSIGNED NOT NULL,
+            created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            last_activity timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )";
+       
+        
         // $sql[] = "INSERT INTO tasksBoxes (title, sortId) VALUES ('TaskToDo', 0)";
         // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', 0, 1, 1, 0)";
         // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', 0, 0, 1, 1)";
         // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', 1, 0, 1, 2)";
 
+        // $stmt = $conn->prepare("INSERT INTO users (name, password) VALUES ( ?, ?)");
+        // $stmt->bind_param("ss", $name, $pass);
+        // $pass = password_hash("5139", PASSWORD_DEFAULT);
+        // $name = "some";
+        // $stmt->execute();
+
+
+        // $user = mysqli_fetch_array($conn->query("SELECT * FROM users"));
+        // foreach ($user as $i){
+        //     echo($i);
+        // }
+        
 
         foreach($sql as $item)
         {
