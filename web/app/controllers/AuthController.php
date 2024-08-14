@@ -29,35 +29,39 @@ require_once __DIR__.'/pdo.php';
 
 
 //Login
-// require_once __DIR__.'/boot.php';
 
-// // проверяем наличие пользователя с указанным юзернеймом
-// $stmt = pdo()->prepare("SELECT * FROM `users` WHERE `username` = :username");
-// $stmt->execute(['username' => $_POST['username']]);
-// if (!$stmt->rowCount()) {
-//     flash('Пользователь с такими данными не зарегистрирован');
-//     header('Location: login.php');
-//     die;
-// }
-// $user = $stmt->fetch(PDO::FETCH_ASSOC);
+function login($data){
+    return json_encode("efef");
+    // проверяем наличие пользователя с указанным юзернеймом
+    $stmt = pdo()->prepare('SELECT * FROM users WHERE username = :username');
+    $stmt->bindParam(':username', $data->username);
+    $stmt->execute();
 
-// // проверяем пароль
-// if (password_verify($_POST['password'], $user['password'])) {
-//     // Проверяем, не нужно ли использовать более новый алгоритм
-//     // или другую алгоритмическую стоимость
-//     // Например, если вы поменяете опции хеширования
-//     if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
-//         $newHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-//         $stmt = pdo()->prepare('UPDATE `users` SET `password` = :password WHERE `username` = :username');
-//         $stmt->execute([
-//             'username' => $_POST['username'],
-//             'password' => $newHash,
-//         ]);
-//     }
-//     $_SESSION['user_id'] = $user['id'];
-//     header('Location: /');
-//     die;
-// }
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        return json_encode("efef");
+    }
+
+    // проверяем пароль
+    if (password_verify($data->password, $user['password'])) {
+        // Проверяем, не нужно ли использовать более новый алгоритм
+        // или другую алгоритмическую стоимость
+        // Например, если вы поменяете опции хеширования
+        if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
+            $newHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $stmt = pdo()->prepare('UPDATE users SET password = :password WHERE username = :username');
+            $stmt->execute([
+                'username' => $data->username,
+                'password' => $newHash,
+            ]);
+        }
+        $_SESSION['user_id'] = $user['id'];
+        header('Location: /');
+        die;
+    }
+}
+
 
 // flash('Пароль неверен');
 // header('Location: login.php');
@@ -101,6 +105,16 @@ require_once __DIR__.'/pdo.php';
 // <?php } 
 
 
+if (isset($_GET['login'])) {
+
+    return json_encode("efef");
+   // $data = file_get_contents('php://input');
+    //login(json_decode($data, false));
+
+}elseif(isset($_GET['logout'])){
+    //echo get(htmlspecialchars($_GET['get']));
+
+}
 
 
 //Logout

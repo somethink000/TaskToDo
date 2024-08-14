@@ -37,8 +37,6 @@ async function createTaskBox(event) {
 
 }
 
-
-
 async function removeTaskBox(event) {
     let parentTaskbox = event.target.parentNode.parentNode.parentNode.parentNode
    
