@@ -40,8 +40,10 @@ function login($data){
                     VALUES ('$sessionId', '$userId')"
         );
 
-      
-        return json_encode($sessionId);
+        
+        $out[0] = $sessionId;
+        $out[1] = time() + SESSION_TTL;
+        return json_encode($out);
     }
 
     //return json_encode("idinah");
@@ -66,21 +68,21 @@ function checkLogin($sid){
         $stmt->closeCursor();
         
         if (!$userData) {
-           // return json_encode("idinah");
+           return; //json_encode("idinah");
         }
       
         $upstmt = pdo()->prepare("UPDATE sessions SET last_activity=NOW() WHERE id=:id");
         $upstmt->bindParam(':id', $sid);
         $upstmt->execute();
 
-        
-        $out[0] = time() + SESSION_TTL;
-        $out[1] = $userData;
+        $out[0] = $sid;
+        $out[1] = time() + SESSION_TTL;
+        $out[2] = $userData;
 
         return json_encode($out);
 
     } else {
-       // return json_encode("idinah");
+        return;//json_encode("idinah");
     }
 }
 

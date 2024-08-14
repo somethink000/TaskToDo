@@ -27,11 +27,8 @@ async function tryLogin(event) {
     if (response.ok){
         
         let json = await response.json();      
-        
-        let name = "session_id";
-        let value = json;
 
-        document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json);
 
        // console.log(document.cookie);
         
@@ -49,16 +46,17 @@ function getCookie(name) {
 
 async function checkLogin() {
     
-    
-    let url = 'app/controllers/AuthController.php?checklogin='+getCookie("session_id");
+    let sid = getCookie("session_id");
+    let url = 'app/controllers/AuthController.php?checklogin='+sid;
     let response = await fetch(url);
-
+    
     if (response.ok) {
 
         let json = await response.json();
-        let user = json[0];
+    
+        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
 
-        window.location = 'todo.php';
+        //window.location = 'todo.php';
 
     }else{
         
