@@ -14,26 +14,26 @@ async function tryLogin(event) {
         password: formData.get('password'),
     };
 
-    let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(data)
-    });
 
-    
-    
-    if (response.ok){
-        
-        let json = await response.json();      
+    try {
 
-        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json);
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(data)
+        });
 
-       // console.log(document.cookie);
+        let json = await response.json();
+
+        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
+
+        window.location = 'todo.php';
+
+    } catch {
         
     }
-    
 }
 
 function getCookie(name) {
@@ -48,18 +48,19 @@ async function checkLogin() {
     
     let sid = getCookie("session_id");
     let url = 'app/controllers/AuthController.php?checklogin='+sid;
-    let response = await fetch(url);
-    
-    if (response.ok) {
 
+    try {
+        let response = await fetch(url);
         let json = await response.json();
-    
+
         document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
 
-        //window.location = 'todo.php';
+        window.location = 'todo.php';
 
-    }else{
-        
+    } catch {
         window.location = 'login.php';
     }
+      
+       
+
 }

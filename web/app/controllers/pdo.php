@@ -1,6 +1,6 @@
 <?php
 
-    const SESSION_TTL = 5;
+    const SESSION_TTL = 2;
     
     function pdo(): PDO
     {

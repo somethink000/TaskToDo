@@ -16,7 +16,7 @@ function login($data){
     $user = $stmt->fetch();
    
     if (!$user) {
-       // return json_encode("idinah");
+        return http_response_code(404);
     }
 
     if (password_verify($data->password, $user['password'])) {
@@ -46,13 +46,13 @@ function login($data){
         return json_encode($out);
     }
 
-    //return json_encode("idinah");
+    return http_response_code(404);
 }
 
 
 
 function checkLogin($sid){
-    
+   
     if ($sid != '') {
        
         $stmt = pdo()->prepare(
@@ -68,7 +68,7 @@ function checkLogin($sid){
         $stmt->closeCursor();
         
         if (!$userData) {
-           return; //json_encode("idinah");
+           return http_response_code(404); 
         }
       
         $upstmt = pdo()->prepare("UPDATE sessions SET last_activity=NOW() WHERE id=:id");
@@ -82,7 +82,7 @@ function checkLogin($sid){
         return json_encode($out);
 
     } else {
-        return;//json_encode("idinah");
+        return http_response_code(404);
     }
 }
 
