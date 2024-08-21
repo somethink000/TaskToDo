@@ -19,7 +19,7 @@
     <body id="body" class="blur">
 
             <div class="login">
-                <form onsubmit="tryLogin(event)">
+                <form onsubmit="tryRegister(event)">
 
                     <div class="main-border bl-box">
                         <input type="text" class="task_input" id="username" name="username" placeholder="Username">

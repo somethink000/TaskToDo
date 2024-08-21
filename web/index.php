@@ -10,8 +10,21 @@
 
         <title>TaskToDo</title>
         
-        <script src="./js/login.js"></script>
+        <script src="./js/auth.js"></script>
         <script>checkLogin()</script>
     </head>
+
+
+    <body id="body" class="blur">
+
+
+        <div id="particles_container" class="particles_container"></div>
+
+
+        <div class="main-block">
+
+        </div>
+        
+    </body>
 
 </html>

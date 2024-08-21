@@ -45,28 +45,28 @@
         }
 
         function fillTables( $conn ){
-            $sql = [];
+            // $sql = [];
 
-            $sql[] = "INSERT INTO tasksBoxes (title, sortId) VALUES ('TaskToDo', 0)";
-            $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', 0, 1, 1, 0)";
-            $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', 0, 0, 1, 1)";
-            $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', 1, 0, 1, 2)";
+            // $sql[] = "INSERT INTO tasksBoxes (title, sortId) VALUES ('TaskToDo', 0)";
+            // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Setup my tusks', 0, 1, 1, 0)";
+            // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Proud of yourself', 0, 0, 1, 1)";
+            // $sql[] = "INSERT INTO tasks (text, done, current, taskBoxId, sortId) VALUES ('Install TuskToDo', 1, 0, 1, 2)";
 
-            $stmt = $conn->prepare("INSERT INTO users (name, password) VALUES ( ?, ?)");
-            $pass = password_hash("5139", PASSWORD_DEFAULT);
-            $name = "some";
-            $stmt->bind_param("ss", $name, $pass);
-            $stmt->execute();
+            // $stmt = $conn->prepare("INSERT INTO users (name, password) VALUES ( ?, ?)");
+            // $pass = password_hash("5139", PASSWORD_DEFAULT);
+            // $name = "some";
+            // $stmt->bind_param("ss", $name, $pass);
+            // $stmt->execute();
 
-            foreach($sql as $item)
-            {
-                if ($conn->query($item) === TRUE) 
-                {
-                    echo "Table filled ...".PHP_EOL;
-                } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
-                }
-            }
+            // foreach($sql as $item)
+            // {
+            //     if ($conn->query($item) === TRUE) 
+            //     {
+            //         echo "Table filled ...".PHP_EOL;
+            //     } else {
+            //         echo "Error: " . $sql . "<br>" . $conn->error;
+            //     }
+            // }
 
             // $user = mysqli_fetch_array($conn->query("SELECT * FROM users"));
             // foreach ($user as $i){
