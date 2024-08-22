@@ -39,7 +39,7 @@
                         <input type="password" class="task_input" id="password" name="password" placeholder="Password"> 
                     </div>
 
-                    <button class="main-border bl-box add_button" type="submit" class="">Login</button>
+                    <button class="main-border bl-box add_button" type="submit" class="">Register</button>
 
                 </form>
 

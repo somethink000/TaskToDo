@@ -8,15 +8,16 @@ async function tryRegister(event) {
     let form = event.target;
     let formData = new FormData(form);
 
-    let url = 'app/controllers/AuthController.php?login';
-    
     let data = {
         username: formData.get('username'),
         password: formData.get('password'),
     };
 
+    
 
     try {
+
+        let url = 'app/controllers/AuthController.php?register';
 
         let response = await fetch(url, {
             method: 'POST',
@@ -27,13 +28,33 @@ async function tryRegister(event) {
         });
 
         let json = await response.json();
-
+        
         document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
 
         window.location = 'todo.php';
 
     } catch {
         
+        // .then(
+        //     function(response) {
+        //       //https://httpstatuses.com/422
+        //       if (response.status === 422) {
+        //         return Promise.reject(response.json());
+        //       }
+        //       //check for other things that could have gone wrong
+        //       return response.json();
+        //     }
+        //   ).then(
+        //     function(json) {
+        //       console.log("received success json",json)
+        //     }
+        //     ,function(json) {
+        //       console.log("received reject json",json)
+        //     }
+        //   )
+          
+        // php>>  http_response_code(422);
+        // php>> echo json_encode(array("error" => "missing field", "field" => "email"));
     }
 }
 
@@ -84,6 +105,7 @@ function getCookie(name) {
 
 async function checkLogin() {
     
+
     let sid = getCookie("session_id");
     let url = 'app/controllers/AuthController.php?checklogin='+sid;
 

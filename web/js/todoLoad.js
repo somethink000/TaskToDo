@@ -114,7 +114,8 @@ async function loadPage() {
     let url = 'app/controllers/TaskBoxController.php?all';
     let response = await fetch(url);
     let taskBoxes = await response.json();
-   
+    console.log(taskBoxes);
+    
     taskBoxes.sort(function (a, b) {
         return a.sortId - b.sortId;
     });

@@ -4,20 +4,26 @@
 
 
 require_once __DIR__.'/pdo.php';
-
+require_once __DIR__.'/AuthController.php';
 
 function getAll()
-{
-    
+{   
+
+
+    $userid = getUser();
+    return json_encode($userid);
     $result = array();
 
-    $stmt = pdo()->prepare('SELECT * FROM tasksBoxes');
+    
+    $stmt = pdo()->prepare('SELECT * FROM tasksBoxes WHERE userId = :userId');
+    $stmt->bindParam(':userId',$userid);
     $stmt->execute();
     $result = $stmt->fetchAll();
 
     return json_encode($result);
 
 }   
+
 
 function get($id)
 {
