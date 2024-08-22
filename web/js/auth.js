@@ -96,7 +96,7 @@ async function checkLogin() {
         window.location = 'todo.php';
 
     } catch {
-        window.location = 'login.php';
+       // window.location = 'login.php';
     }
       
        

@@ -7,7 +7,8 @@
             $sql[] = "CREATE TABLE tasksBoxes (
                 id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 title TEXT NOT NULL,
-                sortId INT NOT NULL
+                sortId INT NOT NULL,
+                userId INT NOT NULL
             )";
     
             
@@ -90,7 +91,4 @@
         createTables( $conn );
         fillTables( $conn );
 
-
-        
-        
 ?>
