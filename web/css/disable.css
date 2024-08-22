@@ -36,7 +36,7 @@ body {
 	/* background: url(/../assets/dark.jpg); */
 	/* background-image: radial-gradient(#00000000, #ffffff00); */
 
-	background-color: rgba(20, 20, 20, 0.7);
+	background-color: rgba(20, 20, 20, 1);
 	background-size: 100%; 
 	background-repeat: repeat-y;
     /* backdrop-filter: blur(10px); */

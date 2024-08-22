@@ -2,7 +2,8 @@
 header {
     
     width: 100%;
-    background-color: rgba(20, 20, 20, 1);
+
+    
 
     .content{
         width: 100%;
@@ -13,20 +14,29 @@ header {
         padding-left: 3%;
         /* padding-top: 1%;
         padding-bottom: 1%; */
+
+        .title{
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .btns{
+            padding: 10px;
+            margin-right: 6px;
+            /* height: 100%; */
+        }
+        
+        .btns:hover {
+            background-color: rgb(100, 100, 100);
+        }
+        .btns:active {
+            background-color: rgb(50, 50, 50);
+        }
+
     }
     
 
-    .btns{
-        margin-right: 6px;
-        /* height: 100%; */
-    }
     
-    .btns:hover {
-        background-color: rgb(100, 100, 100);
-    }
-    .btns:active {
-        background-color: rgb(50, 50, 50);
-    }
     
 }
 

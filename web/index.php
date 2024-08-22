@@ -11,18 +11,12 @@
         <title>TaskToDo</title>
         
         <script src="./js/auth.js"></script>
+        <script src="./js/sparksAnimation.js"></script>
+        
         <script>checkLogin()</script>
     </head>
 
-    <!-- <header>
-        <div class="content bl-box">
-            <div class="title">TaskToDo</div>
-            <div >
-                <a href="" class="btns">Login</a>
-                <a href="" class="btns">Register</a>
-            </div>
-        </div>
-    </header> -->
+    
 
     <body id="body" class="blur">
 
@@ -50,8 +44,8 @@
 
                 <div class="auth">
                     <div >
-                        <a href="" class="btns">Login</a>
-                        <a href="" class="btns">Register</a>
+                        <a class="btns" onclick="window.location = 'register.php';">Login</a>
+                        <a class="btns" onclick="window.location = 'register.php';">Register</a>
                     </div>
                 </div>
 

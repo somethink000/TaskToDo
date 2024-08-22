@@ -16,9 +16,21 @@
         <script src="./js/auth.js" defer></script>
     </head>
 
-    <body id="body" class="blur">
 
-            <div class="login">
+    <header>
+        <div class="content bl-box">
+            <div class="title" onclick="window.location = 'index.php';">TaskToDo</div>
+            <div >
+                
+            </div>
+        </div>
+    </header>
+
+
+    <body id="body" >
+    
+
+            <div class="auth_form">
                 <form onsubmit="tryLogin(event)">
 
                     <div class="main-border bl-box">
