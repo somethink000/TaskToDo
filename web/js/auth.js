@@ -78,6 +78,7 @@ async function tryLogin(event) {
 
         let response = await fetch(url, {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
@@ -85,10 +86,10 @@ async function tryLogin(event) {
         });
 
         let json = await response.json();
+        console.log(json);
+        //document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
 
-        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
-
-        window.location = 'todo.php';
+        //window.location = 'todo.php';
 
     } catch {
         
@@ -107,15 +108,17 @@ async function checkLogin() {
     
 
     let sid = getCookie("session_id");
-    let url = 'app/controllers/AuthController.php?checklogin='+sid;
-
+    console.log(sid);
+    let url = 'app/controllers/AuthController.php?checklogin';
+    
     try {
         let response = await fetch(url);
         let json = await response.json();
 
-        document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
+        console.log(json);
+        //document.cookie = encodeURIComponent("session_id") + '=' + encodeURIComponent(json[0]) + '; expires=' + json[1] + '; path=/'; //expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/
 
-        window.location = 'todo.php';
+        //window.location = 'todo.php';
 
     } catch {
        // window.location = 'login.php';

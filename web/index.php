@@ -44,7 +44,7 @@
 
                 <div class="auth">
                     <div >
-                        <a class="btns" onclick="window.location = 'register.php';">Login</a>
+                        <a class="btns" onclick="window.location = 'login.php';">Login</a>
                         <a class="btns" onclick="window.location = 'register.php';">Register</a>
                     </div>
                 </div>

@@ -4,11 +4,14 @@
 <?php
 
 require_once __DIR__.'/pdo.php';
+//header('Access-Control-Allow-Credentials: true');
+
+
 
 function getUser(){
 
     $sid = htmlspecialchars($_COOKIE["session_id"]);
-
+    return $sid;
     if ($sid != '') {
        
         $stmt = pdo()->prepare(
@@ -37,6 +40,10 @@ function getUser(){
 }
 
 function login($data){
+    
+    
+    
+    return json_encode($_COOKIE['session_id']);
 
     $stmt = pdo()->prepare('SELECT * FROM users WHERE name = :name');
     $stmt->bindParam(':name', $data->username);
@@ -59,20 +66,23 @@ function login($data){
             ]);
         }
         
-        $userId = $user['id'];
-        $result = pdo()->query('SELECT UUID() AS session_id');
-        $s = $result->fetch(PDO::FETCH_ASSOC);
-        $result->closeCursor();
-        $sessionId = $s['session_id'];
-        pdo()->query(
-            "INSERT INTO sessions (id, user_id)
-                    VALUES ('$sessionId', '$userId')"
-        );
+        // $userId = $user['id'];
+        // $result = pdo()->query('SELECT UUID() AS session_id');
+        // $s = $result->fetch(PDO::FETCH_ASSOC);
+        // $result->closeCursor();
+        // $sessionId = $s['session_id'];
+        // pdo()->query(
+        //     "INSERT INTO sessions (id, user_id)
+        //             VALUES ('$sessionId', '$userId')"
+        // );
 
+        // setcookie('session_id', $sessionId, time() + SESSION_TTL, '/');
         
-        $out[0] = $sessionId;
-        $out[1] = time() + SESSION_TTL;
-        return json_encode($out);
+        return json_encode($_COOKIE['session_id']);
+
+        // $out[0] = $sessionId;
+        // $out[1] = time() + SESSION_TTL;
+        // return json_encode($out);
     }
 
     return http_response_code(404);
@@ -127,36 +137,45 @@ function register($data){
     
 }
   
-function checkLogin($sid){
+function checkLogin(){
    
-    if ($sid != '') {
-       
-        $stmt = pdo()->prepare(
-            'SELECT u.id, u.name
+    //$sid = $_COOKIE["session_id"];
+    
+
+    if ($sid = $_COOKIE['session_id']) {
+        
+        $result = pdo()->query(
+            "SELECT u.id, u.login
              FROM sessions AS s LEFT JOIN users AS u ON (s.user_id=u.id)
-             WHERE s.id=:id AND last_activity>=DATE_SUB(NOW(), INTERVAL :lastsec SECOND)'
+             WHERE s.id='$sid' AND
+              last_activity>=DATE_SUB(NOW(), INTERVAL " . SESSION_TTL . " SECOND)"
         );
-        $tim = intval(SESSION_TTL);
-        $stmt->bindParam(':id', $sid);
-        $stmt->bindParam(':lastsec', $tim); 
-        $stmt->execute();
-        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-        $stmt->closeCursor();
+        $userData = $result->fetch(PDO::FETCH_ASSOC);
+        $result->closeCursor();
+        // $stmt = pdo()->prepare(
+        //     'SELECT u.id, u.name
+        //      FROM sessions AS s LEFT JOIN users AS u ON (s.user_id=u.id)
+        //      WHERE s.id=:id AND last_activity>=DATE_SUB(NOW(), INTERVAL :lastsec SECOND)'
+        // );
+
+        // $sid = strval($sid);
+        // $tim = intval(SESSION_TTL);
+        // $stmt->bindParam(':id', $sid);
+        // $stmt->bindParam(':lastsec', $tim); 
+        // $stmt->execute();
+        // $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+        // $stmt->closeCursor();
         
         if (!$userData) {
+            
            return http_response_code(404); 
         }
-      
+        return json_encode($sid);
         $upstmt = pdo()->prepare("UPDATE sessions SET last_activity=NOW() WHERE id=:id");
         $upstmt->bindParam(':id', $sid);
         $upstmt->execute();
 
-        $out[0] = $sid;
-        $out[1] = time() + SESSION_TTL;
-        $out[2] = $userData;
-
-        return json_encode($out);
-
+      
     } else {
         return http_response_code(404);
     }
@@ -176,6 +195,6 @@ if (isset($_GET['login'])) {
 
 
 }elseif(isset($_GET['checklogin'])){
-    echo checkLogin(htmlspecialchars($_GET['checklogin']));
+    echo checkLogin();
 
 }
