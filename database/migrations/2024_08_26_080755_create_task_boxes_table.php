@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('task_boxes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->int('sortid');
-            $table->int('userId');
+            $table->integer('sortid');
+            $table->integer('userId');
             $table->timestamps();
             
         });

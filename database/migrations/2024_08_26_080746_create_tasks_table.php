@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('text');
             $table->boolean('today');
             $table->boolean('done');
-            $table->int('sortid');
-            $table->int('taskboxId');
+            $table->integer('sortid');
+            $table->integer('taskboxId');
             $table->timestamps();
         });
     }

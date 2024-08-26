@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Services\Api\TaskBoxService;
+
 
 class TaskBoxController extends Controller
 {
+
+    public function __construct(protected readonly TaskBoxService $taskboxService)
+    {
+    }
     /**
      * Display a listing of the resource.
      */
