@@ -13,9 +13,44 @@
 			TodayTasksBox,
 			TasksBox
 		},
-		setup() {
-			return {};
+		data: () => ({
+			boxes: [],
+	
+		}),
+		mounted() {
+			this.loadBoxes();
+	
 		},
+		methods: {
+			loadBoxes() {
+				axios.get('/api/taskBoxes')
+					.then(res => {
+						console.log(res.data);
+						this.boxes = res.data;
+	
+					})
+				
+			},
+			// store() {
+			// 	this.loading = true;
+			// 	axios.post('/api/taskBoxes', this.form, {
+			// 		headers: {
+			// 			"Content-type": "application/json"
+			// 		}
+			// 	})
+			// 	.then(res => {
+			// 		if (res.data) {
+			// 			this.$router.push('/blog/' + res.data.id);
+			// 		} else {
+			// 			console.log(res.data);
+			// 			setTimeout(() => {
+			// 				this.loading = false;
+			// 			}, 300);
+			// 			this.error = true;
+			// 		}
+			// 	})
+			// }
+		}
 	});
 </script>
 

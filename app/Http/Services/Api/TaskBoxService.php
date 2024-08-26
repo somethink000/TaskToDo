@@ -10,15 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 
 use Illuminate\Support\Str;
-
+use App\Http\Requests\TaskBoxStoreRequest;
+use App\Models\TaskBox;
 
 class TaskBoxService
 {
 
-    // public function create(TaskStoreRequest $request): Task
-    // {
-    //     return Task::create($request->all());
-    // }
+    public function create(TaskBoxStoreRequest $request): TaskBox
+    {
+        return TaskBox::create($request->all());
+    }
 
     // public function update(TaskUpdateRequest $request, Task $blog): Task
     // {

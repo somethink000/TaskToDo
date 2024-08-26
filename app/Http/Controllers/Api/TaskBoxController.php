@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Models\TaskBox;
 use App\Http\Services\Api\TaskBoxService;
+
+use App\Http\Requests\TaskBoxStoreRequest;
 
 
 class TaskBoxController extends Controller
 {
 
-    public function __construct(protected readonly TaskBoxService $taskboxService)
+    public function __construct(protected readonly TaskBoxService $service)
     {
     }
     /**
@@ -17,23 +21,16 @@ class TaskBoxController extends Controller
      */
     public function index()
     {
-        //
+        return TaskBox::get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskBoxStoreRequest $request): TaskBox
     {
-        //
+        return $this->service->create($request);
     }
 
     /**
@@ -44,14 +41,7 @@ class TaskBoxController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      */
