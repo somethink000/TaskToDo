@@ -26,8 +26,5 @@
 
 <style>
 	
-	
 
-	
-	
 </style>
