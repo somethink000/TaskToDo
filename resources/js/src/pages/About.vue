@@ -2,16 +2,20 @@
 
 <script>
 	import { defineComponent } from 'vue';
+	import axios from 'axios';
+
 	import CircleButtonImage from '@/components/CircleButtonImage.vue';
 	import TodayTasksBox from '@/components/TodayTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
+	import TaskBoxForm from '@/components/TaskBoxForm.vue';
 
-
+	
 	export default defineComponent({
 		components: {
 			CircleButtonImage,
 			TodayTasksBox,
-			TasksBox
+			TasksBox,
+			TaskBoxForm
 		},
 		data: () => ({
 			boxes: [],
@@ -59,6 +63,9 @@
 
 <template>
 	<main>
+
+		<TaskBoxForm/>
+
 		<today>
 
 			<controls>

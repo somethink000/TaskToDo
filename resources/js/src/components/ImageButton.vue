@@ -5,7 +5,7 @@
 	export default defineComponent({
 
         
-        props: ['title', 'image'],
+        props: ['image'],
 		components: {},
 		setup() {
             
@@ -17,15 +17,16 @@
 
 <template>
 
-	<button class="bl-box main-border">
+	<button>
         <img :src="image" width="32" />
-        <txt class="txt">{{title}}</txt>
     </button>
    
 </template>
 
 <style>
-   
+   button{
+    background-color: transparent;
+   }
   
 
 </style>

@@ -13,10 +13,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::resource('tasks', TaskController::class)
  ->except([
-     'create', 'edit' 
+     'create', 'edit','show','update', 
  ]);
 
 Route::resource('taskBoxes', TaskBoxController::class)
 ->except([
-    'create', 'edit' 
+    'create', 'edit','show','update', 
 ]);
