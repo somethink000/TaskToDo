@@ -19,9 +19,7 @@
         }),
         methods: {
 			
-            close() {
-              //console.log(this.remove());  
-            },
+            
 
 			store() {
 				console.log(this.form);
@@ -50,7 +48,7 @@
 
             <taskboxCreateFormHead>
                 <ttl>Create new taskbox</ttl>
-                <ImageButton @click.prevent="close()" image="/images/cross.png"/>
+                <ImageButton @click="$emit('someEvent')" image="/images/cross.png"/>
             </taskboxCreateFormHead>
 
             <BaseLine />

@@ -19,7 +19,7 @@
 		},
 		data: () => ({
 			boxes: [],
-	
+			boxForm: false,
 		}),
 		mounted() {
 			this.loadBoxes();
@@ -35,25 +35,13 @@
 					})
 				
 			},
-			// store() {
-			// 	this.loading = true;
-			// 	axios.post('/api/taskBoxes', this.form, {
-			// 		headers: {
-			// 			"Content-type": "application/json"
-			// 		}
-			// 	})
-			// 	.then(res => {
-			// 		if (res.data) {
-			// 			this.$router.push('/blog/' + res.data.id);
-			// 		} else {
-			// 			console.log(res.data);
-			// 			setTimeout(() => {
-			// 				this.loading = false;
-			// 			}, 300);
-			// 			this.error = true;
-			// 		}
-			// 	})
-			// }
+			closeBoxForm() {
+				this.boxForm = false;
+			},
+			openBoxForm() {
+				this.boxForm = true;
+			}
+		
 		}
 	});
 </script>
@@ -64,12 +52,12 @@
 <template>
 	<main>
 
-		<TaskBoxForm/>
+		<TaskBoxForm v-if="this.boxForm == true" @someEvent="closeBoxForm()"/>
 
 		<today>
 
 			<controls>
-				<CircleButtonImage title="New TaskBox" image="/images/plus.png"/>
+				<CircleButtonImage @click="openBoxForm()" title="New TaskBox" image="/images/plus.png"/>
 			</controls>
 
 			<boxTodayPlace>
@@ -79,13 +67,8 @@
 
 		</today>
 		<boxesplace>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
-			<TasksBox title="larace"/>
+			<TasksBox v-for="box in boxes" :title="box.title" />
+			
 		</boxesplace>
 	</main>
 </template>
