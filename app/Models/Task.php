@@ -11,7 +11,6 @@ class Task extends Model
 
     protected $fillable = [
         'text',
-        'today',
         'done',
         'sortid',
         'taskboxId'

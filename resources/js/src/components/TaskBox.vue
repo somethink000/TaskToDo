@@ -1,18 +1,63 @@
 
 <script lang="ts">
 	import { defineComponent } from 'vue';
-    
+    import axios from 'axios';
+
+
     import BaseLine from './BaseLine.vue';
     import TaskComponent from './TaskComponent.vue';
+    import DropDown from './DropDown.vue';
+    import ImageButton from './ImageButton.vue';
+
+
 
 	export default defineComponent({
 
-        props: {title: String},
-		components: {BaseLine, TaskComponent},
-		setup() {
-            
-			return {};
+        props: {title: String, id: String},
+		components: {BaseLine, TaskComponent, DropDown, ImageButton},
+        data: (instance) => ({
+			tasks: [],
+			taskForm: false,
+            form: {
+                text: "",
+                done: false,
+                sortid: 0,
+                taskboxId: instance.id,
+                
+            },
+		}),
+		mounted() {
+			this.loadTasks();
+	
 		},
+		methods: {
+			loadTasks() {
+				axios.get('/api/tasks')
+					.then(res => {
+						console.log(res.data);
+						this.tasks = res.data;
+	
+					})
+			},
+            onTaskEnter() {
+				console.log(this.form);
+				axios.post('/api/tasks', this.form, {
+					headers: {
+						"Content-type": "application/json"
+					}
+				})
+				.then(res => {
+					if (res.data) {
+						console.log(res.data);
+					} else {
+						console.log(res.data);
+					}
+				})
+			},
+
+            toggleTaskForm() { this.taskForm = !this.taskForm; },
+            
+		}
 	});
 </script>
 
@@ -21,16 +66,21 @@
     <taskBoxBlock>
 
         <taskBoxHeader>
-            <ttl>{{ title }}</ttl> 
+           
+            <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter()" v-model="this.form.text"  type="text" placeholder="New task" >
+            <ttl v-else >{{ title }}</ttl> 
+            
+            <ImageButton @click="toggleTaskForm()" image="/images/plus.png" size="20"/>
+            <!-- <DropDown>
+                <a href="#">Delete</a>
+            </DropDown> -->
+            
         </taskBoxHeader>
 
         <BaseLine />
 
         <taskBoxList>
-            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
-            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
-            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
-            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
+            <TaskComponent v-for="task in tasks" :text="task.text" />
         </taskBoxList>
 
     </taskBoxBlock>
@@ -52,6 +102,7 @@
         taskBoxHeader {
             display: flex;
             padding: 8px;
+            justify-content: row;
             justify-content: space-between;
             align-items: center;
         }

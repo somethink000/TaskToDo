@@ -63,7 +63,7 @@
 		</controls>
 		<BaseLine/>
 		<boxesplace>
-			<TasksBox v-for="box in boxes" :title="box.title" />
+			<TasksBox v-for="box in boxes" :title="box.title" :id="box.id"/>
 			
 		</boxesplace>
 	</main>

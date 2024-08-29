@@ -28,7 +28,7 @@ class TaskBoxController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TaskBoxStoreRequest $request)//: TaskBox
+    public function store(TaskBoxStoreRequest $request): TaskBox
     {
         return $this->service->create($request);
     }
