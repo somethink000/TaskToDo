@@ -8,6 +8,7 @@
 	import TodayTasksBox from '@/components/TodayTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
 	import TaskBoxForm from '@/components/TaskBoxForm.vue';
+	import BaseLine from '@/components/BaseLine.vue';
 
 	
 	export default defineComponent({
@@ -15,7 +16,9 @@
 			CircleButtonImage,
 			TodayTasksBox,
 			TasksBox,
-			TaskBoxForm
+			TaskBoxForm,
+			BaseLine
+
 		},
 		data: () => ({
 			boxes: [],
@@ -54,18 +57,11 @@
 
 		<TaskBoxForm v-if="this.boxForm == true" @someEvent="closeBoxForm()"/>
 
-		<today>
-
-			<controls>
-				<CircleButtonImage @click="openBoxForm()" title="New TaskBox" image="/images/plus.png"/>
-			</controls>
-
-			<boxTodayPlace>
-				<TodayTasksBox />
-			</boxTodayPlace>
-			
-
-		</today>
+	
+		<controls>
+			<CircleButtonImage @click="openBoxForm()" title="New Task Box" image="/images/plus.png"/>
+		</controls>
+		<BaseLine/>
 		<boxesplace>
 			<TasksBox v-for="box in boxes" :title="box.title" />
 			
@@ -83,28 +79,17 @@
 		margin: auto;
 		height: 98%;
 		width: 98%;
-		flex-direction: row;
+		flex-direction: column;
 
-		today{
+		
+		controls{
 			display: flex;
-			flex-direction: column;
-			border-radius: 10px;
-			width: 400px;
-			height: 100%;
-			max-height: 100%;
-
-			controls{
-				display: flex;
-				width: 100%;
-				padding: 10px;
-				height: 5%;
-				align-items: center;
-			}
-
-			boxTodayPlace{
-				height: 85%;
-			}
+			width: 100%;
+			height: 5%;
+			margin: 5px;
+			align-items: center;
 		}
+
 		boxesplace{
 			display: flex;
 			width: 100%;

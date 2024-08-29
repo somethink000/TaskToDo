@@ -3,12 +3,12 @@
 	import { defineComponent } from 'vue';
     
     import BaseLine from './BaseLine.vue';
-
+    import TaskComponent from './TaskComponent.vue';
 
 	export default defineComponent({
 
         props: {title: String},
-		components: {BaseLine},
+		components: {BaseLine, TaskComponent},
 		setup() {
             
 			return {};
@@ -27,7 +27,10 @@
         <BaseLine />
 
         <taskBoxList>
-
+            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
+            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
+            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
+            <TaskComponent prefix="Tas" text="Сделать крутой штука супер круто"/>
         </taskBoxList>
 
     </taskBoxBlock>
@@ -41,7 +44,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    width: 22%;
+    width: 300px;
     margin: 10px;
     max-height: 45vh;
 
@@ -59,6 +62,7 @@
             width: 100%;
             height: 100%;
             flex-direction: column;
+            align-items: center;
             overflow: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;

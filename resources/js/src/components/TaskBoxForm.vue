@@ -48,7 +48,7 @@
 
             <taskboxCreateFormHead>
                 <ttl>Create new taskbox</ttl>
-                <ImageButton @click="$emit('someEvent')" image="/images/cross.png"/>
+                <ImageButton @click="$emit('someEvent')" image="/images/cross.png" size="32"/>
             </taskboxCreateFormHead>
 
             <BaseLine />

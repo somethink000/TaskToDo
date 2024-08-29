@@ -5,7 +5,7 @@
 	export default defineComponent({
 
         
-        props: ['image'],
+        props: ['image', 'size'],
 		components: {},
 		setup() {
             
@@ -18,7 +18,7 @@
 <template>
 
 	<button>
-        <img :src="image" width="32" />
+        <img :src="image" :width="size" />
     </button>
    
 </template>
