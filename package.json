@@ -17,6 +17,7 @@
   "dependencies": {
     "scss": "^0.2.4",
     "vue-router": "^4.4.3",
+    "vuedraggable": "^4.1.0",
     "vuex": "^4.1.0"
   }
 }

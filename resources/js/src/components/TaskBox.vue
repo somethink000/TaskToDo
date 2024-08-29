@@ -1,6 +1,7 @@
 
 <script lang="ts">
-	import { defineComponent } from 'vue';
+	import { defineComponent, ref } from 'vue';
+    import draggable from 'vuedraggable';
     import axios from 'axios';
 
 
@@ -14,7 +15,7 @@
 	export default defineComponent({
 
         props: {title: String, id: String},
-		components: {BaseLine, TaskComponent, DropDown, ImageButton},
+		components: {BaseLine, TaskComponent, DropDown, ImageButton, draggable},
         data: (instance) => ({
 			tasks: [],
 			taskForm: false,
@@ -25,6 +26,13 @@
                 taskboxId: instance.id,
                 
             },
+            enabled: true,
+            list: [
+                { name: "John", id: 0 },
+                { name: "Joao", id: 1 },
+                { name: "Jean", id: 2 }
+            ],
+            dragging: false
 		}),
 		mounted() {
 			this.loadTasks();
@@ -54,7 +62,9 @@
 					}
 				})
 			},
-
+            checkMove: function(e) {
+                window.console.log("Future index: " + e.draggedContext.futureIndex);
+            },
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
 		}
@@ -71,16 +81,24 @@
             <ttl v-else >{{ title }}</ttl> 
             
             <ImageButton @click="toggleTaskForm()" image="/images/plus.png" size="20"/>
-            <!-- <DropDown>
-                <a href="#">Delete</a>
-            </DropDown> -->
-            
+           
         </taskBoxHeader>
 
         <BaseLine />
-
+        
         <taskBoxList>
-            <TaskComponent v-for="task in tasks" :text="task.text" />
+            <draggable 
+            v-model="list" 
+            group="people" 
+            @start="drag=true" 
+            @end="drag=false" 
+            item-key="id">
+            <template #item="{element}">
+                <div>{{element.name}}</div>
+            </template>
+            </draggable>
+                 
+            <!-- <TaskComponent v-for="task in tasks" :text="task.text" /> -->
         </taskBoxList>
 
     </taskBoxBlock>
@@ -88,7 +106,14 @@
 
 
 <style lang="scss">
-   
+    
+
+    .ghost {
+        opacity: 0.5;
+        background: #c8ebfb;
+    }
+
+
    taskBoxBlock {
     background-color: rgb(50, 50, 50);
     display: flex;
