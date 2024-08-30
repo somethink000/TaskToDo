@@ -1,14 +1,10 @@
 
 <script>
 	import { defineComponent } from 'vue';
-	import PrimaryHeader from './components/Header.vue';
-	import PrimaryFooter from './components/Footer.vue';
+	
 
 	export default defineComponent({
-		components: {
-			PrimaryHeader,
-			PrimaryFooter,
-		},
+		components: {},
 		setup() {
 			return {
 			};
@@ -19,6 +15,7 @@
 
 <template>
 
+		
 		<router-view />
 
 </template>

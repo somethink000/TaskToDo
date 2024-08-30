@@ -4,20 +4,23 @@
 	import { defineComponent } from 'vue';
 	import axios from 'axios';
 
-	import CircleButtonImage from '@/components/CircleButtonImage.vue';
+	
 	import TodayTasksBox from '@/components/TodayTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
 	import TaskBoxForm from '@/components/TaskBoxForm.vue';
 	import BaseLine from '@/components/BaseLine.vue';
+	import Header from '@/components/Header.vue';
+	import CircleButtonImage from '@/components/CircleButtonImage.vue';
 
-	
 	export default defineComponent({
 		components: {
-			CircleButtonImage,
+			
 			TodayTasksBox,
 			TasksBox,
 			TaskBoxForm,
-			BaseLine
+			BaseLine,
+			Header,
+			CircleButtonImage
 
 		},
 		data: () => ({
@@ -32,18 +35,19 @@
 			loadBoxes() {
 				axios.get('/api/taskBoxes')
 					.then(res => {
-						console.log(res.data);
 						this.boxes = res.data;
-	
+						
 					})
 				
 			},
-			closeBoxForm() {
-				this.boxForm = false;
+			closeBoxForm() {this.boxForm = false;},
+			openBoxForm() {this.boxForm = true;},
+
+			onCreatedBox(e) {
+				this.boxes.unshift(e);
+				this.closeBoxForm();
 			},
-			openBoxForm() {
-				this.boxForm = true;
-			}
+			
 		
 		}
 	});
@@ -54,17 +58,22 @@
 
 <template>
 	<main>
+		<Header> 
+			<CircleButtonImage @click="openBoxForm()" title="New Task Box" image="/images/plus.png"/> 
+		</Header> 
 
-		<TaskBoxForm v-if="this.boxForm == true" @someEvent="closeBoxForm()"/>
+		<TaskBoxForm v-if="this.boxForm == true" @on-created-box="onCreatedBox" @close-boxform="closeBoxForm()"/>
+		<content>
+			
 
-		
-		<controls>
-			<CircleButtonImage @click="openBoxForm()" title="New Task Box" image="/images/plus.png"/>
-		</controls>
-		<BaseLine/>
-		<boxesplace>
-			<TasksBox v-for="box in boxes" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
-		</boxesplace>
+			<planPanel>
+				<TodayTasksBox />
+			</planPanel>
+
+			<boxesplace>
+				<TasksBox v-for="box in boxes" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
+			</boxesplace>
+		</content>
 	</main>
 </template>
 
@@ -80,23 +89,28 @@
 		width: 98%;
 		flex-direction: column;
 
-		
-		controls{
+		content {
 			display: flex;
-			width: 100%;
-			height: 5%;
-			margin: 5px;
-			align-items: center;
-		}
-
-		boxesplace{
-			display: flex;
-			width: 100%;
 			height: 100%;
-			max-height: 100%;
 			flex-direction: row;
-			justify-content: center;
-			flex-wrap: wrap;
+		
+		
+			planPanel {
+				display: flex;
+				width: 18%;
+				height: 100%;
+				max-height: 100%;
+			}
+
+			boxesplace{
+				display: flex;
+				width: 80%;
+				height: 100%;
+				max-height: 100%;
+				flex-direction: row;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
 		}
 	}
 </style>

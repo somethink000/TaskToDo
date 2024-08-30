@@ -16,13 +16,11 @@
                 userId: 0,
                 sortid: 0
             },
+            
         }),
         methods: {
-			
-            
 
 			store() {
-				console.log(this.form);
 				axios.post('/api/taskBoxes', this.form, {
 					headers: {
 						"Content-type": "application/json"
@@ -30,13 +28,16 @@
 				})
 				.then(res => {
 					if (res.data) {
-						console.log(res.data);
+                        
+						this.$emit('on-created-box', res.data)
+                        
 					} else {
-						console.log(res.data);
+						
 					}
 				})
 			}
-		}
+		},
+        
 	});
 </script>
 
@@ -48,7 +49,7 @@
 
             <taskboxCreateFormHead>
                 <ttl>Create new taskbox</ttl>
-                <ImageButton @click="$emit('someEvent')" image="/images/cross.png" size="32"/>
+                <ImageButton @click="$emit('close-boxform')" image="/images/cross.png" size="32"/>
             </taskboxCreateFormHead>
 
             <BaseLine />
@@ -56,7 +57,7 @@
             <taskCreateFormBox>
 
                 <taskForm>
-                    <input class="main-border" v-model="form.title" type="text" id="newTaskBoxInput"  placeholder="Task box name">
+                    <input class="main-border" v-on:keyup.enter="store()" v-model="form.title" type="text" id="newTaskBoxInput"  placeholder="Task box name">
                 </taskForm>
 
                 <button class="main-border bl-box" @click.prevent="store()">

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('done');
             $table->integer('sortid');
             $table->integer('taskboxId');
+            $table->timestamp('planed_at')->nullable();
             $table->timestamps();
         });
     }

@@ -1,30 +1,14 @@
 
 
-<template>
-	<header class="py-3 mb-4 border-bottom w-100 justify-content-between">
-		
-		<a href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
-			<img src="/images/protect.png" width="32" height="32" class="me-2" viewBox="0 0 118 94" role="img" />
-			<span class="fs-4">Your Data</span>
-		</a>
-			
-		<!-- <a href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
-			<img src="/images/icon.jpg" width="32" height="32" class="me-2" viewBox="0 0 118 94" role="img" />
-		</a> -->
 
-		<div href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
-			<a class="p-1" href="">Register</a>
-			<a class="p-1" href="">Login</a>
-		</div>
 
-	</header>
-</template>
-
-<script lang="ts">
+<script>
 	import { defineComponent } from 'vue';
+	
+	import BaseLine from '@/components/BaseLine.vue';
 
 	export default defineComponent({
-		components: {},
+		components: {BaseLine},
 		setup() {
 			return {};
 		},
@@ -32,3 +16,35 @@
 </script>
 
 
+<template>
+	<header>
+		<ttl>TaskToDo</ttl>
+		<controls>
+			<slot />
+		</controls>
+		
+	</header>
+	<BaseLine/>
+</template>
+
+<style>
+
+	header{
+		display: flex;
+		width: 100%;
+		max-width: 100%;
+		flex-direction: center;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+
+		
+		controls{
+			display: flex;
+			margin-right: 5px;
+			align-items: center;
+		}
+	
+	}
+	
+</style>

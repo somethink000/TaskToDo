@@ -36,7 +36,7 @@
 <style lang="scss">
    
    taskBox {
-    background-color: rgb(50, 50, 50);
+   
     display: flex;
     flex-direction: column;
     border-radius: 10px;

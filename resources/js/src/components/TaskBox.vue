@@ -6,7 +6,6 @@
 
 
     import BaseLine from './BaseLine.vue';
-    import TaskComponent from './TaskComponent.vue';
     import DropDown from './DropDown.vue';
     import ImageButton from './ImageButton.vue';
 
@@ -15,7 +14,7 @@
 	export default defineComponent({
 
         props: {title: String, id: String, setTasks: Array},
-		components: {BaseLine, TaskComponent, DropDown, ImageButton, draggable},
+		components: {BaseLine, DropDown, ImageButton, draggable},
         data: (instance) => ({
 			taskForm: false,
             tasks: instance.setTasks,
@@ -39,39 +38,47 @@
 				})
 				.then(res => {
 					if (res.data) {
-						// console.log(res.data);
+					
                         this.toggleTaskForm();
-
+                        this.tasks.unshift(res.data);
 					} else {
-						// console.log(res.data);
+						
 					}
 				})
 			},
-          
-            // updateSort(){
+            deleteTask(id, idx) {
+                axios.delete('/api/tasks/' + id)
+                .then(res => {
+                    if (res.data) {
+                        this.tasks.splice(idx, 1);
+                    } else {
+                        
+                    }
+                })
+            },
+            updateSort(){
                 
-            //     axios.patch('/api/tasks' + this.instance.id, this.tasks, {
-            //         headers: {
-            //             "Content-type": "application/json"
-            //         }
-            //     })
-            //     .then(res => {
-            //         if (res.data) {
-            //             this.$router.push('/blog/' + res.data.id);
-            //         } else {
-            //             console.log(res.data);
-            //             setTimeout(() => {
-            //                 this.loading = false;
-            //             }, 300);
-            //             this.error = true;
-            //         }
-            //     })
-            // },
+                axios.patch('/api/tasks', this.tasks, {
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                .then(res => {
+                    if (res.data) {
+                        this.$router.push('/blog/' + res.data.id);
+                    } else {
+                        console.log(res.data);
+                        setTimeout(() => {
+                            this.loading = false;
+                        }, 300);
+                        this.error = true;
+                    }
+                })
+            },
 
             log() {
                 console.log(this.tasks);
             },
-            
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
 		}
@@ -87,8 +94,12 @@
             <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter()" v-model="this.form.text"  type="text" placeholder="New task" >
             <ttl v-else >{{ title }}</ttl> 
             
-            <ImageButton @click="toggleTaskForm()" image="/images/plus.png" size="20"/>
-           
+            <!-- <ImageButton @click="toggleTaskForm()" image="/images/plus.png" size="20"/> -->
+            <DropDown>
+                <a href="billing">Billing</a>
+                <a href="settings">Settings</a>
+               
+            </DropDown>
         </taskBoxHeader>
 
         <BaseLine />
@@ -103,9 +114,17 @@
         @start="drag=true" 
         @end="drag=false" 
         item-key="id">
+
         <template #item="{element}">
-            <TaskComponent :text="element.text" />
+            <task class="bl-box main-border">
+                <txt>{{element.text}}</txt>
+                <task_acts>
+                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
+                    <ImageButton image="/images/check.png" size="16"/>
+                </task_acts>
+            </task> 
         </template>
+
         </draggable>
                 
             
@@ -152,8 +171,38 @@
             overflow: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
-        }
 
+            task {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 10px;
+                padding: 2px;
+                width: 94%;
+                margin-top: 12px;
+            
+                task_acts {
+                    display: flex;
+                    border-left: 1px solid rgb(100, 100, 100);
+                }
+            }
+
+
+            task.dragging {
+                opacity: 0.1;
+            }
+        
+            taskcomplete {
+                display: flex;
+                background-color: rgb(20, 20, 20);
+                color: rgb(100, 100, 100);
+
+                txt {
+                    color: rgb(100, 100, 100);
+                }
+            }
+        }
+        
         taskBoxList::-webkit-scrollbar {
             display: none;
         }
