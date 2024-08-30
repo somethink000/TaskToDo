@@ -14,11 +14,11 @@
 
 	export default defineComponent({
 
-        props: {title: String, id: String},
+        props: {title: String, id: String, setTasks: Array},
 		components: {BaseLine, TaskComponent, DropDown, ImageButton, draggable},
         data: (instance) => ({
-			tasks: [],
 			taskForm: false,
+            tasks: instance.setTasks,
             form: {
                 text: "",
                 done: false,
@@ -26,27 +26,10 @@
                 taskboxId: instance.id,
                 
             },
-            enabled: true,
-            list: [
-                { name: "John", id: 0 },
-                { name: "Joao", id: 1 },
-                { name: "Jean", id: 2 }
-            ],
-            dragging: false
+            drag: false,
 		}),
-		mounted() {
-			this.loadTasks();
-	
-		},
 		methods: {
-			loadTasks() {
-				axios.get('/api/tasks')
-					.then(res => {
-						console.log(res.data);
-						this.tasks = res.data;
-	
-					})
-			},
+		
             onTaskEnter() {
 				console.log(this.form);
 				axios.post('/api/tasks', this.form, {
@@ -56,15 +39,39 @@
 				})
 				.then(res => {
 					if (res.data) {
-						console.log(res.data);
+						// console.log(res.data);
+                        this.toggleTaskForm();
+
 					} else {
-						console.log(res.data);
+						// console.log(res.data);
 					}
 				})
 			},
-            checkMove: function(e) {
-                window.console.log("Future index: " + e.draggedContext.futureIndex);
+          
+            // updateSort(){
+                
+            //     axios.patch('/api/tasks' + this.instance.id, this.tasks, {
+            //         headers: {
+            //             "Content-type": "application/json"
+            //         }
+            //     })
+            //     .then(res => {
+            //         if (res.data) {
+            //             this.$router.push('/blog/' + res.data.id);
+            //         } else {
+            //             console.log(res.data);
+            //             setTimeout(() => {
+            //                 this.loading = false;
+            //             }, 300);
+            //             this.error = true;
+            //         }
+            //     })
+            // },
+
+            log() {
+                console.log(this.tasks);
             },
+            
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
 		}
@@ -86,20 +93,23 @@
 
         <BaseLine />
         
-        <taskBoxList>
-            <draggable 
-            v-model="list" 
-            group="people" 
-            @start="drag=true" 
-            @end="drag=false" 
-            item-key="id">
-            <template #item="{element}">
-                <div>{{element.name}}</div>
-            </template>
-            </draggable>
-                 
-            <!-- <TaskComponent v-for="task in tasks" :text="task.text" /> -->
-        </taskBoxList>
+        <!-- <taskBoxList> -->
+        <draggable 
+        class="taskBoxList"
+        ghost-class="ghost"
+        v-model="tasks" 
+        @change="log"
+        group="people" 
+        @start="drag=true" 
+        @end="drag=false" 
+        item-key="id">
+        <template #item="{element}">
+            <TaskComponent :text="element.text" />
+        </template>
+        </draggable>
+                
+            
+        <!-- </taskBoxList> -->
 
     </taskBoxBlock>
 </template>
@@ -133,7 +143,7 @@
         }
 
 
-        taskBoxList {
+        .taskBoxList {
             display: flex;
             width: 100%;
             height: 100%;

@@ -20,8 +20,10 @@ class TaskBoxController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return TaskBox::get();
+    {    
+        $boxes = TaskBox::get();  
+        $boxes->load('tasks');
+        return $boxes;
     }
 
 
@@ -33,7 +35,6 @@ class TaskBoxController extends Controller
         return $this->service->create($request);
     }
 
-    
     /**
      * Update the specified resource in storage.
      */

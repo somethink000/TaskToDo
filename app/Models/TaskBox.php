@@ -14,4 +14,8 @@ class TaskBox extends Model
         'sortid',
         'userId'
     ];
+
+    public function tasks(){
+        return $this->hasMany(Task::class,'taskboxId','id');
+    }
 }

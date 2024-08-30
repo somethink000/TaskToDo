@@ -21,7 +21,7 @@
 
 		},
 		data: () => ({
-			boxes: [],
+			boxes: {},
 			boxForm: false,
 		}),
 		mounted() {
@@ -57,14 +57,13 @@
 
 		<TaskBoxForm v-if="this.boxForm == true" @someEvent="closeBoxForm()"/>
 
-	
+		
 		<controls>
 			<CircleButtonImage @click="openBoxForm()" title="New Task Box" image="/images/plus.png"/>
 		</controls>
 		<BaseLine/>
 		<boxesplace>
-			<TasksBox v-for="box in boxes" :title="box.title" :id="box.id"/>
-			
+			<TasksBox v-for="box in boxes" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
 		</boxesplace>
 	</main>
 </template>
