@@ -1,14 +1,22 @@
 
 <script>
 	import { defineComponent } from 'vue';
-	
+	import { mapGetters, mapActions } from "vuex";
 
 	export default defineComponent({
 		components: {},
-		setup() {
-			return {
-			};
+		computed: {
+			...mapGetters("auth", ["user"])
 		},
+		data: () => ({
+
+		}),
+		mounted() {
+			this.getUserData();
+		},
+		methods: {
+			...mapActions("auth", ["getUserData"]),
+		}
 	});
 </script>
 
