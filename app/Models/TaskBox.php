@@ -20,9 +20,8 @@ class TaskBox extends Model
     }
 
     protected static function booted () {
-        static::deleting(function(TaskBox $taskBox) { // before delete() method call this
+        static::deleting(function(TaskBox $taskBox) { 
             $taskBox->tasks()->delete();
-             // do the rest of the cleanup...
         });
     }
 }

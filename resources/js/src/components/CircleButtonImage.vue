@@ -18,7 +18,7 @@
 <template>
 
 	<button class="bl-box main-border">
-        <img :src="image" width="32" />
+        <img v-if="image != null" :src="image" width="32" />
         <txt class="txt">{{title}}</txt>
     </button>
    

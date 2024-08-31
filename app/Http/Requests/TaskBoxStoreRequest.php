@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TaskBoxStoreRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class TaskBoxStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -24,7 +25,6 @@ class TaskBoxStoreRequest extends FormRequest
         return [
             'title' => 'required|string',
             'sortid' => 'integer',
-            'userId' => 'required|integer'
         ];
     }
 }
