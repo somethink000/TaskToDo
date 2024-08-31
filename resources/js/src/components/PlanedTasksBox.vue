@@ -20,10 +20,8 @@
     <taskBox>
 
         <taskBoxHeader>
-            <ttl>Today</ttl> 
+           
         </taskBoxHeader>
-
-        <BaseLine />
 
         <taskBoxList>
 

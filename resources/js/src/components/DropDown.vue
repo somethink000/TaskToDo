@@ -7,7 +7,7 @@
 
 
 	export default defineComponent({
-
+        props: ['image', 'size'],
 		components: {ImageButton},
 		
 	});
@@ -17,7 +17,7 @@
 <template>
 
     <div class="dropdown">
-        <ImageButton class="dropbtn" image="/images/cross.png" size="16" />
+        <ImageButton class="dropbtn" :image="image" :size="size" />
         <div class="dropdown-content">
             <slot />
         </div>
@@ -58,10 +58,6 @@
 
     .dropdown:hover .dropdown-content {
         display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-        background-color: #4d1c33;
     }
    
 </style>

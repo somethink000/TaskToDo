@@ -5,7 +5,7 @@
 	import axios from 'axios';
 
 	
-	import TodayTasksBox from '@/components/TodayTasksBox.vue';
+	import PlanedTasksBox from '@/components/PlanedTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
 	import TaskBoxForm from '@/components/TaskBoxForm.vue';
 	import BaseLine from '@/components/BaseLine.vue';
@@ -15,7 +15,7 @@
 	export default defineComponent({
 		components: {
 			
-			TodayTasksBox,
+			PlanedTasksBox,
 			TasksBox,
 			TaskBoxForm,
 			BaseLine,
@@ -43,6 +43,9 @@
 			closeBoxForm() {this.boxForm = false;},
 			openBoxForm() {this.boxForm = true;},
 
+			onDeleteBox(id){
+				this.boxes.splice(id, 1);
+			},
 			onCreatedBox(e) {
 				this.boxes.unshift(e);
 				this.closeBoxForm();
@@ -67,11 +70,11 @@
 			
 
 			<planPanel>
-				<TodayTasksBox />
+				<PlanedTasksBox />
 			</planPanel>
 
 			<boxesplace>
-				<TasksBox v-for="box in boxes" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
+				<TasksBox @on-delete-box="onDeleteBox" v-for="(box, index) in boxes" :boxid="index" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
 			</boxesplace>
 		</content>
 	</main>
@@ -108,7 +111,7 @@
 				height: 100%;
 				max-height: 100%;
 				flex-direction: row;
-				justify-content: center;
+				/* justify-content: center; */
 				flex-wrap: wrap;
 			}
 		}

@@ -13,7 +13,7 @@
 
 	export default defineComponent({
 
-        props: {title: String, id: String, setTasks: Array},
+        props: {boxid: String, title: String, id: String, setTasks: Array},
 		components: {BaseLine, DropDown, ImageButton, draggable},
         data: (instance) => ({
 			taskForm: false,
@@ -56,6 +56,17 @@
                     }
                 })
             },
+            deleteTaskBox() {
+                axios.delete('/api/taskBoxes/' + this.id)
+                .then(res => {
+                    if (res.data) {
+                        this.$emit('on-delete-box', this.boxid)
+                    } else {
+                        
+                    }
+                })
+            },
+            
             updateSort(){
                 
                 axios.patch('/api/tasks', this.tasks, {
@@ -94,11 +105,10 @@
             <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter()" v-model="this.form.text"  type="text" placeholder="New task" >
             <ttl v-else >{{ title }}</ttl> 
             
-            <!-- <ImageButton @click="toggleTaskForm()" image="/images/plus.png" size="20"/> -->
-            <DropDown>
-                <a href="billing">Billing</a>
-                <a href="settings">Settings</a>
-               
+            <!-- <ImageButton @click="toggleTaskForm()" /> -->
+            <DropDown image="/images/dots.png" size="24">
+                <a @click="toggleTaskForm()">Add Task</a>
+                <a @click="deleteTaskBox()">Delete</a>
             </DropDown>
         </taskBoxHeader>
 
