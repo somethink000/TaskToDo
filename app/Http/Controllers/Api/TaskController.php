@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Task;
 use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
 
 class TaskController extends Controller
 {
@@ -39,9 +40,11 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TaskUpdateRequest $request, Task $task): Task
     {
-        //
+        $task->update($request->all());
+        
+        return $task;
     }
 
     /**

@@ -45,10 +45,8 @@
 						});
 					}
 				})
-
-				
-				
 			},
+			
 			closeBoxForm() {this.boxForm = false;},
 			openBoxForm() {this.boxForm = true;},
 

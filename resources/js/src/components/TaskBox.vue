@@ -28,7 +28,6 @@
             drag: false,
 		}),
 
-        
 		methods: {
 		
             onTaskEnter() {
@@ -43,6 +42,7 @@
 					
                         this.toggleTaskForm();
                         this.tasks.unshift(res.data);
+                        this.updateSort();
 					} else {
 						
 					}
@@ -68,15 +68,68 @@
                     }
                 })
             },
+
             
+
+            updateTask(taskData) {
+               
+                axios.patch('/api/tasks/' + taskData.id, taskData, {
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                .then(res => {
+                    if (res.data) {
+                
+                    } else {  }
+                })
+
+            },
+
+            
+            compliteTask(task, index) {
+                task.done = !task.done;
+
+                if (index < this.tasks.length){
+
+                    if (task.done) {
+
+                        //Add on the first done row if this done
+                        for (var i = index+1; i < this.tasks.length; ++i) {
+                            
+                            if(this.tasks[i].done == true){
+                                var oldPlace = index;
+                                var newPlace = i;
+
+                                var t = this.tasks.splice(oldPlace,1);
+                                //после того как удалите элемент из массива, у него изменится длина
+                                this.tasks.splice(newPlace-1,0,t[0]);
+
+                                return;
+                            }
+                        }
+                    }else{
+
+                        //Add on the first row of task box
+                        var t = this.tasks.splice(index,1);
+                        this.tasks.unshift(task);
+                    }
+                }
+
+
+                this.updateTask(task);
+                this.updateSort();
+            },
+
+
             updateSort(){
                 
-                console.log(this.tasks);
+
                 for (var i = 0; i < this.tasks.length; ++i) {
                     this.tasks[i].sortid = i;
                 }
 
-                axios.patch('/api/tasks/update_sort', this.tasks, {
+                axios.post('/api/tasks/update_sort', this.tasks, {
                     headers: {
                         "Content-type": "application/json"
                     }
@@ -89,11 +142,17 @@
                     }
                 })
             },
+            
+            orderChanged(item) { 
+                this.updateSort(); 
 
-            log() {
-                this.updateSort();
-               
+                if (item.added != null ){
+                    var task = item.added.element;
+                    task.taskboxId = this.id;
+                    this.updateTask(task);
+                }
             },
+            
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
 		}
@@ -108,8 +167,7 @@
            
             <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter()" v-model="this.form.text"  type="text" placeholder="New task" >
             <ttl v-else >{{ title }}</ttl> 
-            
-            <!-- <ImageButton @click="toggleTaskForm()" /> -->
+
             <DropDown image="/images/dots.png" size="24">
                 <a class="bl-box" @click="toggleTaskForm()">Add Task</a>
                 <a class="bl-box" @click="deleteTaskBox()">Delete</a>
@@ -123,18 +181,18 @@
         class="taskBoxList"
         ghost-class="ghost"
         v-model="tasks" 
-        @change="log"
+        @change="orderChanged"
         group="people" 
         @start="drag=true" 
-        @end="drag=false" 
+        @end="endDrag" 
         item-key="id">
 
         <template #item="{element, index}">
-            <task class="bl-box main-border">
+            <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}">
                 <txt>{{element.text}}</txt>
                 <task_acts>
                     <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
-                    <ImageButton image="/images/check.png" size="16"/>
+                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/>
                 </task_acts>
             </task> 
         </template>
@@ -202,6 +260,14 @@
             }
 
 
+            task.complete {
+                background-color: rgb(20, 20, 20);
+                color: rgb(100, 100, 100);
+
+                .txt {
+                    color: rgb(100, 100, 100);
+                }
+            }
             task.dragging {
                 opacity: 0.1;
             }
