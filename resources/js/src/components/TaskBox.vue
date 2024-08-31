@@ -27,6 +27,8 @@
             },
             drag: false,
 		}),
+
+        
 		methods: {
 		
             onTaskEnter() {
@@ -69,26 +71,28 @@
             
             updateSort(){
                 
-                axios.patch('/api/tasks', this.tasks, {
+                console.log(this.tasks);
+                for (var i = 0; i < this.tasks.length; ++i) {
+                    this.tasks[i].sortid = i;
+                }
+
+                axios.patch('/api/tasks/update_sort', this.tasks, {
                     headers: {
                         "Content-type": "application/json"
                     }
                 })
                 .then(res => {
                     if (res.data) {
-                        this.$router.push('/blog/' + res.data.id);
+                        
                     } else {
-                        console.log(res.data);
-                        setTimeout(() => {
-                            this.loading = false;
-                        }, 300);
-                        this.error = true;
+                       
                     }
                 })
             },
 
             log() {
-                console.log(this.tasks);
+                this.updateSort();
+               
             },
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
@@ -107,8 +111,8 @@
             
             <!-- <ImageButton @click="toggleTaskForm()" /> -->
             <DropDown image="/images/dots.png" size="24">
-                <a @click="toggleTaskForm()">Add Task</a>
-                <a @click="deleteTaskBox()">Delete</a>
+                <a class="bl-box" @click="toggleTaskForm()">Add Task</a>
+                <a class="bl-box" @click="deleteTaskBox()">Delete</a>
             </DropDown>
         </taskBoxHeader>
 
@@ -125,7 +129,7 @@
         @end="drag=false" 
         item-key="id">
 
-        <template #item="{element}">
+        <template #item="{element, index}">
             <task class="bl-box main-border">
                 <txt>{{element.text}}</txt>
                 <task_acts>

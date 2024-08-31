@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Services\Api\TaskService;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Task;
 use App\Http\Requests\TaskStoreRequest;
@@ -51,4 +52,19 @@ class TaskController extends Controller
         return $task->delete();
     }
 
+
+        /**
+     * Update the specified resource in storage.
+     */
+    public function updateTasksSort(Request $request)
+    {
+        $data = $request->all();
+        foreach ($data as $value) {
+            
+            DB::table('tasks')
+                ->where('id', $value['id'])
+                ->update(['sortid' => $value['sortid']]);
+        }
+
+    }
 }

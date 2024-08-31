@@ -34,10 +34,19 @@
 		methods: {
 			loadBoxes() {
 				axios.get('/api/taskBoxes')
-					.then(res => {
-						this.boxes = res.data;
+				.then(res => {
+					this.boxes = res.data;
+					
+					console.log(this.boxes);
+					for (var i = 0; i < this.boxes.length; ++i) {
 						
-					})
+						this.boxes[i].tasks.sort(function (a, b) {
+							return a.sortid - b.sortid;
+						});
+					}
+				})
+
+				
 				
 			},
 			closeBoxForm() {this.boxForm = false;},

@@ -14,7 +14,9 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::resource('tasks', TaskController::class)
  ->except([
      'create', 'edit','show','update', 
- ]);
+]);
+Route::patch('/tasks/update_sort',[TaskController::class, 'updateTasksSort']);
+
 
 Route::resource('taskBoxes', TaskBoxController::class)
 ->except([
