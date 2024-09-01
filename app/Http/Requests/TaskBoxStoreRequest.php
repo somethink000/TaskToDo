@@ -22,6 +22,10 @@ class TaskBoxStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        
+ 
+
         return [
             'title' => 'required|string',
             'sortid' => 'integer',

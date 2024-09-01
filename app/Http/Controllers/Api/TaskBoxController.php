@@ -8,6 +8,7 @@ use App\Models\TaskBox;
 use App\Http\Services\Api\TaskBoxService;
 
 use App\Http\Requests\TaskBoxStoreRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class TaskBoxController extends Controller
@@ -19,9 +20,11 @@ class TaskBoxController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {    
-        $boxes = TaskBox::get();  
+        // $us = $request->user()->taskBoxes();
+        
+        $boxes = TaskBox::where('userId', Auth::user()->id)->get();
         $boxes->load('tasks');
         return $boxes;
     }
@@ -32,6 +35,10 @@ class TaskBoxController extends Controller
      */
     public function store(TaskBoxStoreRequest $request): TaskBox
     {
+       // $request->userId = Auth::user()->id;
+        $request->merge([
+            'userId' => Auth::user()->id,
+        ]);
         return $this->service->create($request);
     }
 
