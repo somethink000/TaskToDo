@@ -89,7 +89,7 @@ input {
     border: none;
     /* border-bottom: 1px solid rgb(100, 100, 100); */
 	padding: 8px;
-	border-radius: 10px;
+	border-radius: 4px;
     color: aliceblue;
     height: 16px;
     background-color: rgba(0, 0, 0, 0);

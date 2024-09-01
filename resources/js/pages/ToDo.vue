@@ -28,7 +28,7 @@
 			boxForm: false,
 		}),
 		mounted() {
-			// this.loadBoxes();
+			this.loadBoxes();
 	
 		},
 		methods: {
