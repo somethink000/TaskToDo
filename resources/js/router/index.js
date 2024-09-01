@@ -12,7 +12,7 @@ import VerifyEmail from '@/pages/auth/VerifyEmail.vue'
 
 import Authenticated from '@/layouts/Authenticated.vue'
 import ConfirmPassword from '@/pages/auth/ConfirmPassword.vue'
-import Home from '@/pages/Home.vue'
+import ToDo from '@/pages/ToDo.vue'
 import User from '@/pages/User.vue'
 
 const router = createRouter({
@@ -23,7 +23,7 @@ const router = createRouter({
       component: Authenticated,
       meta: { requiresAuth: true },
       children: [
-        { path: "/", name: 'Home', component: Home },
+        { path: "/", name: 'Home', component: ToDo },
         { path: "/user", name: 'User', component: User },
         { path: "/confirm-password", name: 'ConfirmPassword', component: ConfirmPassword },
       ]
