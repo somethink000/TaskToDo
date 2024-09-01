@@ -8,12 +8,12 @@
     <meta name="theme-color" content="#6777ef" />
     <link rel="apple-touch-icon" href="{{ asset('img/icons/apple-touch-icon.png') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
-
+    <link rel="stylesheet" href="/css/base.css">
     @vite(['resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <div id="app" class="min-h-screen bg-gray-100"></div>
+<body>
+    <app id="app"></app>
 </body>
 
 </html>

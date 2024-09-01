@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-    <logo></logo>
 
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
       <form @submit.prevent="register">
@@ -64,7 +63,7 @@
 <script>
 import { mapActions } from 'pinia'
 import { useAuthStore } from '@/stores/auth.js'
-import Logo from '@/components/Logo.vue'
+
 
 export default {
   data: () => {
@@ -79,7 +78,7 @@ export default {
     }
   },
   components: {
-    Logo,
+   
   },
   methods: {
     ...mapActions(useAuthStore, ['attempt_user']),
