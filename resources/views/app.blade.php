@@ -1,16 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'Vue Laravel SPA') }}</title>
+    <meta name="theme-color" content="#6777ef" />
+    <link rel="apple-touch-icon" href="{{ asset('img/icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('/manifest.json') }}">
 
-<!doctype html>
-<html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="icon" href="/favicon.ico">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {{-- <title>TaskToDo</title> --}}
-        @vite('resources/js/app.js')
-        <link rel="stylesheet" href="/css/base.css">
-    </head>
-    <body>
-        <app id="app"></app>
-    </body>
+    @vite(['resources/js/app.js'])
+</head>
+
+<body class="font-sans antialiased">
+    <div id="app" class="min-h-screen bg-gray-100"></div>
+</body>
+
 </html>
