@@ -19,14 +19,8 @@
 <template>
     <taskBox>
 
-        <taskBoxHeader>
-           
-        </taskBoxHeader>
-
-        <taskBoxList>
-
-        </taskBoxList>
-
+        <slot />
+    
     </taskBox>
 </template>
 
@@ -38,36 +32,31 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    padding: 10px;
     width: 100%;
     height: 100%;
+    overflow: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
-        taskBoxHeader {
-            display: flex;
-            padding: 8px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-
-        taskBoxList {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            overflow: auto;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        taskBoxList::-webkit-scrollbar {
-            display: none;
-        }
-
+    taskBox::-webkit-scrollbar {
+        display: none;
     }
 
+    dateBox {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        margin-top: 10px;
+        width: 100%;
+        
 
-    taskBox.dragging {
-        opacity: 0.1;
+        .dateTasksList{
+            display: flex;
+            min-height: 60px;
+        }
+    }
+
     }
    
 </style>

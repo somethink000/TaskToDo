@@ -26,3 +26,4 @@ userStore.attempt_user()
     app.use(router)
       .mount('#app');
   })
+  

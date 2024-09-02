@@ -25,6 +25,7 @@ class TaskUpdateRequest extends FormRequest
             'text' => 'required|string',
             'done' => 'required|boolean',
             'sortid' => 'required|integer',
+            'planed_at' => 'nullable',
             'taskboxId' => 'required|integer'
         ];
     }

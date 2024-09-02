@@ -3,7 +3,6 @@
 <script>
 	import { defineComponent } from 'vue';
 	import axios from 'axios';
-
 	
 	import PlanedTasksBox from '@/components/PlanedTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
@@ -25,13 +24,28 @@
 		},
 		data: () => ({
 			boxes: {},
+			dates: [],
 			boxForm: false,
 		}),
 		mounted() {
 			this.loadBoxes();
-	
+			this.setupDates();
 		},
 		methods: {
+			setupDates() {
+				
+				for (var i = 0; i < 7; ++i) {
+					
+					var date = new Date();
+					date.setDate(date.getDate() + i);
+
+					this.dates[i] = date;
+					
+				}
+
+				
+			},
+
 			loadBoxes() {
 				axios.get('/api/taskBoxes')
 				.then(res => {
@@ -44,6 +58,7 @@
 							return a.sortid - b.sortid;
 						});
 					}
+
 				})
 			},
 			
@@ -77,7 +92,34 @@
 			
 
 			<planPanel>
-				<PlanedTasksBox />
+				<PlanedTasksBox>
+					
+					<dateBox class="main-border bl-box" v-for="(date, index) in dates">
+
+						<txt>{{ date.toLocaleDateString() }} {{ date.getDay() }}</txt>
+
+						<BaseLine />
+
+						<draggable 
+						class="dateTasksList"
+						ghost-class="ghost"
+						v-model="date.tasks" 				
+						group="people" 
+						item-key="id">
+
+						<template #item="{element, index}">
+							<!-- <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}">
+								<txt>{{element.text}}</txt>
+								<task_acts>
+									<ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
+									<ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/>
+								</task_acts>
+							</task>  -->
+						</template>
+
+						</draggable>
+					</dateBox>
+				</PlanedTasksBox>
 			</planPanel>
 
 			<boxesplace>
@@ -107,9 +149,10 @@
 		
 			planPanel {
 				display: flex;
-				width: 18%;
+				width: 420px;
 				height: 100%;
 				max-height: 100%;
+				padding: 16px;
 			}
 
 			boxesplace{

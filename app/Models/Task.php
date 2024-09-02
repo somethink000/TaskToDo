@@ -13,6 +13,7 @@ class Task extends Model
         'text',
         'done',
         'sortid',
+        'planed_at',
         'taskboxId'
     ];
 }

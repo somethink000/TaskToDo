@@ -9,8 +9,6 @@
     import DropDown from './DropDown.vue';
     import ImageButton from './ImageButton.vue';
 
-
-
 	export default defineComponent({
 
         props: {boxid: String, title: String, id: String, setTasks: Array},
@@ -25,6 +23,7 @@
                 taskboxId: instance.id,
                 
             },
+           
             drag: false,
 		}),
 
@@ -86,6 +85,12 @@
 
             },
 
+            fastPlanTask(task) {
+                var date = new Date()
+                task.planed_at = date.toLocaleDateString();
+                this.updateTask(task);  
+                console.log(task);
+            },
             
             compliteTask(task, index) {
                 task.done = !task.done;
@@ -187,11 +192,12 @@
         item-key="id">
 
         <template #item="{element, index}">
-            <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}">
+            <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
                 <txt>{{element.text}}</txt>
                 <task_acts>
                     <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
                     <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/>
+                    <ImageButton @click="fastPlanTask(element)" image="/images/left.png" size="16"/>
                 </task_acts>
             </task> 
         </template>
@@ -258,7 +264,7 @@
                 }
             }
 
-
+            
             task.complete {
                 background-color: rgb(20, 20, 20);
                 color: rgb(100, 100, 100);
@@ -267,6 +273,11 @@
                     color: rgb(100, 100, 100);
                 }
             }
+
+            task.planed {
+                background-color: rgb(83, 83, 83);
+            }
+
             task.dragging {
                 opacity: 0.1;
             }
