@@ -187,7 +187,7 @@
         ghost-class="ghost"
         v-model="tasks" 
         @change="orderChanged"
-        group="people" 
+        :group="{ name: 'tasks', pull: true, put: true }",
         @start="drag=true" 
         item-key="id">
 

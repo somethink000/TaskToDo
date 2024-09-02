@@ -3,33 +3,39 @@
 <script>
 	import { defineComponent } from 'vue';
 	import axios from 'axios';
+	import draggable from 'vuedraggable';
+
+
 	
-	import PlanedTasksBox from '@/components/PlanedTasksBox.vue';
 	import TasksBox from '@/components/TaskBox.vue';
+	import DateTaskBox from '@/components/DateTaskBox.vue';
 	import TaskBoxForm from '@/components/TaskBoxForm.vue';
 	import BaseLine from '@/components/BaseLine.vue';
 	import Header from '@/components/Header.vue';
 	import CircleButtonImage from '@/components/CircleButtonImage.vue';
+	
+
 
 	export default defineComponent({
 		components: {
 			
-			PlanedTasksBox,
+			DateTaskBox,
 			TasksBox,
 			TaskBoxForm,
 			BaseLine,
 			Header,
-			CircleButtonImage
+			CircleButtonImage,
+			draggable
 
 		},
 		data: () => ({
 			boxes: {},
-			dates: [],
+			dates: new Map([]),
 			boxForm: false,
 		}),
 		mounted() {
-			this.loadBoxes();
 			this.setupDates();
+			this.loadBoxes();
 		},
 		methods: {
 			setupDates() {
@@ -38,11 +44,14 @@
 					
 					var date = new Date();
 					date.setDate(date.getDate() + i);
-
-					this.dates[i] = date;
+					date = date.toLocaleDateString();
+					
+					this.dates.set( date, {tasks: []});
 					
 				}
 
+
+				// console.log(this.dates);
 				
 			},
 
@@ -54,7 +63,21 @@
 					console.log(this.boxes);
 					for (var i = 0; i < this.boxes.length; ++i) {
 						
-						this.boxes[i].tasks.sort(function (a, b) {
+						var box = this.boxes[i];
+
+						for (var i = 0; i < box.tasks.length; ++i) {
+							var task = box.tasks[i];
+
+							if (task.planed_at != null) {
+								
+								if 
+								
+								this.dates.get(task.planed_at).tasks.push(task);
+								console.log(this.dates.get(task.planed_at));
+							}
+						}
+
+						box.tasks.sort(function (a, b) {
 							return a.sortid - b.sortid;
 						});
 					}
@@ -73,7 +96,8 @@
 				this.closeBoxForm();
 			},
 			
-		
+
+			
 		}
 	});
 </script>
@@ -92,34 +116,11 @@
 			
 
 			<planPanel>
-				<PlanedTasksBox>
+				<planPanelContent>
 					
-					<dateBox class="main-border bl-box" v-for="(date, index) in dates">
-
-						<txt>{{ date.toLocaleDateString() }} {{ date.getDay() }}</txt>
-
-						<BaseLine />
-
-						<draggable 
-						class="dateTasksList"
-						ghost-class="ghost"
-						v-model="date.tasks" 				
-						group="people" 
-						item-key="id">
-
-						<template #item="{element, index}">
-							<!-- <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}">
-								<txt>{{element.text}}</txt>
-								<task_acts>
-									<ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
-									<ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/>
-								</task_acts>
-							</task>  -->
-						</template>
-
-						</draggable>
-					</dateBox>
-				</PlanedTasksBox>
+					<DateTaskBox v-for="(date, index) in dates.keys()" :date="date" :setTasks="dates.get(date).tasks" />
+					
+				</planPanelContent>
 			</planPanel>
 
 			<boxesplace>
@@ -153,6 +154,23 @@
 				height: 100%;
 				max-height: 100%;
 				padding: 16px;
+
+				planPanelContent {
+					display: flex;
+					flex-direction: column;
+					border-radius: 10px;
+					padding: 10px;
+					width: 100%;
+					height: 100%;
+					overflow: auto;
+					-ms-overflow-style: none;
+					scrollbar-width: none;
+				}	
+
+				planPanelContent::-webkit-scrollbar {
+					display: none;
+				}
+
 			}
 
 			boxesplace{

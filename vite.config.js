@@ -20,6 +20,7 @@ export default defineConfig({
       // detectTls: 'vue-laravel-spa.test',
     }),
     vue({
+
       template: {
         transformAssetUrls: {
           // The Vue plugin will re-write asset URLs, when referenced
