@@ -25,6 +25,7 @@
 
 <style>
    button{
+	padding: 6px;
     background-color: transparent;
    }
   

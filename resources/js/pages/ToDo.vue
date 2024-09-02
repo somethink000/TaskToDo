@@ -32,6 +32,7 @@
 			boxes: {},
 			dates: new Map([]),
 			boxForm: false,
+			
 		}),
 		mounted() {
 			this.setupDates();
@@ -64,16 +65,20 @@
 					for (var i = 0; i < this.boxes.length; ++i) {
 						
 						var box = this.boxes[i];
+						var today = new Date();
 
 						for (var i = 0; i < box.tasks.length; ++i) {
 							var task = box.tasks[i];
 
 							if (task.planed_at != null) {
 								
-								if 
-								
-								this.dates.get(task.planed_at).tasks.push(task);
-								console.log(this.dates.get(task.planed_at));
+								if (new Date(task.planed_at) < today && task.done != true) {
+									task.dedline = true;
+									this.dates.get(today.toLocaleDateString()).tasks.push(task);
+								}else{
+									this.dates.get(task.planed_at).tasks.push(task);
+								}
+							
 							}
 						}
 

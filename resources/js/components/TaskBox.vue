@@ -26,7 +26,12 @@
            
             drag: false,
 		}),
-
+        computed: {
+           
+           filteredArray() {
+               return this.tasks.filter(task => !!task.planed_at);
+           },
+        },
 		methods: {
 		
             onTaskEnter() {
@@ -85,12 +90,12 @@
 
             },
 
-            fastPlanTask(task) {
-                var date = new Date()
-                task.planed_at = date.toLocaleDateString();
-                this.updateTask(task);  
-                console.log(task);
-            },
+            // fastPlanTask(task) {
+            //     var date = new Date()
+            //     task.planed_at = date.toLocaleDateString();
+            //     this.updateTask(task);  
+            //     console.log(task);
+            // },
             
             compliteTask(task, index) {
                 task.done = !task.done;
@@ -191,13 +196,12 @@
         @start="drag=true" 
         item-key="id">
 
-        <template #item="{element, index}">
+        <template #item="{element, index} ">
             <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
                 <txt>{{element.text}}</txt>
                 <task_acts>
-                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
-                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/>
-                    <ImageButton @click="fastPlanTask(element)" image="/images/left.png" size="16"/>
+                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="18"/>
+                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
                 </task_acts>
             </task> 
         </template>
@@ -261,6 +265,10 @@
                 task_acts {
                     display: flex;
                     border-left: 1px solid rgb(100, 100, 100);
+
+                    ImageButton{
+                        margin-right: 6px;
+                    }
                 }
             }
 

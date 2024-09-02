@@ -7,16 +7,19 @@
     import axios from 'axios';
     
     import BaseLine from '@/components/BaseLine.vue';
+    import ImageButton from './ImageButton.vue';
 
+    
 	export default defineComponent({
 
         props: {date: String, setTasks: Array},
-		components: {draggable, BaseLine},
+		components: {draggable, BaseLine, ImageButton},
         data: (instance) => ({
 			
             tasks: instance.setTasks,
 		}),
-
+        
+       
 		methods: {
             updateTask(taskData) {
                
@@ -41,6 +44,18 @@
                     this.updateTask(task);
                 }
             },
+
+            compliteTask(task, index) {
+                task.done = !task.done;
+
+                this.updateTask(task);
+            },
+
+            unpinTask(task, index) {
+                task.planed_at = null;
+                
+                this.updateTask(task);
+            },
 		}
 	});
 </script>
@@ -48,7 +63,7 @@
 
 <template>
 
-    <dateBox class="main-border bl-box" >
+    <dateBox class="main-border" v-bind:class="{ 'today' : new Date(this.date) == new Date()}" >
 
         <txt>{{ date }}</txt>
 
@@ -63,11 +78,11 @@
             item-key="id">
 
             <template #item="{element, index}">
-                <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}">
+                <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
                     <txt>{{element.text}}</txt>
                     <task_acts>
-                        <!-- <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="16"/>
-                        <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="16"/> -->
+                        <ImageButton @click="unpinTask(element, index)" image="/images/cross.png" size="18"/>
+                        <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
                     </task_acts>
                 </task> 
             </template>
@@ -80,6 +95,13 @@
 
 
 <style>
+
+    .today{
+        background-color: rgb(218, 4, 4);
+    }
+    .planed{
+        background-color: rgb(22, 22, 22);
+    }
    
     dateBox {
         display: flex;
@@ -108,6 +130,9 @@
                 task_acts {
                     display: flex;
                     border-left: 1px solid rgb(100, 100, 100);
+                    ImageButton{
+                        margin-right: 6px;
+                    }
                 }
             }
 

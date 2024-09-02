@@ -18,7 +18,7 @@
 
 <template>
 	<header>
-		<ttl>TaskToDo</ttl>
+		<ttl>TaskToDo {WIP}</ttl>
 		<controls>
 			<slot />
 		</controls>
