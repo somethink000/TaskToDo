@@ -51,7 +51,9 @@
             },
 
             onTaskEnter() {
-				
+                
+               
+
 				axios.post('/api/tasks', this.form, {
 					headers: {
 						"Content-type": "application/json"
@@ -67,6 +69,8 @@
 						
 					}
 				})
+
+                this.form.text = "";
 			},
             deleteTask(id, idx) {
                 axios.delete('/api/tasks/' + id)
@@ -174,7 +178,6 @@
             
             orderChanged(item) { 
                 this.updateSort(); 
-
                 if (item.added != null ){
                     var task = item.added.element;
                     task.taskboxId = this.id;
@@ -195,12 +198,14 @@
 
         <taskBoxHeader>
            
-            <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter()" v-model="this.form.text"  type="text" placeholder="New task" >
+        
+            <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter" ref="inp" v-model="this.form.text"  type="text" placeholder="New task" >
+           
             <ttl v-else >{{ title }}</ttl> 
 
             <DropDown image="/images/dots.png" size="24">
-                <a class="bl-box" @click="toggleTaskForm()">Add Task</a>
-                <a class="bl-box" @click="deleteTaskBox()">Delete</a>
+                <a class="wh-box" @click="toggleTaskForm()">Add Task</a>
+                <a class="wh-box" @click="deleteTaskBox()">Remove</a>
             </DropDown>
         </taskBoxHeader>
 
@@ -212,8 +217,9 @@
         ghost-class="ghost"
         v-model="tasks" 
         @change="orderChanged"
-        :group="{ name: 'tasks', pull: true, put: true }",
-        item-key="id">
+        :group="{ name: 'tasks', pull: true, put: true }"
+        :animation="200"
+        >
 
         <template #item="{element, index} ">
             <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
@@ -221,10 +227,6 @@
                 <task_acts>
                     <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="18"/>
                     <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
-                    <!-- <DropDown image="/images/dots.png" size="18">
-                        <a class="bl-box" @click="compliteTask(element, index)">Complete</a>
-                        <a class="bl-box" @click="deleteTask(element.id, index)">Delete</a>
-                    </DropDown> -->
                 </task_acts>
             </task> 
         </template>
@@ -256,7 +258,7 @@
     width: 300px;
     margin: 10px;
     max-height: 45vh;
-
+    padding-bottom: 10px;
 
         taskBoxHeader {
             display: flex;

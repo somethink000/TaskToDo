@@ -24,9 +24,9 @@
 			<slot />
 
 			<DropDown image="/images/dots.png" size="18">
-				<a class="bl-box" @click="compliteTask(element, index)"><img :src="image" width="22" />Discord</a>
-				<a class="bl-box" @click="compliteTask(element, index)"><img :src="image" width="22" />Donate</a>
-				<a class="bl-box" @click="compliteTask(element, index)"><img :src="image" width="22" />Showcase</a>
+				<a class="wh-box" href="https://discord.gg/Uwe8wxEt"><img src="/images/dis.png" width="22" />Discord</a>
+				<a class="wh-box" href="https://www.donationalerts.com/r/some1think"><img src="/images/energy.png" width="22" />Donate</a>
+				<a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Showcase</a>
 			</DropDown>
 		</controls>
 		

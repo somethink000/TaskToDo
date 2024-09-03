@@ -64,10 +64,12 @@
             },
 
             unpinTask(task, index) {
+               
                 task.planed_at = null;
                 this.boxes.get(task.taskboxId).tasks.unshift(task);
 				this.tasks.splice(index, 1);
                 this.updateTask(task);
+                // console.log(this.boxes.get(task.taskboxId));
             },
 		}
 	});
@@ -87,17 +89,17 @@
             v-model="tasks" 				
             :group="{ name: 'tasks', pull: true, put: true}", 
             @change="dateChanged"
-            item-key="id">
-
+            item-key="id"
+            :animation="200"
+            >
+            
             <template #item="{element, index}">
                 <task v-if="boxes.get(element.taskboxId) != null" class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
                     <txt class="taskcat">{{ boxes.get(element.taskboxId).title.slice(0, 4)}}</txt>
                     <txt class="text">{{element.text}}</txt>
-                    <task_acts>
-                        <DropDown image="/images/dots.png" size="18">
-                            <a class="bl-box" @click="unpinTask(element, index)"><img src="/images/unpin.png" width="22" />Unpin</a>
-                            <a class="bl-box" @click="compliteTask(element, index)"><img src="/images/check.png" width="22" />Complete</a>
-                        </DropDown>
+                    <task_acts>          
+                        <!-- <a class="bl-box" @click="unpinTask(element, index)"><img src="/images/unpin.png" width="22" />Unpin</a> --> 
+                        <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
                     </task_acts>
                 </task> 
             </template>

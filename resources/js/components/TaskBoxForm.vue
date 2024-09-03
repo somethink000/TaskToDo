@@ -56,9 +56,11 @@
 
             <taskCreateFormBox>
 
-                <taskForm>
-                    <input class="main-border" v-on:keyup.enter="store()" v-model="form.title" type="text" id="newTaskBoxInput"  placeholder="Task box name">
-                </taskForm>
+               
+                <inpBox class="main-border">
+                    <input v-on:keyup.enter="store()" v-model="form.title" type="text" id="newTaskBoxInput"  placeholder="Task box name">
+                </inpBox>
+                
 
                 <button class="main-border bl-box" @click.prevent="store()">
                     <txt>Create</txt>
@@ -108,9 +110,8 @@
                 flex-direction: column;
                 align-items: center;
 
-                taskForm{
-                    display: flex;
-                    width: 100%;
+                inpBox{
+                   
                     margin-top: 30px;
                 }
 

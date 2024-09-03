@@ -69,7 +69,7 @@
 						
 						for (var v = box.tasks.length-1; v >= 0; --v) {
 							var task = box.tasks[v];
-							console.log(task);
+						
 							if (task.planed_at != null) {
 
 								var lesToday = new Date(task.planed_at).getDay() < today.getDay();
@@ -189,7 +189,7 @@
 				flex-direction: row;
 				flex-wrap: wrap;
 				align-items: flex-start;
-				justify-content: center;
+				/* justify-content: center; */
 				width: 80%;
 				overflow: auto;
 				max-height: 100%;

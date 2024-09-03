@@ -4,6 +4,9 @@
 import { useAuthStore } from '@/stores/auth.js'
 import { mapActions } from 'pinia'
 import centerPanel from '@/components/centerPanel.vue';
+import Header from '@/components/Header.vue';
+import CircleButtonImage from '@/components/CircleButtonImage.vue';
+
 
 export default {
   data: () => {
@@ -17,7 +20,7 @@ export default {
     }
   },
   components: {
-    centerPanel,
+    centerPanel, Header, CircleButtonImage
   },
   methods: {
     ...mapActions(useAuthStore, ['attempt_user', 'set_user']),
@@ -55,43 +58,43 @@ export default {
 <template>
 
   <centerPanel>
-
+        <Header> 
+          <CircleButtonImage @click="this.$router.push('Register')" title="Register" image="/images/plus.png"/> 
+        </Header>
+        
+        <formCont>
           <form @submit.prevent="login">
             
+            <inpBox class="main-border colItem">
+              <input v-model="data.email" id="email" type="email" placeholder="Email" name="email" required="required" autofocus="autofocus">
+            </inpBox>
+           
+            <inpBox class="main-border colItem">
+              <input v-model="data.password" id="password" type="password" placeholder="Password" name="password" required="required" autocomplete="current-password">
+            </inpBox>
 
-              <input class="colItem main-border" v-model="data.email" id="email" type="email" placeholder="Email" name="email" required="required" autofocus="autofocus">
-            
-           
-              <input class="colItem main-border" v-model="data.password" id="password" type="password" placeholder="Password" name="password" required="required" autocomplete="current-password">
-           
             <div v-if="errors">
               <span>{{ errors.message }}</span>
             </div>
 
            
            
-          
-
-              
-              <button class="colItem main-border" type="submit">Log in</button>
+            <button class="colItem main-border" type="submit">Log in</button>
 
             <div class="colItem">
-              <router-link :to="{ name: 'ForgotPassword' }">
-                Forgot your password?
-              </router-link>
-
-
-              
-              <input v-model="data.remember" id="remember" type="checkbox" name="remember">
-
+              <CircleButtonImage @click="this.$router.push({ name: 'ForgotPassword' })" title="Forgot password" /> 
             </div>
 
-          </form>
+            <checkContent class="colItem">
+                <txt>Remember me</txt>
+                <input v-model="data.remember" id="remember" type="checkbox" name="remember" >
+            </checkContent>
 
+
+          </form>
+        </formCont>
           
-          <router-link class="colItem" :to="{ name: 'Register' }">
-            <txt>Register</txt>
-          </router-link>
+         
         
     
     
@@ -99,3 +102,18 @@ export default {
   
 </template>
 
+<style>
+  formCont{
+    
+    checkContent{
+      display: flex;
+
+      input{
+        width: 20px;
+      }
+    
+    }
+
+  }
+
+</style>
