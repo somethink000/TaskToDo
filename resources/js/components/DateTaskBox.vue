@@ -8,18 +8,29 @@
     
     import BaseLine from '@/components/BaseLine.vue';
     import ImageButton from './ImageButton.vue';
-
+    import DropDown from './DropDown.vue';
     
 	export default defineComponent({
 
-        props: {date: String, setTasks: Array},
-		components: {draggable, BaseLine, ImageButton},
+        props: {date: String, setTasks: Array, boxes: Array},
+		components: {draggable, BaseLine, ImageButton, DropDown},
         data: (instance) => ({
-			
+ 
             tasks: instance.setTasks,
+            timeOptions: {
+				weekday: 'long',
+				year: 'numeric',
+				month: 'numeric',
+				day: 'numeric',
+			},
+            isToday: false,
+            dateString: new Date(instance.date),
 		}),
-        
-       
+        mounted() {
+            
+            this.isToday = this.date == new Date().toLocaleDateString();
+            this.dateString = this.dateString.toLocaleDateString(undefined, this.timeOptions)
+		},
 		methods: {
             updateTask(taskData) {
                
@@ -35,12 +46,13 @@
 			   })
 
 		   },
-
+           
 			dateChanged(item) { 
                
                 if (item.added != null ){
                     var task = item.added.element;
                     task.planed_at = this.date;
+                    task.done = false;
                     this.updateTask(task);
                 }
             },
@@ -53,7 +65,8 @@
 
             unpinTask(task, index) {
                 task.planed_at = null;
-                
+                this.boxes.get(task.taskboxId).tasks.unshift(task);
+				this.tasks.splice(index, 1);
                 this.updateTask(task);
             },
 		}
@@ -63,9 +76,9 @@
 
 <template>
 
-    <dateBox class="main-border" v-bind:class="{ 'today' : new Date(this.date) == new Date()}" >
+    <dateBox class="main-border" v-bind:class="{ 'today' : isToday == true }" >
 
-        <txt>{{ date }}</txt>
+        <txt>{{ dateString }}</txt>
 
         <BaseLine />
 
@@ -73,16 +86,19 @@
             class="dateTasksList"
             ghost-class="ghost"
             v-model="tasks" 				
-            :group="{ name: 'tasks', pull: false, put: true}", 
+            :group="{ name: 'tasks', pull: true, put: true}", 
             @change="dateChanged"
             item-key="id">
 
             <template #item="{element, index}">
                 <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
+                    <txt>{{ boxes.get(element.taskboxId).title }}</txt>
                     <txt>{{element.text}}</txt>
                     <task_acts>
-                        <ImageButton @click="unpinTask(element, index)" image="/images/cross.png" size="18"/>
-                        <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
+                        <DropDown image="/images/dots.png" size="18">
+                            <a class="bl-box" @click="unpinTask(element, index)">Unpin</a>
+                            <a class="bl-box" @click="compliteTask(element, index)">Complete</a>
+                        </DropDown>
                     </task_acts>
                 </task> 
             </template>
@@ -97,16 +113,16 @@
 <style>
 
     .today{
-        background-color: rgb(218, 4, 4);
+        background-color: rgb(29, 0, 0);
+        min-height: 400px;
+        box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
     }
-    .planed{
-        background-color: rgb(22, 22, 22);
-    }
+ 
    
     dateBox {
         display: flex;
         flex-direction: column;
-        border-radius: 10px;
+        border-radius: 5px;
         margin-top: 10px;
         width: 100%;
         

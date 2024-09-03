@@ -11,7 +11,7 @@
 
 	export default defineComponent({
 
-        props: {boxid: String, title: String, id: String, setTasks: Array},
+        props: {title: String, id: String, setTasks: Array},
 		components: {BaseLine, DropDown, ImageButton, draggable},
         data: (instance) => ({
 			taskForm: false,
@@ -28,14 +28,30 @@
 		}),
         computed: {
            
-           filteredArray() {
-               return this.tasks.filter(task => !!task.planed_at);
-           },
         },
+        mounted() {
+            
+            this.initTasks();
+		},
 		methods: {
-		
+            
+            initTasks() {
+                for (var i = 0; i < this.tasks.length; ++i) {
+
+                    var task = this.tasks[i];
+
+                    //check all complited planed tasks
+                    if(task.done == true && task.planed_at != null){
+                        task.planed_at = null;
+                        task.done = false;
+                        this.compliteTask(task, i);
+                    }
+
+                }
+            },
+
             onTaskEnter() {
-				console.log(this.form);
+				
 				axios.post('/api/tasks', this.form, {
 					headers: {
 						"Content-type": "application/json"
@@ -89,13 +105,6 @@
                 })
 
             },
-
-            // fastPlanTask(task) {
-            //     var date = new Date()
-            //     task.planed_at = date.toLocaleDateString();
-            //     this.updateTask(task);  
-            //     console.log(task);
-            // },
             
             compliteTask(task, index) {
                 task.done = !task.done;
@@ -104,9 +113,10 @@
 
                     if (task.done) {
 
-                        //Add on the first done row if this done
+                        
                         for (var i = index+1; i < this.tasks.length; ++i) {
                             
+                            //Add on the first done row if this done
                             if(this.tasks[i].done == true){
                                 var oldPlace = index;
                                 var newPlace = i;
@@ -114,9 +124,18 @@
                                 var t = this.tasks.splice(oldPlace,1);
                                 //после того как удалите элемент из массива, у него изменится длина
                                 this.tasks.splice(newPlace-1,0,t[0]);
-
-                                return;
+                                
+                                break;
                             }
+                            //no doned tasks fix
+                            else if ( i == this.tasks.length-1) {
+                                var oldPlace = index;
+                                var newPlace = i;
+
+                                var t = this.tasks.splice(oldPlace,1);
+                                this.tasks.push(t[0]);
+                            }
+
                         }
                     }else{
 
@@ -126,7 +145,7 @@
                     }
                 }
 
-
+                
                 this.updateTask(task);
                 this.updateSort();
             },
@@ -159,6 +178,7 @@
                 if (item.added != null ){
                     var task = item.added.element;
                     task.taskboxId = this.id;
+                    task.planed_at = null;
                     this.updateTask(task);
                 }
             },
@@ -193,15 +213,16 @@
         v-model="tasks" 
         @change="orderChanged"
         :group="{ name: 'tasks', pull: true, put: true }",
-        @start="drag=true" 
         item-key="id">
 
         <template #item="{element, index} ">
             <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
                 <txt>{{element.text}}</txt>
                 <task_acts>
-                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="18"/>
-                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
+                    <DropDown image="/images/dots.png" size="18">
+                        <a class="bl-box" @click="compliteTask(element, index)">Complete</a>
+                        <a class="bl-box" @click="deleteTask(element.id, index)">Delete</a>
+                    </DropDown>
                 </task_acts>
             </task> 
         </template>

@@ -29,7 +29,7 @@
 
 		},
 		data: () => ({
-			boxes: {},
+			boxes: new Map([]),
 			dates: new Map([]),
 			boxForm: false,
 			
@@ -51,32 +51,39 @@
 					
 				}
 
-
-				// console.log(this.dates);
-				
 			},
 
 			loadBoxes() {
 				axios.get('/api/taskBoxes')
 				.then(res => {
-					this.boxes = res.data;
 					
-					console.log(this.boxes);
-					for (var i = 0; i < this.boxes.length; ++i) {
+					var boxesData = res.data
+					
+					for (var i = 0; i < boxesData.length; ++i) {
 						
-						var box = this.boxes[i];
+						this.boxes.set( boxesData[i].id, boxesData[i]);
+					
+						var box = this.boxes.get(boxesData[i].id);
 						var today = new Date();
 
-						for (var i = 0; i < box.tasks.length; ++i) {
-							var task = box.tasks[i];
-
+						
+						for (var v = box.tasks.length-1; v >= 0; --v) {
+							var task = box.tasks[v];
+							console.log(task);
 							if (task.planed_at != null) {
+
+								var lesToday = new Date(task.planed_at).getDay() < today.getDay();
 								
-								if (new Date(task.planed_at) < today && task.done != true) {
+								if (lesToday) {
+									if(task.done){
+										continue;
+									}
 									task.dedline = true;
 									this.dates.get(today.toLocaleDateString()).tasks.push(task);
+									box.tasks.splice(v, 1);
 								}else{
 									this.dates.get(task.planed_at).tasks.push(task);
+									box.tasks.splice(v, 1);
 								}
 							
 							}
@@ -123,13 +130,13 @@
 			<planPanel>
 				<planPanelContent>
 					
-					<DateTaskBox v-for="(date, index) in dates.keys()" :date="date" :setTasks="dates.get(date).tasks" />
+					<DateTaskBox v-for="(date) in dates.keys()" :date="date" :boxes="boxes" :setTasks="dates.get(date).tasks" />
 					
 				</planPanelContent>
 			</planPanel>
 
 			<boxesplace>
-				<TasksBox @on-delete-box="onDeleteBox" v-for="(box, index) in boxes" :boxid="index" :title="box.title" :id="box.id" :setTasks="box.tasks"/>
+				<TasksBox @on-delete-box="onDeleteBox" v-for="(box) in boxes.keys()" :title="boxes.get(box).title" :id="boxes.get(box).id" :setTasks="boxes.get(box).tasks"/>
 			</boxesplace>
 		</content>
 	</main>
