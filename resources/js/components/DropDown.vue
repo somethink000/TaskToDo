@@ -34,6 +34,7 @@
     .dropdown {
         position: relative;
         display: inline-block;
+        z-index: 1;
     }
 
     .dropdown-content {
@@ -42,15 +43,22 @@
         right: 0;
         min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
+        z-index: 2;
+
+        a {
+            padding: 12px 16px;
+            flex-direction: row;
+            align-items: center;
+            text-decoration: none;
+            display: flex;
+
+            img{
+                margin-right: 10%;
+            }
+        }
     }
 
-    .dropdown-content a {
-
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+   
 
     .dropdown-content a:hover {
         background-color: rgb(100, 100, 100);

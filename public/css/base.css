@@ -28,14 +28,36 @@ time, mark, audio, video {
 /* html {
 	
 } */
+
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+
 body {
 	
 	flex-direction: column;
 	width: 100%;
 	min-height: 100vh;
-	background-color: rgba(20, 20, 20, 1);
+	/* background-color: rgba(20, 20, 20, 1);
 	background-size: 100%; 
-	background-repeat: repeat-y;
+	background-repeat: repeat-y; */
+
+	background: linear-gradient(-45deg, #aa2800, #000000, #0f0044, #000000);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
 }
 app {
 	display: flex;
@@ -88,7 +110,7 @@ input {
     font-size: 16px;
     border: none;
     /* border-bottom: 1px solid rgb(100, 100, 100); */
-	padding: 8px;
+	padding: px;
 	border-radius: 4px;
     color: aliceblue;
     height: 16px;
@@ -123,7 +145,7 @@ button:active {
 
 
 .bl-box {
-	background-color: rgb(50, 50, 50);
+	background-color: rgba(34, 34, 34, 0.5);
 }
 .wh-box {
 	background-color: rgb(255, 255, 255);

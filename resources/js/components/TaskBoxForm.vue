@@ -83,7 +83,7 @@
         backdrop-filter: blur(5px);
         justify-content: center;
         align-items: center;
-        
+        z-index: 10;
 
         createBox{
             display: flex;

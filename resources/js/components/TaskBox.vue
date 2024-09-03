@@ -191,7 +191,7 @@
 
 
 <template>
-    <taskBoxBlock>
+    <taskBoxBlock class="bl-box">
 
         <taskBoxHeader>
            
@@ -219,10 +219,12 @@
             <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
                 <txt>{{element.text}}</txt>
                 <task_acts>
-                    <DropDown image="/images/dots.png" size="18">
+                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="18"/>
+                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
+                    <!-- <DropDown image="/images/dots.png" size="18">
                         <a class="bl-box" @click="compliteTask(element, index)">Complete</a>
                         <a class="bl-box" @click="deleteTask(element.id, index)">Delete</a>
-                    </DropDown>
+                    </DropDown> -->
                 </task_acts>
             </task> 
         </template>
@@ -246,7 +248,8 @@
 
 
    taskBoxBlock {
-    background-color: rgb(50, 50, 50);
+    box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
+    /* background-color: rgb(50, 50, 50); */
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -268,6 +271,7 @@
             display: flex;
             width: 100%;
             height: 100%;
+            min-height: 50px;
             flex-direction: column;
             align-items: center;
             overflow: auto;
@@ -282,9 +286,14 @@
                 padding: 2px;
                 width: 94%;
                 margin-top: 12px;
-            
+                
+                txt{
+                    width:80%; word-wrap:break-word; display:inline-block;
+                }
+
                 task_acts {
                     display: flex;
+                    align-items: center;
                     border-left: 1px solid rgb(100, 100, 100);
 
                     ImageButton{

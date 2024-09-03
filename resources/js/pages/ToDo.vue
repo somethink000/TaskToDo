@@ -101,14 +101,13 @@
 			openBoxForm() {this.boxForm = true;},
 
 			onDeleteBox(id){
-				this.boxes.splice(id, 1);
+				this.boxes.delete(id);
 			},
 			onCreatedBox(e) {
-				this.boxes.unshift(e);
+				e.tasks = [];
+				this.boxes.set( e.id, e);
 				this.closeBoxForm();
 			},
-			
-
 			
 		}
 	});
@@ -136,7 +135,7 @@
 			</planPanel>
 
 			<boxesplace>
-				<TasksBox @on-delete-box="onDeleteBox" v-for="(box) in boxes.keys()" :title="boxes.get(box).title" :id="boxes.get(box).id" :setTasks="boxes.get(box).tasks"/>
+				<TasksBox @on-delete-box="onDeleteBox(box)" v-for="(box) in boxes.keys()" :title="boxes.get(box).title" :id="boxes.get(box).id" :setTasks="boxes.get(box).tasks"/>
 			</boxesplace>
 		</content>
 	</main>
@@ -156,16 +155,15 @@
 
 		content {
 			display: flex;
-			height: 100%;
+			height: 95%;
 			flex-direction: row;
 		
 		
 			planPanel {
 				display: flex;
 				width: 420px;
-				height: 100%;
+				height: 100%; 
 				max-height: 100%;
-				padding: 16px;
 
 				planPanelContent {
 					display: flex;
@@ -186,13 +184,17 @@
 			}
 
 			boxesplace{
+				
 				display: flex;
-				width: 80%;
-				height: 100%;
-				max-height: 100%;
 				flex-direction: row;
-				/* justify-content: center; */
 				flex-wrap: wrap;
+				align-items: flex-start;
+				justify-content: center;
+				width: 80%;
+				overflow: auto;
+				max-height: 100%;
+				-ms-overflow-style: none;
+				scrollbar-width: none;
 			}
 		}
 	}

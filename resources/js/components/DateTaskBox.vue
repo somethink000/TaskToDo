@@ -76,11 +76,10 @@
 
 <template>
 
-    <dateBox class="main-border" v-bind:class="{ 'today' : isToday == true }" >
+    <dateBox  v-bind:class="{ 'today' : isToday == true }" >
 
         <txt>{{ dateString }}</txt>
 
-        <BaseLine />
 
         <draggable 
             class="dateTasksList"
@@ -91,13 +90,13 @@
             item-key="id">
 
             <template #item="{element, index}">
-                <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
-                    <txt>{{ boxes.get(element.taskboxId).title }}</txt>
-                    <txt>{{element.text}}</txt>
+                <task v-if="boxes.get(element.taskboxId) != null" class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
+                    <txt class="taskcat">{{ boxes.get(element.taskboxId).title.slice(0, 4)}}</txt>
+                    <txt class="text">{{element.text}}</txt>
                     <task_acts>
                         <DropDown image="/images/dots.png" size="18">
-                            <a class="bl-box" @click="unpinTask(element, index)">Unpin</a>
-                            <a class="bl-box" @click="compliteTask(element, index)">Complete</a>
+                            <a class="bl-box" @click="unpinTask(element, index)"><img src="/images/unpin.png" width="22" />Unpin</a>
+                            <a class="bl-box" @click="compliteTask(element, index)"><img src="/images/check.png" width="22" />Complete</a>
                         </DropDown>
                     </task_acts>
                 </task> 
@@ -113,7 +112,7 @@
 <style>
 
     .today{
-        background-color: rgb(29, 0, 0);
+        background-color: rgba(29, 0, 0, 0.2);
         min-height: 400px;
         box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
     }
@@ -122,14 +121,16 @@
     dateBox {
         display: flex;
         flex-direction: column;
-        border-radius: 5px;
-        margin-top: 10px;
         width: 100%;
-        
+        margin-top: 26px;
+        padding-bottom: 10px;
+        border-top: 1px solid rgb(100, 100, 100);
+        border-bottom: 1px solid rgb(100, 100, 100);
 
         .dateTasksList{
             display: flex;
             min-height: 60px;
+            height: 100%;
             align-items: center;
             flex-direction: column;
             padding: 2px;
@@ -139,9 +140,19 @@
                 justify-content: space-between;
                 align-items: center;
                 border-radius: 10px;
-                width: 94%;
+                width: 98%;
                 margin-top: 12px;
                 padding: 2px;
+
+                .text{
+                    width:80%; word-wrap:break-word; display:inline-block;
+                }
+
+                .taskcat {
+                    /* color: rgb(100, 100, 100); */
+                    border-right: 1px solid rgb(100, 100, 100);
+                    text-shadow: 2px 1px 4px white;
+                }
 
                 task_acts {
                     display: flex;
