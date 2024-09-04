@@ -50,7 +50,7 @@ export default {
       </div>
 
 
-        <button class="colItem main-border" type="submit">Resend Verification Email</button>
+      <button class="colItem main-border" type="submit">Resend Verification Email</button>
      
 
     </form>
