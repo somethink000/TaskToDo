@@ -127,7 +127,7 @@ RUN chmod +x /usr/bin/art
 RUN echo '#!/bin/bash\n/usr/local/bin/php /var/www/artisan migrate "$@"' > /usr/bin/migrate
 RUN chmod +x /usr/bin/migrate
 # docker-compose exec php-fpm fresh --> php artisan migrate:fresh --seed
-RUN echo '#!/bin/bash\n/usr/local/bin/php /var/www/artisan migrate:fresh --seed' > /usr/bin/fresh
+RUN echo '#!/bin/bash\n/usr/localchown -R www-data:www-data /var/www/bin/php /var/www/artisan migrate:fresh --seed' > /usr/bin/fresh
 RUN chmod +x /usr/bin/fresh
 # docker-compose exec php-fpm t --> run the tests for the project and generate testdox
 RUN echo '#!/bin/bash\n/usr/local/bin/php /var/www/artisan config:clear\n/var/www/vendor/bin/phpunit -d memory_limit=2G --stop-on-error --stop-on-failure --testdox-text=tests/report.txt "$@"' > /usr/bin/t
