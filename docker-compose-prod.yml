@@ -1,6 +1,5 @@
 
 services:
-
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -73,19 +72,18 @@ services:
             - "dockerhost:${DOCKER_HOST_IP}"
         networks:
             - sail
-    node:
-        build:
-            context: "."
-            dockerfile: ./docker/nodejs/Dockerfile
-        image: nodejs
-        container_name: nodejs
-        working_dir: /app
-        ports:
-            - "3000:3000"
-        restart: unless-stopped
-        networks:
-            - sail
-
+    # node:
+    #     build:
+    #         context: "."
+    #         dockerfile: ./docker/nodejs/Dockerfile
+    #     image: nodejs
+    #     container_name: nodejs
+    #     working_dir: /var/www/laravel/current
+    #     ports:
+    #         - "3000:3000"
+    #     restart: unless-stopped
+    #     networks:
+    #         - sail
 networks:
     sail:
         driver: bridge
