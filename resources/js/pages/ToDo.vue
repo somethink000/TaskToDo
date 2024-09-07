@@ -160,7 +160,7 @@
 
 		content {
 			display: flex;
-			height: 95%;
+			height: 92%;
 			flex-direction: row;
 		
 		
@@ -197,6 +197,7 @@
 				/* justify-content: center; */
 				width: 80%;
 				overflow: auto;
+				padding: 10px;
 				max-height: 100%;
 				-ms-overflow-style: none;
 				scrollbar-width: none;

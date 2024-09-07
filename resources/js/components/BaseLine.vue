@@ -31,7 +31,8 @@
             display: flex;
             width: 95%;
             height: 1px;
-            background-color: rgb(100, 100, 100);
+            background-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0px 1px 8px 1px rgba(255, 255, 255, 0.5);
         }
     }
 

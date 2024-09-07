@@ -248,13 +248,14 @@
 
 
    taskBoxBlock {
-    box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
+    box-shadow: 0px 1px 8px 1px rgba(255, 255, 255, 0.5);
     /* background-color: rgb(50, 50, 50); */
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     width: 300px;
-    margin: 10px;
+    margin-right: 20px;
+    margin-top: 26px;
     max-height: 45vh;
     padding-bottom: 10px;
 

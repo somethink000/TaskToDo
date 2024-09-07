@@ -117,7 +117,7 @@
         display: flex;
         background-color: rgba(29, 0, 0, 0.2);
         min-height: 400px;
-        box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
+        box-shadow: 0px 1px 8px 1px rgba(255, 255, 255, 0.5);
     }
  
    
@@ -128,8 +128,9 @@
         margin-top: 26px;
         flex-shrink: 0;
         padding-bottom: 10px;
-        border-top: 1px solid rgb(100, 100, 100);
-        border-bottom: 1px solid rgb(100, 100, 100);
+        /* border-top: 1px solid rgb(100, 100, 100); */
+        /* border-bottom: 1px solid rgb(100, 100, 100); */
+        box-shadow: 0px 1px 8px 1px rgba(255, 255, 255, 0.5);
 
         .dateTasksList{
             display: flex;
