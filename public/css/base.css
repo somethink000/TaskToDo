@@ -18,6 +18,7 @@ time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font-family: genfont;
+	font-weight: lighter;
 	color: white;
 	vertical-align: baseline;
     display: flex;
@@ -92,7 +93,7 @@ ttl {
 	display: flex;
 	padding: 6px;
 	font-size: 28px;
-	font-weight: 200;
+	/* font-weight: 200; */
 	text-shadow: 2px 1px 4px white;
 	font-family: genfont;
 }
@@ -101,7 +102,7 @@ txt {
 	display: flex;
 	padding: 5px;
 	font-size: 18px;
-	font-weight: 200;
+	/* font-weight: 200; */
 	
 	font-family: genfont;
 	/* text-shadow: 0px 1px 1px white; */

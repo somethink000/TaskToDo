@@ -74,8 +74,10 @@
 							if (task.planed_at != null) {
 
 								//Set Date from php timestamp
-								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();;
-								
+								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
+
+								console.log(new Date(task.planed_at));
+								console.log(new Date(today.toLocaleDateString()));
 
 								var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
 
