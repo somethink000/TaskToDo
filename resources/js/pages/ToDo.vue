@@ -69,11 +69,16 @@
 						
 						for (var v = box.tasks.length-1; v >= 0; --v) {
 							var task = box.tasks[v];
-						
+							
+							
 							if (task.planed_at != null) {
 
-								var lesToday = new Date(task.planed_at).getDay() < today.getDay();
+								//Set Date from php timestamp
+								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();;
 								
+
+								var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
+
 								if (lesToday) {
 									if(task.done){
 										continue;

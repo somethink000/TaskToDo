@@ -15,9 +15,7 @@ use App\Http\Requests\TaskUpdateRequest;
 class TaskController extends Controller
 {
 
-    public function __construct(protected readonly TaskService $service)
-    {
-    }
+    public function __construct(protected readonly TaskService $service) {}
 
     /**
      * Display a listing of the resource.
@@ -36,15 +34,24 @@ class TaskController extends Controller
         return $this->service->create($request);
     }
 
-    
-    /**
-     * Update the specified resource in storage.
-     */
+
+
     public function update(TaskUpdateRequest $request, Task $task): Task
     {
-        $task->update($request->all());
+        $data = $request->all();
+
+        //Set planed timestamp
+        if ($data["planed_at"] != null) {
+
+            $planedDate = strtotime($data["planed_at"]);
+            $data["planed_at"] = $planedDate;
+        }
+
         
-        return $task;
+
+        $task->update($data);
+
+        return  $task;
     }
 
     /**
@@ -56,18 +63,17 @@ class TaskController extends Controller
     }
 
 
-        /**
+    /**
      * Update the specified resource in storage.
      */
     public function updateTasksSort(Request $request)
     {
         $data = $request->all();
         foreach ($data as $value) {
-            
+
             DB::table('tasks')
                 ->where('id', $value['id'])
                 ->update(['sort_id' => $value['sort_id']]);
         }
-
     }
 }
