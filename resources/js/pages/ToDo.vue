@@ -90,7 +90,7 @@
 						}
 
 						box.tasks.sort(function (a, b) {
-							return a.sortid - b.sortid;
+							return a.sort_id - b.sort_id;
 						});
 					}
 

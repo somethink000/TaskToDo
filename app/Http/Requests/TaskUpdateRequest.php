@@ -24,9 +24,9 @@ class TaskUpdateRequest extends FormRequest
         return [
             'text' => 'required|string',
             'done' => 'required|boolean',
-            'sortid' => 'required|integer',
+            'sort_id' => 'required|integer',
             'planed_at' => 'nullable',
-            'taskboxId' => 'required|integer'
+            'taskbox_id' => 'required|integer'
         ];
     }
 }

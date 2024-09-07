@@ -24,8 +24,8 @@ class TaskStoreRequest extends FormRequest
         return [
             'text' => 'required|string',
             'done' => 'required|boolean',
-            'sortid' => 'required|integer',
-            'taskboxId' => 'required|integer'
+            'sort_id' => 'required|integer',
+            'taskbox_id' => 'required|integer'
         ];
     }
 }

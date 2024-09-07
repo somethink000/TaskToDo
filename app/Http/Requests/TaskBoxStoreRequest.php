@@ -28,7 +28,7 @@ class TaskBoxStoreRequest extends FormRequest
 
         return [
             'title' => 'required|string',
-            'sortid' => 'integer',
+            'sort_id' => 'integer',
         ];
     }
 }

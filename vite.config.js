@@ -7,7 +7,7 @@ export default defineConfig({
             host: true,
             port: 5173,
             hmr: {
-                host: 'kep.pw',
+                host: 'localhost',//kep.pw
             },
             watch: {
                 usePolling: true,

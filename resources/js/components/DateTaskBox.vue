@@ -66,10 +66,10 @@
             unpinTask(task, index) {
                
                 task.planed_at = null;
-                this.boxes.get(task.taskboxId).tasks.unshift(task);
+                this.boxes.get(task.taskbox_id).tasks.unshift(task);
 				this.tasks.splice(index, 1);
                 this.updateTask(task);
-                // console.log(this.boxes.get(task.taskboxId));
+                // console.log(this.boxes.get(task.taskbox_id));
             },
 		}
 	});
@@ -94,8 +94,8 @@
             >
             
             <template #item="{element, index}">
-                <task v-if="boxes.get(element.taskboxId) != null" class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true}" >
-                    <txt class="taskcat">{{ boxes.get(element.taskboxId).title.slice(0, 4)}}</txt>
+                <task v-if="boxes.get(element.taskbox_id) != null" class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'dedlined' : element.dedline == true && element.done == false}" >
+                    <txt class="taskcat">{{ boxes.get(element.taskbox_id).title.slice(0, 4)}}</txt>
                     <txt class="text">{{element.text}}</txt>
                     <task_acts>          
                         <!-- <a class="bl-box" @click="unpinTask(element, index)"><img src="/images/unpin.png" width="22" />Unpin</a> --> 
@@ -114,6 +114,7 @@
 <style>
 
     .today{
+        display: flex;
         background-color: rgba(29, 0, 0, 0.2);
         min-height: 400px;
         box-shadow: 0px 8px 16px 0px rgba(95, 95, 95, 0.5);
@@ -125,6 +126,7 @@
         flex-direction: column;
         width: 100%;
         margin-top: 26px;
+        flex-shrink: 0;
         padding-bottom: 10px;
         border-top: 1px solid rgb(100, 100, 100);
         border-bottom: 1px solid rgb(100, 100, 100);
@@ -136,6 +138,11 @@
             align-items: center;
             flex-direction: column;
             padding: 2px;
+
+
+            task.dedlined {
+                background-color: rgba(107, 0, 0, 0.5);
+            }
 
             task {
                 display: flex;

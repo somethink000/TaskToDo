@@ -66,7 +66,7 @@ class TaskController extends Controller
             
             DB::table('tasks')
                 ->where('id', $value['id'])
-                ->update(['sortid' => $value['sortid']]);
+                ->update(['sort_id' => $value['sort_id']]);
         }
 
     }

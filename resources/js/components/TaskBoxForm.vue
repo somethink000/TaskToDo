@@ -1,5 +1,5 @@
 
-<script lang="ts">
+<script>
 	import { defineComponent } from 'vue';
     import axios from 'axios';
 
@@ -14,12 +14,12 @@
             form: {
                 title: "",
                 // userId: 5,
-                sortid: 0
+                sort_id: 0
             },
             
         }),
         methods: {
-
+            
 			store() {
 				axios.post('/api/taskBoxes', this.form, {
 					headers: {

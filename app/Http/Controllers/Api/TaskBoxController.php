@@ -24,7 +24,7 @@ class TaskBoxController extends Controller
     {    
         // $us = $request->user()->taskBoxes();
         
-        $boxes = TaskBox::where('userId', Auth::user()->id)->get();
+        $boxes = TaskBox::where('user_id', Auth::user()->id)->get();
         $boxes->load('tasks');
         return $boxes;
     }
@@ -37,7 +37,7 @@ class TaskBoxController extends Controller
     {
        // $request->userId = Auth::user()->id;
         $request->merge([
-            'userId' => Auth::user()->id,
+            'user_id' => Auth::user()->id,
         ]);
         return $this->service->create($request);
     }

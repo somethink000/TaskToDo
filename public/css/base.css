@@ -54,7 +54,7 @@ body {
 	flex-direction: column;
 	width: 100%;
 	min-height: 100vh;
-	background: linear-gradient(-45deg, #aa2800, #000000, #0f0044, #6a008a);
+	background: linear-gradient(-45deg, #aa2800, #000000, #0f0044, #830000);
 	background-size: 400% 400%;
 	animation: gradient 30s ease infinite;
 	height: 100vh;

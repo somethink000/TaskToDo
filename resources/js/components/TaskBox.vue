@@ -1,5 +1,5 @@
 
-<script lang="ts">
+<script>
 	import { defineComponent, ref } from 'vue';
     import draggable from 'vuedraggable';
     import axios from 'axios';
@@ -19,8 +19,8 @@
             form: {
                 text: "",
                 done: false,
-                sortid: 0,
-                taskboxId: instance.id,
+                sort_id: 0,
+                taskbox_id: instance.id,
                 
             },
            
@@ -52,8 +52,6 @@
 
             onTaskEnter() {
                 
-               
-
 				axios.post('/api/tasks', this.form, {
 					headers: {
 						"Content-type": "application/json"
@@ -159,7 +157,7 @@
                 
 
                 for (var i = 0; i < this.tasks.length; ++i) {
-                    this.tasks[i].sortid = i;
+                    this.tasks[i].sort_id = i;
                 }
 
                 axios.post('/api/tasks/update_sort', this.tasks, {
@@ -180,7 +178,7 @@
                 this.updateSort(); 
                 if (item.added != null ){
                     var task = item.added.element;
-                    task.taskboxId = this.id;
+                    task.taskbox_id = this.id;
                     task.planed_at = null;
                     this.updateTask(task);
                 }

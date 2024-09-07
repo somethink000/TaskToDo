@@ -11,12 +11,12 @@ class TaskBox extends Model
 
     protected $fillable = [
         'title',
-        'sortid',
-        'userId'
+        'sort_id',
+        'user_id'
     ];
 
     public function tasks(){
-        return $this->hasMany(Task::class,'taskboxId','id');
+        return $this->hasMany(Task::class,'taskbox_id','id');
     }
 
     protected static function booted () {
