@@ -150,7 +150,7 @@
                 justify-content: space-between;
                 align-items: center;
                 border-radius: 10px;
-                width: 98%;
+                width: 96%;
                 margin-top: 12px;
                 padding: 2px;
 

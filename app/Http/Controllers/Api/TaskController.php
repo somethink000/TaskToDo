@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Task;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class TaskController extends Controller
 {
@@ -39,6 +41,8 @@ class TaskController extends Controller
     public function update(TaskUpdateRequest $request, Task $task): Task
     {
         $data = $request->all();
+        
+        $this->service->handleOwner($data['taskbox_id']);
 
         //Set planed timestamp
         if ($data["planed_at"] != null) {
@@ -76,4 +80,6 @@ class TaskController extends Controller
                 ->update(['sort_id' => $value['sort_id']]);
         }
     }
+
+    
 }

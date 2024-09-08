@@ -1,3 +1,5 @@
+@import url("/fonts/stylesheet.css");
+
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section,
 html, body, div, span, applet, object, iframe,
@@ -17,7 +19,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font-family: genfont;
+	font-family: 'ZektonRg';
 	font-weight: lighter;
 	color: white;
 	vertical-align: baseline;
@@ -43,11 +45,11 @@ time, mark, audio, video {
 		background-position: 0% 50%;
 	}
 }
-
+/* 
 @font-face {
 	font-family: genfont;
-	src: url("/fonts/evil.otf");
-}
+	src: url("/fonts/zekton rg.ttf");
+} */
 
 
 body {
@@ -86,7 +88,7 @@ table {
 
 a {
 	pointer-events: all;
-	font-family: genfont;
+	
 }
 
 ttl {
@@ -95,7 +97,7 @@ ttl {
 	font-size: 28px;
 	/* font-weight: 200; */
 	text-shadow: 2px 1px 4px white;
-	font-family: genfont;
+
 }
 
 txt {
@@ -104,7 +106,7 @@ txt {
 	font-size: 18px;
 	/* font-weight: 200; */
 	
-	font-family: genfont;
+	
 	/* text-shadow: 0px 1px 1px white; */
 }
 
@@ -122,9 +124,15 @@ formCont{
 	}
 }
 inpBox{
+	display: flex;
 	width: 100%;
 	padding: 4px;
 	border-radius: 8px;
+	
+
+	.input {
+		height: 100%;
+	}
 }
 
 input {

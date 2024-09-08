@@ -43,8 +43,9 @@
 				
 				for (var i = 0; i < 7; ++i) {
 					
-					var date = new Date();
-					date.setDate(date.getDate() + i);
+
+					var date = new Date((new Date()).valueOf() + (1000*i)*3600*24);
+					
 					date = date.toLocaleDateString();
 					
 					this.dates.set( date, {tasks: []});
@@ -75,9 +76,9 @@
 
 								//Set Date from php timestamp
 								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
-
-								console.log(new Date(task.planed_at));
-								console.log(new Date(today.toLocaleDateString()));
+								
+								// console.log(new Date(task.planed_at));
+								// console.log(new Date(today.toLocaleDateString()));
 
 								var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
 
@@ -169,7 +170,7 @@
 			planPanel {
 				display: flex;
 				width: 420px;
-				height: 100%; 
+				height: 100%;
 				max-height: 100%;
 
 				planPanelContent {
@@ -203,6 +204,39 @@
 				max-height: 100%;
 				-ms-overflow-style: none;
 				scrollbar-width: none;
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			content {
+				flex-direction: column;
+				height: auto;
+				planPanel{
+					width: 100%;
+					height: 620px; 
+					planPanelContent{
+						
+						overflow: hidden;
+					}
+				}
+
+				boxesplace{
+					margin-top: 30px;
+					flex-direction: column;
+					flex-wrap: none;
+					width: 100%;
+					height: 100%;
+					padding: 0px;
+					overflow: none;
+					
+
+
+					taskBoxBlock {
+						width: 100%;
+						margin-right: none;
+						
+					}
+				}
 			}
 		}
 	}
