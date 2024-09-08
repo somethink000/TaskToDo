@@ -4,7 +4,7 @@
 	import { defineComponent } from 'vue';
 	import axios from 'axios';
 	import draggable from 'vuedraggable';
-
+	import moment from "moment";
 
 	
 	import TasksBox from '@/components/TaskBox.vue';
@@ -45,6 +45,8 @@
 					
 
 					var date = new Date((new Date()).valueOf() + (1000*i)*3600*24);
+					console.log(moment().add(i, 'days'))
+					console.log(moment().format('dddd'))
 					
 					date = date.toLocaleDateString();
 					
@@ -76,10 +78,8 @@
 
 								//Set Date from php timestamp
 								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
-								
-								// console.log(new Date(task.planed_at));
-								// console.log(new Date(today.toLocaleDateString()));
-
+								//.format('dddd'))//.format("YYYY-MM-DD"));
+							
 								var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
 
 								if (lesToday) {
@@ -213,7 +213,7 @@
 				height: auto;
 				planPanel{
 					width: 100%;
-					height: 620px; 
+					height: 460px; 
 					planPanelContent{
 						
 						overflow: hidden;
