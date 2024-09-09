@@ -3,6 +3,8 @@
 	import { defineComponent, ref } from 'vue';
     import draggable from 'vuedraggable';
     import axios from 'axios';
+    import { useTodoStore } from '@/stores/todo.js'
+	import { mapActions, mapStores } from 'pinia'
 
 
     import BaseLine from './BaseLine.vue';
@@ -11,11 +13,10 @@
 
 	export default defineComponent({
 
-        props: {title: String, id: String, setTasks: Array},
+        props: {id: String},
 		components: {BaseLine, DropDown, ImageButton, draggable},
         data: (instance) => ({
 			taskForm: false,
-            tasks: instance.setTasks,
             form: {
                 text: "",
                 done: false,
@@ -27,163 +28,48 @@
             drag: false,
 		}),
         computed: {
-           
+            ...mapStores(useTodoStore),
+
+            box() {return this.todoStore?.getBox(this.id)},
         },
         mounted() {
             
-            this.initTasks();
 		},
 		methods: {
+        
+            ...mapActions(useTodoStore, [
+                'update_tasks_sort',
+                'create_task', 
+                'complite_task', 
+                'delete_task',
+                'update_task',
+                'delete_taskbox'
+            ]),
             
-            initTasks() {
-                for (var i = 0; i < this.tasks.length; ++i) {
-
-                    var task = this.tasks[i];
-
-                    //check all complited planed tasks
-                    if(task.done == true && task.planed_at != null){
-                        task.planed_at = null;
-                        task.done = false;
-                        this.compliteTask(task, i);
-                    }
-
-                }
-            },
-
             onTaskEnter() {
                 
-				axios.post('/api/tasks', this.form, {
-					headers: {
-						"Content-type": "application/json"
-					}
-				})
-				.then(res => {
-					if (res.data) {
-					
-                        this.toggleTaskForm();
-                        this.tasks.unshift(res.data);
-                        this.updateSort();
-					} else {
-						
-					}
-				})
-
-                this.form.text = "";
-			},
-            deleteTask(id, idx) {
-                axios.delete('/api/tasks/' + id)
-                .then(res => {
-                    if (res.data) {
-                        this.tasks.splice(idx, 1);
-                    } else {
-                        
-                    }
-                })
-            },
-            deleteTaskBox() {
-                axios.delete('/api/taskBoxes/' + this.id)
-                .then(res => {
-                    if (res.data) {
-                        this.$emit('on-delete-box', this.boxid)
-                    } else {
-                        
-                    }
-                })
-            },
-
-            
-
-            updateTask(taskData) {
-               
-                axios.patch('/api/tasks/' + taskData.id, taskData, {
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                })
-                .then(res => {
-                    if (res.data) {
-                
-                    } else {  }
-                })
-
-            },
-            
-            compliteTask(task, index) {
-                task.done = !task.done;
-
-                if (index < this.tasks.length){
-
-                    if (task.done) {
-
-                        
-                        for (var i = index+1; i < this.tasks.length; ++i) {
-                            
-                            //Add on the first done row if this done
-                            if(this.tasks[i].done == true){
-                                var oldPlace = index;
-                                var newPlace = i;
-
-                                var t = this.tasks.splice(oldPlace,1);
-                                //после того как удалите элемент из массива, у него изменится длина
-                                this.tasks.splice(newPlace-1,0,t[0]);
-                                
-                                break;
-                            }
-                            //no doned tasks fix
-                            else if ( i == this.tasks.length-1) {
-                                var oldPlace = index;
-                                var newPlace = i;
-
-                                var t = this.tasks.splice(oldPlace,1);
-                                this.tasks.push(t[0]);
-                            }
-
-                        }
-                    }else{
-
-                        //Add on the first row of task box
-                        var t = this.tasks.splice(index,1);
-                        this.tasks.unshift(task);
-                    }
-                }
-
-                
-                this.updateTask(task);
-                this.updateSort();
-            },
-
-
-            updateSort(){
-                
-
-                for (var i = 0; i < this.tasks.length; ++i) {
-                    this.tasks[i].sort_id = i;
-                }
-
-                axios.post('/api/tasks/update_sort', this.tasks, {
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                })
-                .then(res => {
-                    if (res.data) {
-                        
-                    } else {
-                       
-                    }
+				this.create_task(this.form).then((res) => {
+                    
+                    this.toggleTaskForm();
+                    this.form.text = "";
                 })
             },
             
+
             orderChanged(item) { 
-                this.updateSort(); 
-                if (item.added != null ){
-                    var task = item.added.element;
-                    task.taskbox_id = this.id;
-                    task.planed_at = null;
-                    this.updateTask(task);
-                }
+
+                this.update_tasks_sort(this.id).then((res) => {
+    
+                    if (item.added != null ){
+                        var task = item.added.element;
+                        task.taskbox_id = this.id;
+                        task.planed_at = null;
+                        this.update_task(task).then((res) => {});
+                    }
+                });
             },
-            
+
+
             toggleTaskForm() { this.taskForm = !this.taskForm; },
             
 		}
@@ -199,21 +85,21 @@
         
             <input v-if="taskForm == true" v-on:keyup.enter="onTaskEnter" ref="inp" v-model="this.form.text"  type="text" placeholder="New task" >
            
-            <ttl v-else >{{ title }}</ttl> 
+            <ttl v-else >{{ box.title }}</ttl> 
 
             <DropDown image="/images/dots.png" size="24">
                 <a class="wh-box" @click="toggleTaskForm()">Add Task</a>
-                <a class="wh-box" @click="deleteTaskBox()">Remove</a>
+                <a class="wh-box" @click="delete_taskbox(id)">Remove</a>
             </DropDown>
         </taskBoxHeader>
 
         <BaseLine />
         
-        <!-- <taskBoxList> -->
+     
         <draggable 
         class="taskBoxList"
         ghost-class="ghost"
-        v-model="tasks" 
+        v-model="box.tasks" 
         @change="orderChanged"
         :group="{ name: 'tasks', pull: true, put: true }"
         :animation="200"
@@ -223,16 +109,15 @@
             <task class="bl-box main-border" v-bind:class="{ 'complete' : element.done == true, 'planed' : element.planed_at != null && element.done != true }" >
                 <txt>{{element.text}}</txt>
                 <task_acts>
-                    <ImageButton @click="deleteTask(element.id, index)" image="/images/cross.png" size="18"/>
-                    <ImageButton @click="compliteTask(element, index)" image="/images/check.png" size="18"/>
+                    <ImageButton @click="delete_task(element, index)" image="/images/cross.png" size="18"/>
+                    <ImageButton @click="complite_task(element, index)" image="/images/check.png" size="18"/>
                 </task_acts>
             </task> 
         </template>
 
         </draggable>
                 
-            
-        <!-- </taskBoxList> -->
+         
 
     </taskBoxBlock>
 </template>

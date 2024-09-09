@@ -56,9 +56,7 @@
 			closeBoxForm() {this.boxForm = false;},
 			openBoxForm() {this.boxForm = true;},
 
-			onDeleteBox(id){
-				this.boxes.delete(id);
-			},
+			
 			onCreatedBox(e) {
 				e.tasks = [];
 				this.boxes.set( e.id, e);
@@ -85,13 +83,13 @@
 			<planPanel>
 				<planPanelContent>
 					
-					<DateTaskBox v-for="(date) in dates.keys()" :date="date" :boxes="boxes" :setTasks="dates.get(date).tasks" />
+					<DateTaskBox v-for="(date) in dates.keys()" :date="date"/>
 					
 				</planPanelContent>
 			</planPanel>
 
 			<boxesplace>
-				<TasksBox @on-delete-box="onDeleteBox(box)" v-for="(box) in boxes.keys()" :title="boxes.get(box).title" :id="boxes.get(box).id" :setTasks="boxes.get(box).tasks"/>
+				<TasksBox v-for="(box) in boxes.keys()" :id="box"/>
 			</boxesplace>
 		</content>
 	</main>
