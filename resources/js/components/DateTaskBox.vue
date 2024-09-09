@@ -5,47 +5,39 @@
 	import { defineComponent } from 'vue';
     import draggable from 'vuedraggable';
     import axios from 'axios';
-    
+    import { useTodoStore } from '@/stores/todo.js'
+	import { mapActions, mapStores } from 'pinia'
+    import moment from "moment";
+
     import BaseLine from '@/components/BaseLine.vue';
     import ImageButton from './ImageButton.vue';
     import DropDown from './DropDown.vue';
     
 	export default defineComponent({
-
-        props: {date: String, setTasks: Array, boxes: Array},
+        
+        props: {date: String},
 		components: {draggable, BaseLine, ImageButton, DropDown},
         data: (instance) => ({
  
-            tasks: instance.setTasks,
-            timeOptions: {
-				weekday: 'long',
-				year: 'numeric',
-				month: 'numeric',
-				day: 'numeric',
-			},
             isToday: false,
-            dateString: new Date(instance.date),
 		}),
+        computed: {
+            ...mapStores(useTodoStore),
+
+            datebox() {return this.todoStore?.getDateBox(this.date)},
+            boxes() {return this.todoStore?.currentBoxes},
+        },
         mounted() {
-            
+            console.log(this.datebox);
             this.isToday = this.date == new Date().toLocaleDateString();
-            this.dateString = this.dateString.toLocaleDateString(undefined, this.timeOptions)
 		},
 		methods: {
-            updateTask(taskData) {
-               
-			   axios.patch('/api/tasks/' + taskData.id, taskData, {
-				   headers: {
-					   "Content-type": "application/json"
-				   }
-			   })
-			   .then(res => {
-				   if (res.data) {
-                        // console.log(res.data)
-				   } else {  }
-			   })
 
-		   },
+            ...mapActions(useTodoStore, [
+                'update_task',
+                'unpin_task',
+            ]),
+    
            
 			dateChanged(item) { 
                
@@ -53,24 +45,16 @@
                     var task = item.added.element;
                     task.planed_at = this.date;
                     task.done = false;
-                    this.updateTask(task);
+                    this.update_task(task);
                 }
             },
 
             compliteTask(task, index) {
                 task.done = !task.done;
 
-                this.updateTask(task);
+                this.update_task(task);
             },
 
-            unpinTask(task, index) {
-               
-                task.planed_at = null;
-                this.boxes.get(task.taskbox_id).tasks.unshift(task);
-				this.tasks.splice(index, 1);
-                this.updateTask(task);
-                // console.log(this.boxes.get(task.taskbox_id));
-            },
 		}
 	});
 </script>
@@ -79,14 +63,14 @@
 <template>
 
     <dateBox  v-bind:class="{ 'today' : isToday == true }" >
-
-        <txt>{{ dateString }}</txt>
+        <!-- moment(this.date).format('dddd-YYYY-MM-DD') -->
+        <txt>{{ date }}</txt>
 
 
         <draggable 
             class="dateTasksList"
             ghost-class="ghost"
-            v-model="tasks" 				
+            v-model="datebox.tasks" 				
             :group="{ name: 'tasks', pull: true, put: true}", 
             @change="dateChanged"
             item-key="id"

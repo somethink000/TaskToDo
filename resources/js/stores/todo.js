@@ -43,11 +43,11 @@ export const useTodoStore = defineStore('todo', {
                     
                     
                     if (task.planed_at != null) {
-
+                        
                         //Set Date from php timestamp
                         task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
                         //.format('dddd'))//.format("YYYY-MM-DD"));
-                    
+                        
                         var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
 
                         if (lesToday) {
@@ -61,7 +61,7 @@ export const useTodoStore = defineStore('todo', {
                             this.dates.get(task.planed_at).tasks.push(task);
                             box.tasks.splice(v, 1);
                         }
-                    
+                        
                     }
                 }
 
@@ -138,6 +138,15 @@ export const useTodoStore = defineStore('todo', {
         })
     },
 
+    async unpin_task(task, index) {
+
+        var tasks = this.dates.get(task.planed_at).tasks
+
+        task.planed_at = null;
+        this.boxes.get(task.taskbox_id).tasks.unshift(task);
+        tasks.splice(index, 1);
+        this.update_task(task);
+    },
 
     async update_task(taskData) {
                
@@ -222,6 +231,9 @@ export const useTodoStore = defineStore('todo', {
     currentDates: (state) => state.dates,
     getBox: (state)=> {
         return (boxId) => state.boxes.get(boxId);
+    },
+    getDateBox: (state)=> {
+        return (date) => state.dates.get(date);
     }
     
   },
