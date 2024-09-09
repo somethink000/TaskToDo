@@ -19,7 +19,7 @@
 		components: {draggable, BaseLine, ImageButton, DropDown},
         data: (instance) => ({
             dateString: moment(instance.date).format('dddd-DD-MM-YYYY'),
-            isToday: false,
+            isToday: instance.date == moment().format('YYYY-MM-DD')
 		}),
         computed: {
             ...mapStores(useTodoStore),
@@ -28,8 +28,8 @@
             boxes() {return this.todoStore?.currentBoxes},
         },
         mounted() {
-            console.log(this.datebox);
-            this.isToday = this.date == new Date().toLocaleDateString();
+            
+    
 		},
 		methods: {
 

@@ -19,18 +19,36 @@
 
 <template>
 
-    <createTaskbox>
-        <createBox class="main-border bl-box">
+    <centerBox>
+        <frBox class="main-border bl-box">
 
                 <slot />
                
-        </createBox>
-    </createTaskbox>
+        </frBox>
+    </centerBox>
 </template>
 
 <style>
-   
-    createTaskbox{
+    
+    @media screen and (max-width: 600px) {
+        centerBox{
+            padding: none;
+            border-radius: none;
+            width: 100%;
+
+            frBox.main-border{
+                border: none;
+            }
+
+            frBox{
+                padding: none;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    centerBox{
         display: flex;
         position: absolute;
         width: 100%;
@@ -43,7 +61,7 @@
         align-items: center;
         
 
-        createBox{
+        frBox{
             display: flex;
             border-radius: 10px;
             width: 400px;

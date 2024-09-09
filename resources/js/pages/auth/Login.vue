@@ -103,6 +103,10 @@ export default {
 </template>
 
 <style>
+
+
+  
+
   formCont{
     
     checkContent{
