@@ -5,6 +5,8 @@
 	import axios from 'axios';
 	import draggable from 'vuedraggable';
 	import moment from "moment";
+	import { useTodoStore } from '@/stores/todo.js'
+	import { mapActions, mapStores } from 'pinia'
 
 	
 	import TasksBox from '@/components/TaskBox.vue';
@@ -29,81 +31,27 @@
 
 		},
 		data: () => ({
-			boxes: new Map([]),
-			dates: new Map([]),
 			boxForm: false,
 			
 		}),
+		computed: {
+			...mapStores(useTodoStore),
+
+			boxes() {return this.todoStore?.currentBoxes},
+			dates() {return this.todoStore?.currentDates},
+			
+		},
 		mounted() {
-			this.setupDates();
-			this.loadBoxes();
+			this.loadTodo();
 		},
 		methods: {
-			setupDates() {
-				
-				for (var i = 0; i < 7; ++i) {
-					
-
-					var date = new Date((new Date()).valueOf() + (1000*i)*3600*24);
-					console.log(moment().add(i, 'days'))
-					console.log(moment().format('dddd'))
-					
-					date = date.toLocaleDateString();
-					
-					this.dates.set( date, {tasks: []});
-					
-				}
-
+			
+			...mapActions(useTodoStore, ['load_data']),
+			
+			loadTodo() {
+				this.load_data().then(() => {})
 			},
-
-			loadBoxes() {
-				axios.get('/api/taskBoxes')
-				.then(res => {
-					
-					var boxesData = res.data
-					
-					for (var i = 0; i < boxesData.length; ++i) {
-						
-						this.boxes.set( boxesData[i].id, boxesData[i]);
-					
-						var box = this.boxes.get(boxesData[i].id);
-						var today = new Date();
-
-						
-						for (var v = box.tasks.length-1; v >= 0; --v) {
-							var task = box.tasks[v];
-							
-							
-							if (task.planed_at != null) {
-
-								//Set Date from php timestamp
-								task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
-								//.format('dddd'))//.format("YYYY-MM-DD"));
-							
-								var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
-
-								if (lesToday) {
-									if(task.done){
-										continue;
-									}
-									task.dedline = true;
-									this.dates.get(today.toLocaleDateString()).tasks.push(task);
-									box.tasks.splice(v, 1);
-								}else{
-									this.dates.get(task.planed_at).tasks.push(task);
-									box.tasks.splice(v, 1);
-								}
-							
-							}
-						}
-
-						box.tasks.sort(function (a, b) {
-							return a.sort_id - b.sort_id;
-						});
-					}
-
-				})
-			},
+			
 			
 			closeBoxForm() {this.boxForm = false;},
 			openBoxForm() {this.boxForm = true;},

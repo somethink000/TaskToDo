@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
         .catch((error) => {
           this.user = null
           throw error
-        })
+      })
     },
     async logout() {
       return axios.post('/logout')

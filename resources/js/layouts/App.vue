@@ -24,7 +24,7 @@ export default {
         router.replace({ name: 'Login' })
       } else if (error.response.status === 403) {
         router.push({ name: 'VerifyEmail' })
-      } else if (error.response.status === 423) {
+      } else if (error.response.status === 423) {   
         router.push({ name: 'ConfirmPassword' })
       }
 
