@@ -44,15 +44,6 @@ class TaskController extends Controller
         
         $this->service->handleOwner($data['taskbox_id']);
 
-        //Set planed timestamp
-        if ($data["planed_at"] != null) {
-
-            $planedDate = strtotime($data["planed_at"]);
-            $data["planed_at"] = $planedDate;
-        }
-
-        
-
         $task->update($data);
 
         return  $task;

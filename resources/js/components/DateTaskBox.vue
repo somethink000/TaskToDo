@@ -18,7 +18,7 @@
         props: {date: String},
 		components: {draggable, BaseLine, ImageButton, DropDown},
         data: (instance) => ({
- 
+            dateString: moment(instance.date).format('dddd-DD-MM-YYYY'),
             isToday: false,
 		}),
         computed: {
@@ -64,7 +64,7 @@
 
     <dateBox  v-bind:class="{ 'today' : isToday == true }" >
         <!-- moment(this.date).format('dddd-YYYY-MM-DD') -->
-        <txt>{{ date }}</txt>
+        <txt>{{ dateString }}</txt>
 
 
         <draggable 

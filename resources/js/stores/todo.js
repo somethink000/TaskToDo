@@ -15,11 +15,7 @@ export const useTodoStore = defineStore('todo', {
         // setup dates 
         for (var i = 0; i < 7; ++i) {
 					
-            var date = new Date((new Date()).valueOf() + (1000*i)*3600*24);
-            // console.log(moment().add(i, 'days'))
-            // console.log(moment().format('dddd'))
-            
-            date = date.toLocaleDateString();
+            var date = moment().add(i, 'days').format('YYYY-MM-DD');//.format('dddd-YYYY-MM-DD') 
             
             this.dates.set( date, {tasks: []});
         }
@@ -35,31 +31,31 @@ export const useTodoStore = defineStore('todo', {
                 this.boxes.set( boxesData[i].id, boxesData[i]);
             
                 var box = this.boxes.get(boxesData[i].id);
-                var today = new Date();
-
                 
                 for (var v = box.tasks.length-1; v >= 0; --v) {
                     var task = box.tasks[v];
                     
-                    
                     if (task.planed_at != null) {
                         
-                        //Set Date from php timestamp
-                        task.planed_at = new Date(task.planed_at * 1000).toLocaleDateString();
-                        //.format('dddd'))//.format("YYYY-MM-DD"));
-                        
-                        var lesToday = new Date(task.planed_at) < new Date(today.toLocaleDateString());
+                        var lesToday = moment(task.planed_at).isBefore(moment(), 'day');
 
                         if (lesToday) {
                             if(task.done){
                                 continue;
                             }
                             task.dedline = true;
-                            this.dates.get(today.toLocaleDateString()).tasks.push(task);
+                            this.dates.get(moment().format('YYYY-MM-DD')).tasks.push(task);
                             box.tasks.splice(v, 1);
                         }else{
                             this.dates.get(task.planed_at).tasks.push(task);
                             box.tasks.splice(v, 1);
+                            
+
+                            // TODO think about this >>
+                            
+                            // task.planed_at = null;
+                            // task.done = false;
+                            // this.compliteTask(task, i);
                         }
                         
                     }
@@ -71,12 +67,6 @@ export const useTodoStore = defineStore('todo', {
             }
 
         })
-
-
-
-
-
-
     },
 
 
