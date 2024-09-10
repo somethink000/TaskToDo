@@ -1,6 +1,6 @@
 {
-    "name": "Vue SPA",
-    "short_name": "Vue SPA",
+    "name": "TaskToDo",
+    "short_name": "TaskToDo",
     "lang": "de-DE",
     "start_url": "/",
     "display": "standalone"

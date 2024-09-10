@@ -73,13 +73,13 @@ services:
         networks:
             - sail
     node:
-        image: 'node:18-alpine'
+        image: 'node:20-alpine'
         working_dir: /var/www/laravel/current
         volumes:
             - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         networks:
             - sail
-        command: ["npm", "run", "build"]
+        command: ["npm", "run", "dev"]
         ports:
             - '5173:5173'
     meilisearch:
