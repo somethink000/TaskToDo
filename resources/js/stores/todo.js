@@ -40,13 +40,19 @@ export const useTodoStore = defineStore('todo', {
                         if (this.dates.get(task.planed_at) == null) {
                             task.planed_at = moment.unix(task.planed_at).format('YYYY-MM-DD');
                         }
-                        console.log(task.planed_at);
+
+                        // console.log(moment(task.planed_at));
+                        console.log(moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day'));
+
+                        // var lesToday = moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day');
                         var lesToday = moment(task.planed_at).isBefore(moment(), 'day');
 
                         if (lesToday) {
                             if(task.done){
+                                
                                 continue;
                             }
+
                             task.dedline = true;
                             this.dates.get(moment().format('YYYY-MM-DD')).tasks.push(task);
                             box.tasks.splice(v, 1);
