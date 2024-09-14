@@ -42,6 +42,8 @@ export const useTodoStore = defineStore('todo', {
                         }
 
                         // console.log(moment(task.planed_at));
+                        console.log(moment(task.planed_at));
+                        console.log(moment(task.planed_at, 'YYYY-MM-DD'));
                         console.log(moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day'));
 
                         // var lesToday = moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day');
