@@ -37,11 +37,11 @@ export const useTodoStore = defineStore('todo', {
                     
                     if (task.planed_at != null) {
                         
-                        if (moment(task.planed_at) == null) {
+                        if (moment(task.planed_at).isValid() == false) {
                             task.planed_at = moment.unix(task.planed_at).format('YYYY-MM-DD');
                         }
 
-                        
+
                         // console.log(moment(task.planed_at));
                         console.log(moment(task.planed_at));
                         console.log(moment(task.planed_at, 'YYYY-MM-DD'));
