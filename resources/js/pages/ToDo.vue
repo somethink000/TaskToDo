@@ -10,7 +10,7 @@
 
 	
 	import TasksBox from '@/components/TaskBox.vue';
-	import DateTaskBox from '@/components/DateTaskBox.vue';
+	import DateTaskBox from '@/components/TaskBoxPlaned.vue';
 	import TaskBoxForm from '@/components/TaskBoxForm.vue';
 	import BaseLine from '@/components/BaseLine.vue';
 	import Header from '@/components/Header.vue';
@@ -157,9 +157,10 @@
 			content {
 				flex-direction: column;
 				height: auto;
+				align-items: center;
 				planPanel{
 					width: 100%;
-					height: 460px; 
+					height: 430px; 
 					planPanelContent{
 						
 						overflow: hidden;
@@ -170,7 +171,7 @@
 					margin-top: 30px;
 					flex-direction: column;
 					flex-wrap: none;
-					width: 100%;
+					width: 98%;
 					height: 100%;
 					padding: 0px;
 					overflow: none;
