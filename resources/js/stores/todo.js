@@ -42,12 +42,6 @@ export const useTodoStore = defineStore('todo', {
                         }
 
 
-                        // console.log(moment(task.planed_at));
-                        console.log(moment(task.planed_at));
-                        console.log(moment(task.planed_at, 'YYYY-MM-DD'));
-                        console.log(moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day'));
-
-                        // var lesToday = moment(task.planed_at, 'YYYY-MM-DD').isBefore(moment(), 'day');
                         var lesToday = moment(task.planed_at).isBefore(moment(), 'day');
 
                         if (lesToday) {
@@ -62,13 +56,7 @@ export const useTodoStore = defineStore('todo', {
                         }else{
                             this.dates.get(task.planed_at).tasks.push(task);
                             box.tasks.splice(v, 1);
-                            
-
-                            // TODO think about this >>
-                            
-                            // task.planed_at = null;
-                            // task.done = false;
-                            // this.compliteTask(task, i);
+                             
                         }
                         
                     }

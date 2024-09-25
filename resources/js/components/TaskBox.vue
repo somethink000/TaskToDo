@@ -33,7 +33,7 @@
             box() {return this.todoStore?.getBox(this.id)},
         },
         mounted() {
-            
+            this.fetchNewComplited();
 		},
 		methods: {
         
@@ -46,6 +46,19 @@
                 'delete_taskbox'
             ]),
             
+            fetchNewComplited() {
+                for (var v = 0; v < this.box.tasks.length; v++) {
+                    var task = this.box.tasks[v];
+
+                    
+                    if ( task.planed_at != null && task.done == true ) {
+                        task.planed_at = null;
+                        task.done = false;
+                        this.complite_task(task, v);
+                    }   
+                }
+            },
+
             onTaskEnter() {
                 
 				this.create_task(this.form).then((res) => {

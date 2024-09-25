@@ -29,7 +29,7 @@
         },
         mounted() {
             
-    
+            
 		},
 		methods: {
 
@@ -39,6 +39,8 @@
             ]),
     
            
+
+
 			dateChanged(item) { 
                
                 if (item.added != null ){
@@ -48,6 +50,7 @@
                     this.update_task(task);
                 }
             },
+
 
             compliteTask(task, index) {
                 task.done = !task.done;
