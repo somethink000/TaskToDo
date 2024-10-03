@@ -1,190 +1,128 @@
+<script setup>
+import { ref } from 'vue'
+import { VueFlow, useVueFlow } from '@vue-flow/core'
+import { Background } from '@vue-flow/background'
+import { ControlButton, Controls } from '@vue-flow/controls'
+import { MiniMap } from '@vue-flow/minimap'
+import { initialEdges, initialNodes } from './initial-elements.js'
+import Icon from './Icon.vue'
 
+/**
+ * `useVueFlow` provides:
+ * 1. a set of methods to interact with the VueFlow instance (like `fitView`, `setViewport`, `addEdges`, etc)
+ * 2. a set of event-hooks to listen to VueFlow events (like `onInit`, `onNodeDragStop`, `onConnect`, etc)
+ * 3. the internal state of the VueFlow instance (like `nodes`, `edges`, `viewport`, etc)
+ */
+const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject } = useVueFlow()
 
-<script>
-	import { defineComponent } from 'vue';
-	import axios from 'axios';
-	import draggable from 'vuedraggable';
-	import moment from "moment";
-	import { useTodoStore } from '@/stores/todo.js'
-	import { mapActions, mapStores } from 'pinia'
+const nodes = ref(initialNodes)
 
-	
-	import TasksBox from '@/components/TaskBox.vue';
-	import DateTaskBox from '@/components/TaskBoxPlaned.vue';
-	import TaskBoxForm from '@/components/TaskBoxForm.vue';
-	import BaseLine from '@/components/BaseLine.vue';
-	import Header from '@/components/Header.vue';
-	import CircleButtonImage from '@/components/CircleButtonImage.vue';
-	
+const edges = ref(initialEdges)
 
+// our dark mode toggle flag
+const dark = ref(false)
 
-	export default defineComponent({
-		components: {
-			
-			DateTaskBox,
-			TasksBox,
-			TaskBoxForm,
-			BaseLine,
-			Header,
-			CircleButtonImage,
-			draggable
+/**
+ * This is a Vue Flow event-hook which can be listened to from anywhere you call the composable, instead of only on the main component
+ * Any event that is available as `@event-name` on the VueFlow component is also available as `onEventName` on the composable and vice versa
+ *
+ * onInit is called when the VueFlow viewport is initialized
+ */
+onInit((vueFlowInstance) => {
+  // instance is the same as the return of `useVueFlow`
+  vueFlowInstance.fitView()
+})
 
-		},
-		data: () => ({
-			boxForm: false,
-			
-		}),
-		computed: {
-			...mapStores(useTodoStore),
+/**
+ * onNodeDragStop is called when a node is done being dragged
+ *
+ * Node drag events provide you with:
+ * 1. the event object
+ * 2. the nodes array (if multiple nodes are dragged)
+ * 3. the node that initiated the drag
+ * 4. any intersections with other nodes
+ */
+onNodeDragStop(({ event, nodes, node }) => {
+  console.log('Node Drag Stop', { event, nodes, node })
+})
 
-			boxes() {return this.todoStore?.currentBoxes},
-			dates() {return this.todoStore?.currentDates},
-			
-		},
-		mounted() {
-			this.loadTodo();
-		},
-		methods: {
-			
-			...mapActions(useTodoStore, ['load_data']),
-			
-			loadTodo() {
-				this.load_data().then(() => {})
-			},
-			
-			
-			closeBoxForm() {this.boxForm = false;},
-			openBoxForm() {this.boxForm = true;},
+/**
+ * onConnect is called when a new connection is created.
+ *
+ * You can add additional properties to your new edge (like a type or label) or block the creation altogether by not calling `addEdges`
+ */
+onConnect((connection) => {
+  addEdges(connection)
+})
 
-			
-			onCreatedBox(e) {
-				e.tasks = [];
-				this.boxes.set( e.id, e);
-				this.closeBoxForm();
-			},
-			
-		}
-	});
+/**
+ * To update a node or multiple nodes, you can
+ * 1. Mutate the node objects *if* you're using `v-model`
+ * 2. Use the `updateNode` method (from `useVueFlow`) to update the node(s)
+ * 3. Create a new array of nodes and pass it to the `nodes` ref
+ */
+function updatePos() {
+  nodes.value = nodes.value.map((node) => {
+    return {
+      ...node,
+      position: {
+        x: Math.random() * 400,
+        y: Math.random() * 400,
+      },
+    }
+  })
+}
+
+/**
+ * toObject transforms your current graph data to an easily persist-able object
+ */
+function logToObject() {
+  console.log(toObject())
+}
+
+/**
+ * Resets the current viewport transformation (zoom & pan)
+ */
+function resetTransform() {
+  setViewport({ x: 0, y: 0, zoom: 1 })
+}
+
+function toggleDarkMode() {
+  dark.value = !dark.value
+}
 </script>
 
-
-
-
 <template>
-	<main>
-		<Header> 
-			<CircleButtonImage @click="openBoxForm()" title="New Task Box" image="/images/plus.png"/> 
-		</Header> 
+  <VueFlow
+    :nodes="nodes"
+    :edges="edges"
+    :class="{ dark }"
+    class="basic-flow"
+    :default-viewport="{ zoom: 1.5 }"
+    :min-zoom="0.2"
+    :max-zoom="4"
+  >
+    <Background pattern-color="#aaa" :gap="16" />
 
-		<TaskBoxForm v-if="this.boxForm == true" @on-created-box="onCreatedBox" @close-boxform="closeBoxForm()"/>
-		<content>
-			
+    <MiniMap />
 
-			<planPanel>
-				<planPanelContent>
-					
-					<DateTaskBox v-for="(date) in dates.keys()" :date="date"/>
-					
-				</planPanelContent>
-			</planPanel>
+    <Controls position="top-left">
+      <ControlButton title="Reset Transform" @click="resetTransform">
+        <Icon name="reset" />
+      </ControlButton>
 
-			<boxesplace>
-				<TasksBox v-for="(box) in boxes.keys()" :id="box"/>
-			</boxesplace>
-		</content>
-	</main>
+      <ControlButton title="Shuffle Node Positions" @click="updatePos">
+        <Icon name="update" />
+      </ControlButton>
+
+      <ControlButton title="Toggle Dark Mode" @click="toggleDarkMode">
+        <Icon v-if="dark" name="sun" />
+        <Icon v-else name="moon" />
+      </ControlButton>
+
+      <ControlButton title="Log `toObject`" @click="logToObject">
+        <Icon name="log" />
+      </ControlButton>
+    </Controls>
+  </VueFlow>
 </template>
-
-<style>
-
-
-	main{
-
-		display: flex;
-		position: absolute;
-		margin: auto;
-		height: 98%;
-		width: 98%;
-		flex-direction: column;
-
-		content {
-			display: flex;
-			height: 92%;
-			flex-direction: row;
-		
-		
-			planPanel {
-				display: flex;
-				width: 420px;
-				height: 100%;
-				max-height: 100%;
-
-				planPanelContent {
-					display: flex;
-					flex-direction: column;
-					border-radius: 10px;
-					padding: 10px;
-					width: 100%;
-					height: 100%;
-					overflow: auto;
-					-ms-overflow-style: none;
-					scrollbar-width: none;
-				}	
-
-				planPanelContent::-webkit-scrollbar {
-					display: none;
-				}
-
-			}
-
-			boxesplace{
-				
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-				align-items: flex-start;
-				/* justify-content: center; */
-				width: 80%;
-				overflow: auto;
-				padding: 10px;
-				max-height: 100%;
-				-ms-overflow-style: none;
-				scrollbar-width: none;
-			}
-		}
-
-		@media screen and (max-width: 600px) {
-			content {
-				flex-direction: column;
-				height: auto;
-				align-items: center;
-				planPanel{
-					width: 100%;
-					height: 430px; 
-					planPanelContent{
-						
-						overflow: hidden;
-					}
-				}
-
-				boxesplace{
-					margin-top: 30px;
-					flex-direction: column;
-					flex-wrap: none;
-					width: 98%;
-					height: 100%;
-					padding: 0px;
-					overflow: none;
-					
-
-
-					taskBoxBlock {
-						width: 100%;
-						margin-right: none;
-						
-					}
-				}
-			}
-		}
-	}
-</style>
