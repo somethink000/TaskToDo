@@ -1,3 +1,5 @@
+@import url("/fonts/stylesheet.css");
+
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.41.2/dist/style.css';
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/core@1.41.2/dist/theme-default.css';
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/controls@latest/dist/style.css';
@@ -10,25 +12,51 @@ body,
   margin: 0;
   height: 100%;
 }
-
-#app {
-  text-transform: uppercase;
-  font-family: 'JetBrains Mono', monospace;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.bl-box {
+	background-color: rgba(34, 34, 34, 0.5);
 }
+.wh-box {
+	background-color: rgb(34, 34, 34);
+}
+
+.main-border{
+	border: 1px solid rgb(100, 100, 100);
+}
+#app {
+	font-size: 100%;
+	font-family: 'ZektonRg';
+	font-weight: lighter;
+	color: white;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+}
+
+ttl {
+	display: flex;
+	padding: 6px;
+	font-size: 28px;
+	/* font-weight: 200; */
+	text-shadow: 2px 1px 4px white;
+
+}
+
+txt {
+	display: flex;
+	padding: 5px;
+	font-size: 18px;
+	/* font-weight: 200; */
+	
+	
+	/* text-shadow: 0px 1px 1px white; */
+}
+
 
 .vue-flow__minimap {
   transform: scale(75%);
   transform-origin: bottom right;
 }
 
-.basic-flow.dark {
-    background:#2d3748;
-    color:#fffffb
-}
 
 .basic-flow.dark .vue-flow__node {
     background:#4a5568;
