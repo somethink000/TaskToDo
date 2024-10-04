@@ -1,9 +1,9 @@
 
 <script>
 
-import centerPanel from '@/components/centerPanel.vue';
-import Header from '@/components/Header.vue';
-import CircleButtonImage from '@/components/CircleButtonImage.vue';
+// import centerPanel from '@/components/centerPanel.vue';
+// import Header from '@/components/Header.vue';
+// import CircleButtonImage from '@/components/CircleButtonImage.vue';
 
 
 export default {
@@ -14,7 +14,7 @@ export default {
     }
   },
   components: {
-    centerPanel, Header, CircleButtonImage
+    //centerPanel, Header, CircleButtonImage
   },
   methods: {
     resetPassword() {
@@ -33,7 +33,7 @@ export default {
 
 <template>
 
-  <centerPanel>
+  <!-- <centerPanel>
     <Header> 
       <CircleButtonImage @click="this.$router.push('Login')" title="Login" image="/images/check.png"/> 
     </Header>
@@ -55,7 +55,7 @@ export default {
 
       </form>
     </formCont>
-  </centerPanel>
+  </centerPanel> -->
 </template>
 
 

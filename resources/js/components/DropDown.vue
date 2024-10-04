@@ -1,4 +1,3 @@
-
 <script>
 
 	import { defineComponent } from 'vue';
@@ -17,7 +16,8 @@
 <template>
 
     <div class="dropdown">
-        <ImageButton class="dropbtn" :image="image" :size="size" />
+        <!-- <ImageButton class="dropbtn" :image="image" :size="size" /> -->
+        <div class="dropbtn" ></div>
         <div class="dropdown-content">
             <slot />
         </div>
@@ -28,7 +28,10 @@
 <style>
   
     .dropbtn {
+        position: absolute;
         border: none;
+        width: 100%;
+        height: 100%;
     }
 
     .dropdown {

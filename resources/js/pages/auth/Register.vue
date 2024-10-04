@@ -4,9 +4,6 @@
 <script>
 import { mapActions } from 'pinia'
 import { useAuthStore } from '@/stores/auth.js'
-import centerPanel from '@/components/centerPanel.vue';
-import Header from '@/components/Header.vue';
-import CircleButtonImage from '@/components/CircleButtonImage.vue';
 
 
 export default {
@@ -22,7 +19,7 @@ export default {
     }
   },
   components: {
-    centerPanel, Header, CircleButtonImage
+
   },
   methods: {
     ...mapActions(useAuthStore, ['attempt_user']),
@@ -51,7 +48,7 @@ export default {
 
 <template>
 
-  <centerPanel>
+  <!-- <centerPanel>
 
       <Header> 
         <CircleButtonImage @click="this.$router.push('Login')" title="Login" image="/images/check.png"/> 
@@ -95,6 +92,6 @@ export default {
       
         </form>
       </formCont>
-  </centerPanel>
+  </centerPanel> -->
 </template>
 

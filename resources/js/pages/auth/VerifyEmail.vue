@@ -1,9 +1,9 @@
 
 <script>
 
-import centerPanel from '@/components/centerPanel.vue';
-import Header from '@/components/Header.vue';
-import CircleButtonImage from '@/components/CircleButtonImage.vue';
+// import centerPanel from '@/components/centerPanel.vue';
+// import Header from '@/components/Header.vue';
+// import CircleButtonImage from '@/components/CircleButtonImage.vue';
 
 export default {
   data() {
@@ -12,7 +12,7 @@ export default {
     }
   },
   components: {
-    centerPanel, Header, CircleButtonImage
+    //centerPanel, Header, CircleButtonImage
   },
   methods: {
     resendVerification() {
@@ -33,7 +33,7 @@ export default {
 <template>
 
 
-  <centerPanel>
+  <!-- <centerPanel>
     <Header> 
       <CircleButtonImage @click="this.$router.push('Register')" title="Register" image="/images/plus.png"/> 
     </Header>
@@ -55,6 +55,6 @@ export default {
 
     </form>
  
-  </centerPanel>
+  </centerPanel> -->
 </template>
 
