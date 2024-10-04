@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { ControlButton, Controls } from '@vue-flow/controls'
-import { MiniMap } from '@vue-flow/minimap'
 import { initialEdges, initialNodes } from './initial-elements.js'
 import Icon from './Icon.vue'
 
@@ -104,16 +103,15 @@ function toggleDarkMode() {
   >
     <Background pattern-color="#aaa" :gap="16" />
 
-    <MiniMap />
 
     <Controls position="top-left">
       <ControlButton title="Reset Transform" @click="resetTransform">
         <Icon name="reset" />
       </ControlButton>
 
-      <ControlButton title="Shuffle Node Positions" @click="updatePos">
+      <!-- <ControlButton title="Shuffle Node Positions" @click="updatePos">
         <Icon name="update" />
-      </ControlButton>
+      </ControlButton> -->
 
       <ControlButton title="Toggle Dark Mode" @click="toggleDarkMode">
         <Icon v-if="dark" name="sun" />

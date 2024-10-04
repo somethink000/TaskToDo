@@ -38,32 +38,25 @@ export const initialNodes = [
 
 export const initialEdges = [
   {
-    id: 'e1-2',
+    id: '1',
     source: '1',
     target: '2',
-    animated: true,
+    
   },
   {
-    id: 'e1-3',
+    id: '2',
     source: '1',
     target: '3',
-    label: 'edge with arrowhead',
-    markerEnd: MarkerType.ArrowClosed,
+    
   },
   {
-    id: 'e4-5',
-    type: 'step',
+    id: '3',
     source: '4',
     target: '5',
-    label: 'Node 2',
-    style: { stroke: 'orange' },
-    labelBgStyle: { fill: 'orange' },
   },
   {
-    id: 'e3-4',
-    type: 'smoothstep',
+    id: '4',
     source: '3',
     target: '4',
-    label: 'smoothstep-edge',
   },
 ]
