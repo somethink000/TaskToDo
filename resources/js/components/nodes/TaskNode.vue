@@ -79,36 +79,33 @@ const { updateNodeData } = useVueFlow()
         
         
         description {
-            width: 100%;
+            width: 10%;
             flex-direction: column;
+            transition: width 0.5s;
 
             baseBox {
                 padding-top: 4px;
-                padding-bottom: 4px;
-                width: 5%;
-                transition: width 1s;
+                
+                width: 100%;
+                
             }
 
-            
-
             txt {
-                
-                display: none;
-                transition: all 1s ease-out;
+                max-height: 0px;
+                transition: 0.5s max-height ease;
+                overflow: hidden;
             }
         }
 
 
         description:hover {
+            transition: width 1s;
+            width: 100%;
 
-            baseBox {
-                transition: width 1s;
-                width: 100%;
-            }
 
             txt {
-                display: flex;
-                transition: all 1s ease-out;
+                
+                max-height: 200px;
             }
         }
        
