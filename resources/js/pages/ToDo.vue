@@ -5,35 +5,26 @@
   import { Background } from '@vue-flow/background'
   import { useNodesStore } from '@/stores/nodes.js'
 
-  const store = useCounterStore()
+  const store = useNodesStore()
   const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject } = useVueFlow()
 
-  // const nodes = ref([
-  //   {
+  const nodes = store.getNodes
+  const edges = store.getEdges
+  
+  // {
   //     id: '1',
   //     type: 'task',
   //     data: { label: 'toolbar top ddd dwdw dwdw dwd wdwd w dwdwd wd wdwdwd', toolbarPosition: Position.Top },
   //     position: { x: 200, y: 0 },
-  //   },
-  //   {
+  // },
+  // {
   //     id: '2',
   //     type: 'task',
   //     data: { label: 'toolbar right', toolbarPosition: Position.Right },
   //     position: { x: -50, y: 100 },
-  //   },
-  // ])
+  // },
 
-  const edges = ref([
-  // {
-  //   id: '1',
-  //   source: '1',
-  //   target: '2',
-  //   animated: true,
-  // }
-  ])
-
-  
-
+  store.load_data();
   /**
    * onConnect is called when a new connection is created.
    *

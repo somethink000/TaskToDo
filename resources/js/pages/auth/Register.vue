@@ -48,7 +48,7 @@ export default {
 
 <template>
 
-  <!-- <centerPanel>
+  <centerPanel>
 
       <Header> 
         <CircleButtonImage @click="this.$router.push('Login')" title="Login" image="/images/check.png"/> 
@@ -92,6 +92,6 @@ export default {
       
         </form>
       </formCont>
-  </centerPanel> -->
+  </centerPanel>
 </template>
 

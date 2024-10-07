@@ -1,22 +1,30 @@
 
 import { defineStore } from 'pinia'
 import moment from "moment";
+import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
 
-export const useTodoStore = defineStore('nodes', {
+
+export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    nodes: {},
-	
+    nodes: [ ],
+	edges: [ ],
+    // {
+    //   id: '1',
+    //   source: '1',
+    //   target: '2',
+    //   animated: true,
+    // }
   }),
   actions: {
    
     //refresh all nodes
     async load_data() {
-
+       
         axios.get('/api/nodes')
         .then(res => {
             
-            //this.nodes = res.data
-            console.log(this.nodes)
+            // this.nodes = res.data
+            console.log(res.data)
         })
     },
 
@@ -49,7 +57,7 @@ export const useTodoStore = defineStore('nodes', {
 
         // return axios.post('/api/nodes', form, {
         //     headers: {
-        //         "Content-type": "application/json"
+        //         "Content-doubleValuetype": "application/json"
         //     }
         // })
         // .then(res => {
@@ -181,6 +189,8 @@ export const useTodoStore = defineStore('nodes', {
     },
     getters: {
         getNodes: (state) => state.nodes,
+        getEdges: (state) => state.edges,
+
         // getBox: (state)=> {
         //     return (boxId) => state.boxes.get(boxId);
         // },
