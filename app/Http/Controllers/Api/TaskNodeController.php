@@ -15,17 +15,7 @@ class TaskNodeController extends Controller
      */
     public function index(Request $request)
     {    
-        $boxes = TaskNode::where('user_id', Auth::user()->id)->get();
-        $boxes->load('tasks');
-        return $boxes;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return TaskNode::where('user_id', Auth::user()->id)->get();
     }
 
     /**
@@ -33,7 +23,10 @@ class TaskNodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            'user_id' => Auth::user()->id,
+        ]);
+        return TaskNode::create($request->all());
     }
 
     /**

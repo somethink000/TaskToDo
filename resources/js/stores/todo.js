@@ -19,7 +19,7 @@ export const useTodoStore = defineStore('todo', {
             
             this.dates.set( date, {tasks: []});
         }
-
+        
         //parse data
         axios.get('/api/taskBoxes')
         .then(res => {
