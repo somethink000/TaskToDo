@@ -6,7 +6,7 @@
   import { useNodesStore } from '@/stores/nodes.js'
 
   const store = useNodesStore()
-  const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject } = useVueFlow()
+  const { onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
 
   const nodes = store.getNodes
   const edges = store.getEdges
@@ -25,6 +25,24 @@
   // },
 
   store.load_data();
+
+
+
+  function addNode() {
+
+    var form = {
+        type: 'task',
+        props: { label: 'toolbar top ddd dwdw dwdw dwd wdwd w dwdwd wd wdwdwd', pepePopo: "dwd" },
+        done: false, 
+        posx: 200,
+        posy: 0,
+    };
+   
+    store.create_node(form)
+    
+    //console.log(store.getNodes);
+  }
+
   /**
    * onConnect is called when a new connection is created.
    *
@@ -37,6 +55,9 @@
 </script>
 
 <template>
+   <button class="colItem main-border" @click="addNode()">add TaskNode</button>
+
+
   <VueFlow 
   :nodes="nodes" 
   :edges="edges"
@@ -47,9 +68,14 @@
       <TaskNode v-bind="props"/>
     </template>
 
-
+   
     <Background pattern-color="#aaa" :gap="16" />
+
+   
   </VueFlow>
+
+  
+
 </template>
 
 <style>

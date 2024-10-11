@@ -23,7 +23,7 @@ export const useNodesStore = defineStore('nodes', {
         axios.get('/api/nodes')
         .then(res => {
             
-            // this.nodes = res.data
+            this.nodes = res.data
             console.log(res.data)
         })
     },
@@ -42,38 +42,35 @@ export const useNodesStore = defineStore('nodes', {
 
 
     async create_node(form) { 
+
         
-
-        form = {
-            id: '1',
-            type: 'task',
-            data: { label: 'toolbar top ddd dwdw dwdw dwd wdwd w dwdwd wd wdwdwd', toolbarPosition: Position.Top },
-            position: { x: 200, y: 0 },
-        };
-
-        this.nodes.unshift(form);
+       
+        // this.nodes.unshift(form);
         
+        // console.log(this.nodes);
 
+        return axios.post('/api/nodes', form, {
+            headers: {
+                "Content-doubleValuetype": "application/json"
+            }
+        })
+        .then(res => {
 
-        // return axios.post('/api/nodes', form, {
-        //     headers: {
-        //         "Content-doubleValuetype": "application/json"
-        //     }
-        // })
-        // .then(res => {
-
-        //     var data = res.data;
-        //     if (data) {
+            var data = res.data;
+            if (data) {
                 
-        //         var nodes = this.boxes.get(form.nodebox_id).nodes
-        //         nodes.unshift(data);
-        //         this.update_nodes_sort(form.nodebox_id);
+                console.log(data);
+                // addNodes([form])
 
-        //         return data;
-        //     } else {
+                // var nodes = this.boxes.get(form.nodebox_id).nodes
+                // nodes.unshift(data);
+                // this.update_nodes_sort(form.nodebox_id);
+
+                return data;
+            } else {
                 
-        //     }
-        // })  
+            }
+        })  
     },
 
 
