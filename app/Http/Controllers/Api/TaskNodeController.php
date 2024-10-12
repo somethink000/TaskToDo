@@ -30,7 +30,7 @@ class TaskNodeController extends Controller
 
 
         $request->all()['data'] = json_encode($request->post('data')); 
-        
+        $request->all()['position'] = json_encode($request->post('position')); 
     
         return TaskNode::create($request->all());
     }

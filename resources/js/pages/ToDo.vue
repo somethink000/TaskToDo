@@ -6,9 +6,9 @@
   import { useNodesStore } from '@/stores/nodes.js'
 
   const store = useNodesStore()
-  const { onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
+  const { nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
 
-  const nodes = store.getNodes
+  //const nodes = ref([{ id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } }])
   const edges = store.getEdges
   
   // {
@@ -24,7 +24,34 @@
   //     position: { x: -50, y: 100 },
   // },
 
-  store.load_data();
+  function loadData() {
+
+    axios.get('/api/nodes')
+    .then(res => {
+        
+
+      //nodes.value = res.data
+      //console.log(nodes.value)
+
+
+      //this.nodes = res.data
+      
+      for (var i = 0; i < res.data.length; ++i) {
+          
+          
+          let nodeData = res.data[i];
+          addNodes([nodeData])
+          // let node = {
+          //     id: nodeData.id,
+          //     type: nodeData.type,
+          //     data: nodeData.data,
+          //     position: { x: nodeData.posx, y: nodeData.posy}
+          // }
+          
+          // this.nodes.unshift(node);
+      }
+    })
+  }
 
 
 
@@ -34,14 +61,15 @@
         type: 'task',
         data: { label: 'make america great again', description: "Vote for obamna" },
         done: false, 
-        posx: 200,
-        posy: 0,
+        position: { x: 0, y: 200 }
     };
    
     store.create_node(form)
     
     //console.log(store.getNodes);
   }
+
+  loadData();
 
   /**
    * onConnect is called when a new connection is created.
@@ -57,9 +85,9 @@
 <template>
    <button class="colItem main-border" @click="addNode()">add TaskNode</button>
 
-
+  <!-- :nodes="nodes" -->
   <VueFlow 
-  :nodes="nodes" 
+   
   :edges="edges"
   fit-view-on-init
   class="basic-flow"

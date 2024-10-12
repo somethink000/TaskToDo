@@ -11,14 +11,16 @@ class TaskNode extends Model
 
     protected $casts = [
         'data' => 'array',
+        'position' => 'array'
     ];
 
     protected $fillable = [
         'type',
         'data',
         'done',
-        'posx',
-        'posy',
+        'position',
+        // 'posx',
+        // 'posy',
         'user_id',
     ];
 }

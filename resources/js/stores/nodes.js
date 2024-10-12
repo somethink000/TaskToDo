@@ -2,11 +2,12 @@
 import { defineStore } from 'pinia'
 import moment from "moment";
 import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
+import { ref } from 'vue';
 
 
 export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    nodes: [ ],
+    nodes: ref([ ]),
 	edges: [ ],
     // {
     //   id: '1',
@@ -23,8 +24,22 @@ export const useNodesStore = defineStore('nodes', {
         axios.get('/api/nodes')
         .then(res => {
             
-            this.nodes = res.data
-            console.log(res.data)
+            //this.nodes = res.data
+            //console.log(res.data)
+            // for (var i = 0; i < res.data.length; ++i) {
+                
+                
+            //     let nodeData = res.data[i];
+
+            //     let node = {
+            //         id: nodeData.id,
+            //         type: nodeData.type,
+            //         data: nodeData.data,
+            //         position: { x: nodeData.posx, y: nodeData.posy}
+            //     }
+               
+            //     this.nodes.unshift(node);
+            // }
         })
     },
 
@@ -57,13 +72,24 @@ export const useNodesStore = defineStore('nodes', {
         .then(res => {
 
             var data = res.data;
+
             if (data) {
                 
-                console.log(data);
-                // addNodes([form])
+                
+                
+                // for (var i = 0; i < data.length; ++i) {
+                //     //console.log(data[0][i]);
+                //     // let node = {
+                //     //     id
+                //     // }
+                // }
+                // nodes.unshift(data);
+
+
+                //addNodes([form])
 
                 // var nodes = this.boxes.get(form.nodebox_id).nodes
-                // nodes.unshift(data);
+                
                 // this.update_nodes_sort(form.nodebox_id);
 
                 return data;

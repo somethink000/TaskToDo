@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('type');
             $table->json('data');
             $table->boolean('done');
-            $table->integer('posx');
-            $table->integer('posy');
+            $table->json('position');
+            // $table->integer('posx');
+            // $table->integer('posy');
             $table->integer('user_id');
             $table->timestamps();
         });
