@@ -32,7 +32,7 @@
 
     var form = {
         type: 'task',
-        props: { label: 'toolbar top ddd dwdw dwdw dwd wdwd w dwdwd wd wdwdwd', pepePopo: "dwd" },
+        data: { label: 'make america great again', description: "Vote for obamna" },
         done: false, 
         posx: 200,
         posy: 0,

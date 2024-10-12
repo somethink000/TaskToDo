@@ -10,12 +10,12 @@ class TaskNode extends Model
     use HasFactory;
 
     protected $casts = [
-        'props' => 'array',
+        'data' => 'array',
     ];
 
     protected $fillable = [
         'type',
-        'props',
+        'data',
         'done',
         'posx',
         'posy',

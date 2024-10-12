@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('task_nodes', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->json('props');
+            $table->json('data');
             $table->boolean('done');
             $table->integer('posx');
             $table->integer('posy');

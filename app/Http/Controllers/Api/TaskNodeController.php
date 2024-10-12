@@ -24,17 +24,15 @@ class TaskNodeController extends Controller
     public function store(Request $request)
     {
         
-        //$this->service->handleOwner($data['taskbox_id']);
-
         $request->merge([
             'user_id' => Auth::user()->id,
         ]);
 
 
-        $request->all()['props'] = json_encode($request->post('props')); 
+        $request->all()['data'] = json_encode($request->post('data')); 
         
     
-        return TaskNode::create($request->all()); //$request->all()['props'];
+        return TaskNode::create($request->all());
     }
 
     /**
