@@ -3,6 +3,8 @@ import { Handle, Position, useVueFlow } from '@vue-flow/core'
 import { NodeToolbar } from '@vue-flow/node-toolbar'
 import DropDown from '@/components/DropDown.vue'
 import BaseLine from '@/components/BaseLine.vue'
+import ImageButton from '@/components/ImageButton.vue'
+
 
 const props = defineProps(['id', 'data'])
 
@@ -18,9 +20,15 @@ const { updateNodeData } = useVueFlow()
            
             <txt>{{ data.label }}</txt>
 
-            <DropDown image="/images/dots.png" size="18">
-				<a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Showcase</a>
-			</DropDown>
+            <taskActions>
+                <DropDown image="/images/dots.png" size="18">
+                    <a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Изменить</a>
+                    <a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Удалить</a>
+                </DropDown>
+
+                <a href=""><img src="/images/check.png" width="22" /></a>
+                <!-- <ImageButton :image="/images/check.png" :size="18"/> -->
+            </taskActions>
 
        </taskTitle>
        

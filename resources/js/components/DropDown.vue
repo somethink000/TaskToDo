@@ -7,7 +7,7 @@
 
 	export default defineComponent({
         props: ['image', 'size'],
-		components: {ImageButton},
+		components: { ImageButton },
 		
 	});
 </script>

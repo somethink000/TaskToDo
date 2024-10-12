@@ -35,28 +35,22 @@ class TaskNodeController extends Controller
         return TaskNode::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TaskNode $taskNode)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TaskNode $taskNode)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, TaskNode $taskNode)
     {
-        //
+
+        $taskNode = TaskNode::where('id', $request->all()['id'])->get();
+        $request->all()['data'] = json_encode($request->post('data')); 
+        $request->all()['position'] = json_encode($request->post('position')); 
+        //$this->service->handleOwner($data['taskbox_id']);
+        
+
+        $taskNode[0]->update($request->all());
+
+        return $taskNode;
     }
 
     /**

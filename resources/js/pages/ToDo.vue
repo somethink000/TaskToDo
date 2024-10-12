@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from 'vue'
-  import { Position, useVueFlow, VueFlow } from '@vue-flow/core'
+  import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
   import TaskNode from '@/components/nodes/TaskNode.vue'
   import { Background } from '@vue-flow/background'
   import { useNodesStore } from '@/stores/nodes.js'
@@ -10,49 +10,54 @@
 
   //const nodes = ref([{ id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } }])
   const edges = store.getEdges
-  
-  // {
-  //     id: '1',
-  //     type: 'task',
-  //     data: { label: 'toolbar top ddd dwdw dwdw dwd wdwd w dwdwd wd wdwdwd', toolbarPosition: Position.Top },
-  //     position: { x: 200, y: 0 },
-  // },
-  // {
-  //     id: '2',
-  //     type: 'task',
-  //     data: { label: 'toolbar right', toolbarPosition: Position.Right },
-  //     position: { x: -50, y: 100 },
-  // },
+
 
   function loadData() {
 
     axios.get('/api/nodes')
     .then(res => {
-        
-
-      //nodes.value = res.data
-      //console.log(nodes.value)
-
-
-      //this.nodes = res.data
-      
+      console.log(res.data);
       for (var i = 0; i < res.data.length; ++i) {
           
-          
           let nodeData = res.data[i];
-          addNodes([nodeData])
-          // let node = {
-          //     id: nodeData.id,
-          //     type: nodeData.type,
-          //     data: nodeData.data,
-          //     position: { x: nodeData.posx, y: nodeData.posy}
-          // }
           
-          // this.nodes.unshift(node);
+          addNodes([nodeData])
       }
     })
   }
 
+  onNodeDragStop(({ event, nodes, node }) => {
+
+
+    for (var i = 0; i < nodes.length; ++i) {
+          
+        let node = nodes[i];
+        
+        
+        var nodeData = {
+          id: node.id,
+          type: 'task',
+          data: { label: 'make america great again', description: "Vote for obamna" },
+          done: false, 
+          position: node.position,
+          user_id: 1
+        };
+        
+        //console.log(nodeData);
+
+        return axios.patch('/api/nodes/' + node.id, nodeData, {
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then(res => {
+           
+          console.log(res.data);
+            
+        })
+    }
+    
+  })
 
 
   function addNode() {
@@ -64,18 +69,24 @@
         position: { x: 0, y: 200 }
     };
    
-    store.create_node(form)
+    // store.create_node(form)
+
+     return axios.post('/api/nodes', form, {
+            headers: {
+                "Content-doubleValuetype": "application/json"
+            }
+        })
+        .then(res => {
+
+
+            addNodes([res.data])
+  
+        })  
     
-    //console.log(store.getNodes);
   }
 
   loadData();
 
-  /**
-   * onConnect is called when a new connection is created.
-   *
-   * You can add additional properties to your new edge (like a type or label) or block the creation altogether by not calling `addEdges`
-   */
   onConnect((connection) => {
     addEdges(connection)
   })
@@ -83,15 +94,22 @@
 </script>
 
 <template>
-   <button class="colItem main-border" @click="addNode()">add TaskNode</button>
-
-  <!-- :nodes="nodes" -->
-  <VueFlow 
    
-  :edges="edges"
-  fit-view-on-init
-  class="basic-flow"
+  <!-- :nodes="nodes" :edges="edges"-->
+  <VueFlow 
+    fit-view-on-init
+    class="basic-flow"
   >
+    <!-- <button class="colItem main-border" @click="addNode()">add TaskNode</button> -->
+
+
+    <Panel position="top-right">
+      <div class="buttons">
+        <button title="save graph" @click="addNode()">Add</button>
+      </div>
+    </Panel>
+
+
     <template #node-task="props">
       <TaskNode v-bind="props"/>
     </template>
