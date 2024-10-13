@@ -1,19 +1,38 @@
 <script setup>
-import { Handle, Position, useVueFlow } from '@vue-flow/core'
+import { useNode, Handle, Position, useVueFlow } from '@vue-flow/core'
 import BaseLine from '@/components/BaseLine.vue'
 import ImageButton from '@/components/ImageButton.vue'
 
 
 const props = defineProps(['id', 'data'])
-const { updateNodeData } = useVueFlow()
+const { findNode, updateNodeData } = useVueFlow()
 
 var inEdit = false;
 var inputText = "";
+var node = findNode(props.id);
 
 function toggleEdit() {
     inEdit = !inEdit;
-    console.log(this);
+    
     updateNodeData(props.id);
+}
+
+function onDataTyped() {
+    
+    node.data = props.data;
+
+    console.log(node);
+    return axios.patch('/api/nodes/' + node.id, node, {
+        headers: {
+            "Content-type": "application/json"
+        }
+    })
+    .then(res => {
+        
+        console.log(res.data);
+        toggleEdit()
+    })
+    
 }
 
 
@@ -24,7 +43,7 @@ function toggleEdit() {
    
     <taskActions>
 
-        <ImageButton v-if="inEdit == true" image="/images/disk.png" size="12" />
+        <ImageButton v-if="inEdit == true" @click="onDataTyped()" image="/images/disk.png" size="12" />
 
         <ImageButton @click="toggleEdit()" image="/images/edit.png" size="12" />
         <ImageButton image="/images/trash.png" size="12" />
@@ -37,7 +56,7 @@ function toggleEdit() {
 
         <taskTitle> 
 
-            <input v-if="inEdit == true" v-on:keyup.enter="onTaskEnter" ref="inp" v-model="inputText"  type="text" placeholder="Text" >
+            <input v-if="inEdit == true" v-on:keyup.enter="onDataTyped" ref="inp" v-model="data.label"  type="text" placeholder="Text" >
            
             <txt v-else >{{ data.label }}</txt>
 
@@ -48,7 +67,7 @@ function toggleEdit() {
             
             <BaseLine />
 
-            <input v-if="inEdit == true" v-on:keyup.enter="onTaskEnter" ref="desc" v-model="inputText"  type="desc" placeholder="Description" >
+            <input v-if="inEdit == true" v-on:keyup.enter="onDataTyped" ref="desc" v-model="data.description"  type="desc" placeholder="Description" >
            
             <txt v-else >{{ data.description }}</txt>
 
