@@ -1,42 +1,57 @@
 <script setup>
 import { Handle, Position, useVueFlow } from '@vue-flow/core'
-import { NodeToolbar } from '@vue-flow/node-toolbar'
-import DropDown from '@/components/DropDown.vue'
 import BaseLine from '@/components/BaseLine.vue'
 import ImageButton from '@/components/ImageButton.vue'
 
 
 const props = defineProps(['id', 'data'])
-
-
 const { updateNodeData } = useVueFlow()
+
+var inEdit = false;
+var inputText = "";
+
+function toggleEdit() {
+    inEdit = !inEdit;
+    console.log(this);
+    updateNodeData(props.id);
+}
+
+
 </script>
 
 <template>
-    
+
+   
+    <taskActions>
+
+        <ImageButton v-if="inEdit == true" image="/images/disk.png" size="12" />
+
+        <ImageButton @click="toggleEdit()" image="/images/edit.png" size="12" />
+        <ImageButton image="/images/trash.png" size="12" />
+        <ImageButton image="/images/check.png" size="12" />
+
+    </taskActions>
+
+
     <content>
 
         <taskTitle> 
+
+            <input v-if="inEdit == true" v-on:keyup.enter="onTaskEnter" ref="inp" v-model="inputText"  type="text" placeholder="Text" >
            
-            <txt>{{ data.label }}</txt>
-
-            <taskActions>
-                <DropDown image="/images/dots.png" size="18">
-                    <a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Изменить</a>
-                    <a class="wh-box" href=""><img src="/images/ytb.png" width="22" />Удалить</a>
-                </DropDown>
-
-                <a href=""><img src="/images/check.png" width="22" /></a>
-                <!-- <ImageButton :image="/images/check.png" :size="18"/> -->
-            </taskActions>
+            <txt v-else >{{ data.label }}</txt>
 
        </taskTitle>
        
         
         <description>
+            
             <BaseLine />
 
-            <txt>{{ data.description }}</txt>
+            <input v-if="inEdit == true" v-on:keyup.enter="onTaskEnter" ref="desc" v-model="inputText"  type="desc" placeholder="Description" >
+           
+            <txt v-else >{{ data.description }}</txt>
+
         </description>
          
        
@@ -51,6 +66,20 @@ const { updateNodeData } = useVueFlow()
 
 <style>
 
+    taskActions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+
+        /* position: absolute;
+        right: 0;
+        padding-bottom: 100px;
+        min-width: 160px;
+        flex-direction: row;
+        z-index: 2; */
+    }
+
     .vue-flow__node {
         background-color: rgba(34, 34, 34, 0.5);
         padding: 10px;
@@ -60,14 +89,16 @@ const { updateNodeData } = useVueFlow()
     .vue-flow__node.selected {
         box-shadow: 0px 1px 8px 1px rgba(255, 255, 255, 0.8);
     }
-
+    
     content{
         display: flex;
         flex-direction: column;
         align-items: center;
         max-width: 300px;
-        width: 300px;
+        /* width: 300px; */
         
+      
+
         taskTitle {
             width: 100%;
             display: flex;
@@ -77,9 +108,11 @@ const { updateNodeData } = useVueFlow()
         }
 
         
+        description { 
+            width: 100%;
+        }
         
-        
-        description {
+        /* description {
             width: 10%;
             flex-direction: column;
             transition: width 0.5s;
@@ -108,7 +141,7 @@ const { updateNodeData } = useVueFlow()
                 
                 max-height: 200px;
             }
-        }
+        } */
        
     }
 

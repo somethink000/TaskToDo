@@ -24,6 +24,7 @@
 
 <style>
    button{
+	display: flex;
 	padding: 6px;
     background-color: transparent;
    }

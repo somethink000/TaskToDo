@@ -32,20 +32,9 @@
     for (var i = 0; i < nodes.length; ++i) {
           
         let node = nodes[i];
-        
-        
-        var nodeData = {
-          id: node.id,
-          type: 'task',
-          data: { label: 'make america great again', description: "Vote for obamna" },
-          done: false, 
-          position: node.position,
-          user_id: 1
-        };
-        
-        //console.log(nodeData);
+      
 
-        return axios.patch('/api/nodes/' + node.id, nodeData, {
+        return axios.patch('/api/nodes/' + node.id, node, {
             headers: {
                 "Content-type": "application/json"
             }
@@ -58,7 +47,6 @@
     }
     
   })
-
 
   function addNode() {
 

@@ -6,6 +6,36 @@
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/minimap@latest/dist/style.css';
 @import 'https://cdn.jsdelivr.net/npm/@vue-flow/node-resizer@latest/dist/style.css';
 
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section,
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, button,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	/* font-size: 100%;
+	font-family: 'ZektonRg';
+	font-weight: lighter;
+	color: white;
+	vertical-align: baseline;
+    display: flex; */
+
+}
+
+
+
+
 html,
 body,
 #app {
@@ -49,6 +79,68 @@ txt {
 	
 	
 	/* text-shadow: 0px 1px 1px white; */
+}
+
+formCont{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+
+	form{
+		width: 100%;
+	}
+}
+inpBox{
+	display: flex;
+	width: 100%;
+	padding: 4px;
+	border-radius: 8px;
+	
+
+	.input {
+		height: 100%;
+	}
+}
+
+input {
+	display: flex;
+    /* width: 100%; */
+    /* height: 100%; */
+    font-size: 16px;
+    border: none;
+    /* border-bottom: 1px solid rgb(100, 100, 100); */
+	/* margin: 10px; */
+	
+    color: aliceblue;
+
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.task_form {
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    padding: 8px;
+    margin-top: 12px;
+}
+
+
+button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 18px;
+	padding: 2px;
+	margin: 6px;
+}
+button:hover {
+	background-color: rgb(100, 100, 100);
+}
+button:active {
+	background-color: rgb(150, 150, 150);
 }
 
 
