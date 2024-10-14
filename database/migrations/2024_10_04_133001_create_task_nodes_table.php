@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('position');
             // $table->integer('posx');
             // $table->integer('posy');
+            $table->string('parentNode')->nullable();
             $table->integer('user_id');
             $table->timestamps();
             

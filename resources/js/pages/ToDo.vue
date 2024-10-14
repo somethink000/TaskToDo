@@ -1,23 +1,23 @@
 <script setup>
-  import { ref } from 'vue'
+  import { markRaw } from 'vue'
   import { Panel, Position, useVueFlow, VueFlow } from '@vue-flow/core'
-  import TaskNode from '@/components/nodes/TaskNode.vue'
   import { Background } from '@vue-flow/background'
   import { useNodesStore } from '@/stores/nodes.js'
+
+  import TaskNode from '@/components/nodes/TaskNode.vue'
+  import CastomEdge from '@/components/nodes/CastomEdge.vue'
 
   const store = useNodesStore()
   const { edges, nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, removeNodes, setViewport, toObject } = useVueFlow()
 
-  //const nodes = ref([{ id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } }])
-  //const edges = store.getEdges
-
+  const nodeTypes = {
+    task: markRaw(TaskNode),
+  }
 
   function loadData() {
 
     axios.get('/api/nodes')
     .then(res => {
-
-      console.log(res.data);
 
       let nodesData = res.data['nodes'];
       let edgesData = res.data['edges'];
@@ -29,6 +29,9 @@
       
     })
   }
+
+  
+
 
   onNodeDragStop(({ event, nodes, node }) => {
 
@@ -44,8 +47,7 @@
         })
         .then(res => {
            
-          console.log(res.data);
-            
+         
         })
     }
     
@@ -56,10 +58,11 @@
     var form = {
         type: 'task',
         data: { label: " ", description: " " },
-        done: false, 
+        done: false,
+        parentNode: '', 
         position: { x: 0, y: 200 }
     };
-   
+    
 
     return axios.post('/api/nodes', form, {
         headers: {
@@ -80,7 +83,7 @@
   onConnect((connection) => {
 
     let edge = {
-        type: 'smoothstep',
+        type: 'button', //smoothstep
         label: '',
         source: connection.source,
         target: connection.target,
@@ -108,6 +111,7 @@
   <VueFlow 
     fit-view-on-init
     class="basic-flow"
+    :nodeTypes="nodeTypes"
   >
     <!-- <button class="colItem main-border" @click="addNode()">add TaskNode</button> -->
 
@@ -119,8 +123,18 @@
     </Panel>
 
 
-    <template #node-task="props">
-      <TaskNode v-bind="props"/>
+    <template #edge-button="buttonEdgeProps">
+      <CastomEdge
+        :id="buttonEdgeProps.id"
+        :source-x="buttonEdgeProps.sourceX"
+        :source-y="buttonEdgeProps.sourceY"
+        :target-x="buttonEdgeProps.targetX"
+        :target-y="buttonEdgeProps.targetY"
+        :source-position="buttonEdgeProps.sourcePosition"
+        :target-position="buttonEdgeProps.targetPosition"
+        :marker-end="buttonEdgeProps.markerEnd"
+        :style="buttonEdgeProps.style"
+      />
     </template>
 
    

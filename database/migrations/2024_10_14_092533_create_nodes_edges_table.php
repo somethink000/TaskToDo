@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('nodes_edges', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->string('label')->nullable();
             $table->string('source');
             $table->string('target');

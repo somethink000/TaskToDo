@@ -40,12 +40,12 @@
         display: none;
         position: absolute;
         right: 0;
-        min-width: 160px;
+        min-width: 100px;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 2;
 
         a {
-            padding: 12px 16px;
+            padding: 6px 8px;
             flex-direction: row;
             align-items: center;
             text-decoration: none;

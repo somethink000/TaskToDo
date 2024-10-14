@@ -77,19 +77,20 @@ function Done() {
 
 <template>
 
-   
-    <taskActions>
-
-        <ImageButton v-if="inEdit == true" @click="onDataTyped()" image="/images/disk.png" size="12" />
-
-        <ImageButton @click="toggleEdit()" image="/images/edit.png" size="12" />
-        <ImageButton @click="Remove()" image="/images/trash.png" size="12" />
-        <ImageButton @click="Done()" image="/images/check.png" size="12" />
-
-    </taskActions>
-
-
     <content v-bind:class="{ 'done' : node.done == true }">
+        
+        <taskActions>
+
+            <ImageButton v-if="inEdit == true" @click="onDataTyped()" image="/images/disk.png" size="12" />
+
+            <ImageButton @click="toggleEdit()" image="/images/edit.png" size="12" />
+            <ImageButton @click="Remove()" image="/images/trash.png" size="12" />
+            <ImageButton @click="Done()" image="/images/check.png" size="12" />
+
+        </taskActions>
+
+
+    
 
         <taskTitle class="boxed"> 
 
@@ -103,27 +104,12 @@ function Done() {
 
        </taskTitle>
        
-         
-       
-    
-    
-        <description class="boxed">
-
-            <input v-if="inEdit == true" v-on:keyup.enter="onDataTyped" ref="desc" v-model="data.description"  type="desc" placeholder="Description" >
-            
-            <txt v-else >{{ data.description }}</txt>
-
-        </description>
 
     </content>
     
     
     <Handle type="target" :position="Position.Left" />
     <Handle type="source" :position="Position.Right" />
-    <!-- <Handle :position="Position.Bottom" />
-    <Handle :position="Position.Right" />
-    <Handle :position="Position.Left" /> -->
-    
     <!-- <Handle type="source" :position="Position.Right" /> -->
 </template>
 
