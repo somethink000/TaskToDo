@@ -6,7 +6,7 @@
   import { useNodesStore } from '@/stores/nodes.js'
 
   const store = useNodesStore()
-  const { edges, nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
+  const { edges, nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, removeNodes, setViewport, toObject } = useVueFlow()
 
   //const nodes = ref([{ id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } }])
   //const edges = store.getEdges
@@ -26,7 +26,7 @@
       
       addEdges(edgesData)
       
-
+      
     })
   }
 
@@ -81,7 +81,7 @@
 
     let edge = {
         type: 'smoothstep',
-        label: 'adwd',
+        label: '',
         source: connection.source,
         target: connection.target,
     };

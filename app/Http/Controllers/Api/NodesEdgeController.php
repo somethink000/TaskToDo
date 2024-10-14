@@ -38,6 +38,8 @@ class NodesEdgeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $nodesEdge = NodesEdge::where('id', $id)->get();
+        $nodesEdge[0]->delete();
+        return $nodesEdge;
     }
 }

@@ -59,8 +59,10 @@ class TaskNodeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TaskNode $taskNode)
+    public function destroy(string $id)
     {
-        //
+        $taskNode = TaskNode::where('id', $id)->get();
+        $taskNode[0]->delete();
+        return $taskNode;
     }
 }

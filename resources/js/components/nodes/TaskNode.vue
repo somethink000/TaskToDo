@@ -5,10 +5,12 @@ import ImageButton from '@/components/ImageButton.vue'
 
 
 const props = defineProps(['id', 'data'])
-const { findNode, updateNodeData } = useVueFlow()
+const { getConnectedEdges, removeNodes, findNode, updateNodeData } = useVueFlow()
 
 var inEdit = false;
 var node = findNode(props.id);
+var nodeEdges = getConnectedEdges(props.id);
+
 
 function toggleEdit() {
     inEdit = !inEdit;
@@ -33,6 +35,26 @@ function onDataTyped() {
     
 }
 
+function Remove() {
+
+    for (var i = 0; i < nodeEdges.length; ++i) {
+
+        let edge = nodeEdges[i];
+        
+        axios.delete('/api/edges/' + edge.id)
+        .then(res => {
+            
+        })
+    }
+
+    axios.delete('/api/nodes/' + props.id)
+    .then(res => {
+        removeNodes(props.id);
+    })
+
+    
+}
+
 
 </script>
 
@@ -44,7 +66,7 @@ function onDataTyped() {
         <ImageButton v-if="inEdit == true" @click="onDataTyped()" image="/images/disk.png" size="12" />
 
         <ImageButton @click="toggleEdit()" image="/images/edit.png" size="12" />
-        <ImageButton image="/images/trash.png" size="12" />
+        <ImageButton @click="Remove()" image="/images/trash.png" size="12" />
         <ImageButton image="/images/check.png" size="12" />
 
     </taskActions>
