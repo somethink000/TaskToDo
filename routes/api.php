@@ -1,9 +1,11 @@
 <?php
 
+
+use App\Http\Controllers\Api\V1\User\MeController;
+use App\Http\Controllers\Api\NodesEdgeController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskBoxController;
 use App\Http\Controllers\Api\TaskNodeController;
-use App\Http\Controllers\Api\V1\User\MeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +38,9 @@ Route::resource('taskBoxes', TaskBoxController::class)
 Route::resource('nodes', TaskNodeController::class)
 ->except([
    'create', 'edit','show', 
+]);
+
+Route::resource('edges', NodesEdgeController::class)
+->except([
+   'index', 'create', 'edit','show', 
 ]);

@@ -8,7 +8,6 @@ const props = defineProps(['id', 'data'])
 const { findNode, updateNodeData } = useVueFlow()
 
 var inEdit = false;
-var inputText = "";
 var node = findNode(props.id);
 
 function toggleEdit() {
@@ -21,7 +20,6 @@ function onDataTyped() {
     
     node.data = props.data;
 
-    console.log(node);
     return axios.patch('/api/nodes/' + node.id, node, {
         headers: {
             "Content-type": "application/json"

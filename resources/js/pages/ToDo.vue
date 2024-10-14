@@ -6,28 +6,31 @@
   import { useNodesStore } from '@/stores/nodes.js'
 
   const store = useNodesStore()
-  const { nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
+  const { edges, nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, setViewport, toObject } = useVueFlow()
 
   //const nodes = ref([{ id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } }])
-  const edges = store.getEdges
+  //const edges = store.getEdges
 
 
   function loadData() {
 
     axios.get('/api/nodes')
     .then(res => {
+
       console.log(res.data);
-      for (var i = 0; i < res.data.length; ++i) {
-          
-          let nodeData = res.data[i];
-          
-          addNodes([nodeData])
-      }
+
+      let nodesData = res.data['nodes'];
+      let edgesData = res.data['edges'];
+      
+      addNodes(nodesData)
+      
+      addEdges(edgesData)
+      
+
     })
   }
 
   onNodeDragStop(({ event, nodes, node }) => {
-
 
     for (var i = 0; i < nodes.length; ++i) {
           
@@ -52,31 +55,49 @@
 
     var form = {
         type: 'task',
-        data: { label: 'make america great again', description: "Vote for obamna" },
+        data: { label: " ", description: " " },
         done: false, 
         position: { x: 0, y: 200 }
     };
    
-    // store.create_node(form)
 
-     return axios.post('/api/nodes', form, {
-            headers: {
-                "Content-doubleValuetype": "application/json"
-            }
-        })
-        .then(res => {
+    return axios.post('/api/nodes', form, {
+        headers: {
+            "Content-doubleValuetype": "application/json"
+        }
+    })
+    .then(res => {
 
 
-            addNodes([res.data])
-  
-        })  
+        addNodes([res.data])
+
+    })  
     
   }
 
   loadData();
 
   onConnect((connection) => {
-    addEdges(connection)
+
+    let edge = {
+        type: 'smoothstep',
+        label: 'adwd',
+        source: connection.source,
+        target: connection.target,
+    };
+
+    return axios.post('/api/edges', edge, {
+        headers: {
+            "Content-doubleValuetype": "application/json"
+        }
+    })
+    .then(res => {
+
+        addEdges([res.data])
+        //addNodes([res.data])
+
+    })  
+
   })
 
 </script>

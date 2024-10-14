@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_nodes', function (Blueprint $table) {
+        Schema::create('nodes_edges', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->json('data');
-            $table->boolean('done');
-            $table->json('position');
-            // $table->integer('posx');
-            // $table->integer('posy');
+            $table->string('label');
+            $table->string('source');
+            $table->string('target');
             $table->integer('user_id');
             $table->timestamps();
-            
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_nodes');
+        Schema::dropIfExists('nodes_edges');
     }
 };

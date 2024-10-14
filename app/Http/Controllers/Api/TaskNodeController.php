@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TaskNode;
+use App\Models\NodesEdge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,9 @@ class TaskNodeController extends Controller
      */
     public function index(Request $request)
     {    
-        return TaskNode::where('user_id', Auth::user()->id)->get();
+        $userId = Auth::user()->id;
+        $res = [ 'nodes' => TaskNode::where('user_id', $userId)->get(), 'edges' => NodesEdge::where('user_id', $userId)->get() ];
+        return $res;
     }
 
     /**
