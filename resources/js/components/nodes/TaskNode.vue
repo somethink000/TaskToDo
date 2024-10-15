@@ -7,6 +7,7 @@ import ImageButton from '@/components/ImageButton.vue'
 const props = defineProps(['id', 'data'])
 const { getConnectedEdges, removeNodes, findNode, updateNodeData } = useVueFlow()
 
+var descShowed = false;
 var inEdit = false;
 var node = findNode(props.id);
 var nodeEdges = getConnectedEdges(props.id);
@@ -17,6 +18,13 @@ function toggleEdit() {
     
     updateNodeData(props.id);
 }
+
+function toggleDescription() {
+    descShowed = !descShowed;
+    
+    updateNodeData(props.id);
+}
+
 
 function onDataTyped() {
     
@@ -56,7 +64,7 @@ function Remove() {
 }
 
 function Done() {
-    //console.log(node.done);
+
     node.done = !node.done
 
     return axios.patch('/api/nodes/' + node.id, node, {
@@ -65,9 +73,7 @@ function Done() {
         }
     })
     .then(res => {
-        
-        //console.log(res.data);
-        // toggleEdit()
+      
     })
     
 }
@@ -97,17 +103,15 @@ function Done() {
            
             <txt v-else >{{ data.label }}</txt>
 
-           
-            <BaseLine />
-        
+            <dropDownLine @click="toggleDescription()">
+                <button v-bind:class="{ 'showed' : descShowed == true }" ></button>
+            </dropDownLine>
 
-       </taskTitle>
+        </taskTitle>
        
          
-       
-    
-    
-        <description class="boxed">
+
+        <description v-bind:class="{ 'showed' : descShowed == true }" class="boxed">
 
             <input v-if="inEdit == true" v-on:keyup.enter="onDataTyped" ref="desc" v-model="data.description"  type="desc" placeholder="Description" >
             
@@ -120,11 +124,7 @@ function Done() {
     
     <Handle type="target" :position="Position.Left" />
     <Handle type="source" :position="Position.Right" />
-    <!-- <Handle :position="Position.Bottom" />
-    <Handle :position="Position.Right" />
-    <Handle :position="Position.Left" /> -->
-    
-    <!-- <Handle type="source" :position="Position.Right" /> -->
+ 
 </template>
 
 <style>
@@ -138,12 +138,6 @@ function Done() {
         button {
             background-color: rgba(34, 34, 34, 0.5);
         }
-        /* position: absolute;
-        right: 0;
-        padding-bottom: 100px;
-        min-width: 160px;
-        flex-direction: row;
-        z-index: 2; */
     }
 
 
@@ -182,9 +176,7 @@ function Done() {
         flex-direction: column;
         align-items: center;
         max-width: 300px;
-        /* width: 300px; */
-        
-      
+       
 
         taskTitle {
             width: 100%;
@@ -193,50 +185,50 @@ function Done() {
             align-items: center;
             justify-content: space-between;
             
-            baseBox {
+            dropDownLine {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
                 padding-top: 4px;
                 padding-bottom: 6px;
-                width: 10%;
                 
+               
+                button {
+                    display: flex;
+                    padding: 0;
+                    width: 10%;
+                    height: 1px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    box-shadow: 0px 1px 4px 1px rgba(255, 255, 255, 0.5);
+                    transition: width 0.5s;
+                }
+                button.showed {
+                    transition: width 0.5s;
+                    width: 100%;
+                }
+
+            }
+
+            dropDownLine:hover {
+                button {
+                    box-shadow: 0px 1px 6px 1px rgba(255, 255, 255, 0.8);
+                }
             }
         }
 
         
         description { 
-            margin-top: 12px;
-            width: 100%;
+            display: none;
+            /* margin-top: 0;
+            translate: all 0.5s; */
         }
         
-        /* description {
-            width: 10%;
-            flex-direction: column;
-            transition: width 0.5s;
-
-            baseBox {
-                padding-top: 4px;
-                
-                width: 100%;
-                
-            }
-
-            txt {
-                max-height: 0px;
-                transition: 0.5s max-height ease;
-                overflow: hidden;
-            }
+        description.showed {
+            display: flex;
+            margin-top: 12px;
+            /* translate: all 0.5s; */
         }
-
-
-        description:hover {
-            transition: width 1s;
-            width: 100%;
-
-
-            txt {
-                
-                max-height: 200px;
-            }
-        } */
        
     }
 

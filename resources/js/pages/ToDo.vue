@@ -6,6 +6,8 @@
 
   import TaskNode from '@/components/nodes/TaskNode.vue'
   import CastomEdge from '@/components/nodes/CastomEdge.vue'
+  import ImageButton from '@/components/ImageButton.vue'
+
 
   const store = useNodesStore()
   const { edges, nodes, onInit, onNodeDragStop, addNodes, onConnect, addEdges, removeNodes, setViewport, toObject } = useVueFlow()
@@ -113,12 +115,11 @@
     class="basic-flow"
     :nodeTypes="nodeTypes"
   >
-    <!-- <button class="colItem main-border" @click="addNode()">add TaskNode</button> -->
-
+  
 
     <Panel position="top-right">
       <div class="buttons">
-        <button title="save graph" @click="addNode()">Add</button>
+        <ImageButton @click="addNode()" image="/images/plus.png" size="32" />
       </div>
     </Panel>
 

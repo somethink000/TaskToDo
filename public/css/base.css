@@ -24,13 +24,6 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	
-	/* font-size: 100%;
-	font-family: 'ZektonRg';
-	font-weight: lighter;
-	color: white;
-	vertical-align: baseline;
-    display: flex; */
 
 }
 
@@ -55,8 +48,8 @@ body,
 }
 #app {
 	font-size: 100%;
-	font-family: 'ZektonRg';
-	font-weight: lighter;
+	font-family: 'InterVariable';
+	font-weight: 300;
 	color: white;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -67,7 +60,6 @@ ttl {
 	display: flex;
 	padding: 6px;
 	font-size: 28px;
-	/* font-weight: 200; */
 	text-shadow: 2px 1px 4px white;
 
 }
@@ -76,10 +68,7 @@ txt {
 	display: flex;
 	padding: 5px;
 	font-size: 18px;
-	/* font-weight: 200; */
-	
-	
-	/* text-shadow: 0px 1px 1px white; */
+
 }
 
 formCont{
